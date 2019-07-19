@@ -3,4 +3,5 @@
 *.lpz.hash
 *.sig
 *_compiled.zip
+*_archive.zip
 

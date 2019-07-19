@@ -22,13 +22,13 @@
 
       "accessories":[
         {
-          "id":1,
+          "id":2,
           "type":"WindowCovering",
           "name":"Правая штора"
         }
         ,
         {
-          "id":2,
+          "id":1,
           "type":"WindowCovering",
           "name":"Левая штора"
         }

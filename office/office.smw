@@ -2718,6 +2718,7 @@ Cmn1=TPS-6X (Ethernet)
 mI=96
 I33=26
 I34=27
+I35=28
 mO=64
 tO=96
 O18=6

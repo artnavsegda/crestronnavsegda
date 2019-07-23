@@ -20,8 +20,8 @@
   Name=Yamaha RX-A3010 Command & FB Processor v1.2
   SmplCName=Yamaha RX-A3010 Command & FB Processor v1.2.usp
   Code=1
-  SysRev5=4.006
-  SMWRev=3.00.00
+  SysRev5=4.000
+  SMWRev=2.02.05
   InputCue1=[~UNUSED~]
   InputSigType1=Digital
   InputCue2=[~UNUSED~]
@@ -590,7 +590,6 @@
   SymJam=NonExclusive
   FileName=Yamaha RX-A3010 Command & FB Processor v1.2.ush
   SIMPLPlusModuleEncoding=0
-  clz1=BluOs
 [END]
 [BEGIN]
   ObjTp=Dp

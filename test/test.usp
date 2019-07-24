@@ -162,16 +162,15 @@ String_Function MyStrFunction1()
 
 PUSH test
 {
-    Print("hello world\n");
+    Print("signal high\n");
 }
 
 
-/*
-RELEASE input
+
+RELEASE test
 {
-    // TODO:  Add code here
+    Print("signal low\n");
 }
-*/
 
 /*
 CHANGE input
@@ -220,18 +219,19 @@ SOCKETSTATUS
   Uncomment and place one-time startup code here
   (This code will get called when the system starts up)
 *******************************************************************************************/
-/*
+
 Function Main()
 {
     // TODO:  Add code here
     // Initialize declared global and local variables/arrays as needed.
 
-    // WaitForInitializationComplete();
+    WaitForInitializationComplete();
     // If you are reading any Input or Output variables, uncomment
     //   the WaitForInitializationComplete statement above and read
     //   them afterwards.  Input/Output variables will not have
     //   their correct values set until after the logic processor
     //   runs and propagates the values to them.
+    Print("Program started");
 }
-*/
+
 

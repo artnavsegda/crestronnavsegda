@@ -48,7 +48,7 @@ Comments:
   DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
   (Uncomment and declare inputs and outputs as needed)
 *******************************************************************************************/
-// DIGITAL_INPUT 
+DIGITAL_INPUT test;
 // ANALOG_INPUT 
 // STRING_INPUT 
 // BUFFER_INPUT 
@@ -159,12 +159,12 @@ String_Function MyStrFunction1()
   Event Handlers
   (Uncomment and declare additional event handlers as needed)
 *******************************************************************************************/
-/*
-PUSH input
+
+PUSH test
 {
-    // TODO:  Add code here
+    Print("hello world\n");
 }
-*/
+
 
 /*
 RELEASE input

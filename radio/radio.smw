@@ -1596,8 +1596,8 @@ Xm=-1
 Ym=-1
 SH=26
 Z=100
-Ht=1
-Hi=69
+Ht=4
+Hi=33
 ]
 [
 ObjTp=Bw
@@ -1610,9 +1610,9 @@ Xm=-1
 Ym=-1
 SH=25
 Z=100
-P=908
-Ht=4
-Hi=673
+P=1484
+Ht=1
+Hi=696
 ]
 [
 ObjTp=Et
@@ -2493,6 +2493,7 @@ I691=10
 I692=11
 I693=12
 I694=13
+I695=22
 I702=6
 I703=6
 I704=6
@@ -5211,6 +5212,7 @@ O3=10
 O4=11
 O5=12
 O6=13
+O33=22
 mP=1
 P1=0d
 ]
@@ -5310,4 +5312,10 @@ ObjTp=Sg
 H=21
 Nm=radiochannel
 SgTp=4
+]
+[
+ObjTp=Sg
+H=22
+Nm=radiosetnum_in
+SgTp=2
 ]

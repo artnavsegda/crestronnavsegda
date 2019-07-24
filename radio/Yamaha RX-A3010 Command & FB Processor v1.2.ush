@@ -15,8 +15,8 @@
 [BEGIN]
   ObjTp=Symbol
   Exclusions=1,19,20,21,88,89,167,168,179,213,214,215,216,217,225,226,248,249,266,267,310,718,756,854,
-  Exclusions_CDS=5
-  Inclusions_CDS=6
+  Exclusions_CDS=
+  Inclusions_CDS=5,6
   Name=Yamaha RX-A3010 Command & FB Processor v1.2
   SmplCName=Yamaha RX-A3010 Command & FB Processor v1.2.usp
   Code=1
@@ -48,6 +48,8 @@
   InputSigType12=Digital
   InputCue13=Sirius_Mem_Save
   InputSigType13=Digital
+  InputCue14=NetRadio_Mem_Recall
+  InputSigType14=Digital
   OutputCue1=[~UNUSED~]
   OutputSigType1=Digital
   OutputCue2=[~UNUSED~]
@@ -553,8 +555,8 @@
   ParamSigType2=String
   ParamCue3=ClientSocketPort
   ParamSigType3=Constant
-  MinVariableInputs=13
-  MaxVariableInputs=13
+  MinVariableInputs=14
+  MaxVariableInputs=14
   MinVariableInputsList2=12
   MaxVariableInputsList2=12
   MinVariableOutputs=13

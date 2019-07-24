@@ -59,7 +59,7 @@ DIGITAL_INPUT	_SKIP_,_SKIP_,Connect;
 STRING_INPUT	CmdIn[100];
 BUFFER_INPUT	RS232FromDev[1024];
 
-DIGITAL_INPUT	_SKIP_,TunerIsFm,Pandora_Mem_Save,Napster_Mem_Save,Siriusir_Mem_Save,Rhap_Mem_Save,Pc_Mem_Save,NetRadio_Mem_Save,USB_Mem_Save,Sirius_Mem_Save;
+DIGITAL_INPUT	_SKIP_,TunerIsFm,Pandora_Mem_Save,Napster_Mem_Save,Siriusir_Mem_Save,Rhap_Mem_Save,Pc_Mem_Save,NetRadio_Mem_Save,USB_Mem_Save,Sirius_Mem_Save,NetRadio_Mem_Recall;
 ANALOG_INPUT	TunerDirVal,SiriusDirVal,Pandora_Mem_Loc_Val,Napster_Mem_Loc_Val,Siriusir_Mem_Loc_Val,Rhap_Mem_Loc_Val,Pc_Mem_Loc_Val,NetRadio_Mem_Loc_Val,USB_Mem_Loc_Val,Sirius_Mem_Loc_Val;
 
 
@@ -2105,6 +2105,19 @@ PUSH Pc_Mem_Save
 PUSH NetRadio_Mem_Save
 {
 	MAKESTRING(CmdToSend,"@NETRADIO:MEM=%d\n",NetRadio_Mem_Loc_Val);
+
+	RS232_To_Dev = CmdToSend;
+
+	IF (ClientSocketStatus = 2)
+	{
+		SocketSend(ClientSocket,CmdToSend);
+		CmdToSend = "";
+	}
+}
+
+PUSH NetRadio_Mem_Recall
+{
+	MAKESTRING(CmdToSend,"@NETRADIO:PRESET=%d\n",NetRadio_Mem_Loc_Val);
 
 	RS232_To_Dev = CmdToSend;
 

@@ -164,9 +164,8 @@
   SymJam=NonExclusive
   FileName=CrestronCertifiedDriversSamsungIP v1.1.ush
   SIMPLPlusModuleEncoding=2
-  clz1=BluOs
-  clz2=RADSystemManager
-  clz3=FlatPanelDisplay_Samsung_UN55LS03N_IP
+  clz1=RADSystemManager
+  clz2=FlatPanelDisplay_Samsung_UN55LS03N_IP
 [END]
 [BEGIN]
   ObjTp=Dp

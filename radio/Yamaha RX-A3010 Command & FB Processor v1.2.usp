@@ -2037,11 +2037,9 @@ CHANGE SiriusDirVal
 
 CHANGE VolDirVal
 {
-	SIGNED_INTEGER actualvol;
-
+	INTEGER actualvol;
 	actualvol = (VolDirVal/686)-80;
-
-	MAKESTRING(CmdToSend,"@MAIN:VOL=%d.0\n",actualvol);
+	MAKESTRING(CmdToSend,"@MAIN:VOL=%d.5\n",actualvol);
 		
 		RS232_To_Dev = CmdToSend;
 

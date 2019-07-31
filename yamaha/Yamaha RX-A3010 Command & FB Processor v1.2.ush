@@ -552,6 +552,12 @@
   OutputList2SigType224=Serial
   OutputList2Cue225=iPodUSBCurrAlbumText
   OutputList2SigType225=Serial
+  OutputList2Cue226=[~UNUSED~]
+  OutputList2SigType226=Serial
+  OutputList2Cue227=AirplayCurrSongText
+  OutputList2SigType227=Serial
+  OutputList2Cue228=AirplayCurrArtistText
+  OutputList2SigType228=Serial
   ParamCue1=[Reference Name]
   ParamCue2=ClientSocketAddress
   ParamSigType2=String
@@ -563,8 +569,8 @@
   MaxVariableInputsList2=13
   MinVariableOutputs=13
   MaxVariableOutputs=13
-  MinVariableOutputsList2=225
-  MaxVariableOutputsList2=225
+  MinVariableOutputsList2=228
+  MaxVariableOutputsList2=228
   MinVariableParams=2
   MaxVariableParams=2
   Expand=expand_separately

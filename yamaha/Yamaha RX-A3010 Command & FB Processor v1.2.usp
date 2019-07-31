@@ -302,6 +302,9 @@ STRING_OUTPUT	_SKIP_,iPodUSBCurrSongText;
 STRING_OUTPUT	iPodUSBCurrArtistText;
 STRING_OUTPUT	iPodUSBCurrAlbumText;
 
+STRING_OUTPUT	_SKIP_,AirplayCurrSongText;
+STRING_OUTPUT	AirplayCurrArtistText;
+
 //ANALOG_OUTPUT	MainVolRaw;
 
 /*******************************************************************************************
@@ -1870,6 +1873,36 @@ FUNCTION fn_ParseiPodUSB(STRING iPodUSBData)
 		ePos = LEN(iPodUSBData);
 		iPodUSBCurrAlbumText = MID(iPodUSBData,sPos +1,ePos);	
 	}
+}
+
+//AIRPLAY FUNCTION
+FUNCTION fn_ParseAirplay(STRING AirplayData)
+{
+	INTEGER sPos;
+	INTEGER ePos;
+
+	//TRACE("AirplayData Is %s\n",AirplayData);
+
+	IF(FIND("AIRPLAY:SONG=",AirplayData))
+	{
+		sPos = FIND("=",AirplayData);
+		ePos = LEN(AirplayData);
+		AirplayCurrSongText = MID(AirplayData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("AIRPLAY:ARTIST=",AirplayData))
+	{
+		sPos = FIND("=",AirplayData);
+		ePos = LEN(AirplayData);
+		AirplayCurrArtistText = MID(AirplayData,sPos +1,ePos);	
+	}
+
+//	ELSE IF(FIND("NETRADIO:ALBUM=",NetRadioData))
+//	{
+//		sPos = FIND("=",NetRadioData);
+//		ePos = LEN(NetRadioData);
+//		NetRadioCurrAlbumText = MID(NetRadioData,sPos +1,ePos);	
+//	}	
 } 
 
 FUNCTION fnProcessData(STRING 
@@ -1959,6 +1992,11 @@ SData)
 			CASE(FIND("IPOD",sTemp)>0):
 			{
 				fn_ParseiPod(sTemp);
+			}
+
+			CASE(FIND("AIRPLAY",sTemp)>0):
+			{
+				fn_ParseAirplay(sTemp);
 			}
 
 		}

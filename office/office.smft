@@ -1,9 +1,0 @@
-<Device Model="MC3" Name="MC3.">
-   <Network Type="Cresnet" Id="01">
-      <Device Model="DIN-8SW8-I" DeviceId="92"/>
-   </Network>
-   <Network Type="Ethernet" Id="02">
-      <Device Model="TPS-6X," DeviceId="03" Name="TPS-6X (Ethernet)"/>
-   </Network>
-   <Network Type="RF" Id="03"/>
-</Device>

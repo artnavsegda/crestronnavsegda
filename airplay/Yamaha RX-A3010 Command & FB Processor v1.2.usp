@@ -60,7 +60,7 @@ STRING_INPUT	CmdIn[100];
 BUFFER_INPUT	RS232FromDev[1024];
 
 DIGITAL_INPUT	_SKIP_,TunerIsFm,Pandora_Mem_Save,Napster_Mem_Save,Siriusir_Mem_Save,Rhap_Mem_Save,Pc_Mem_Save,NetRadio_Mem_Save,USB_Mem_Save,Sirius_Mem_Save,NetRadio_Mem_Recall;
-ANALOG_INPUT	TunerDirVal,SiriusDirVal,Pandora_Mem_Loc_Val,Napster_Mem_Loc_Val,Siriusir_Mem_Loc_Val,Rhap_Mem_Loc_Val,Pc_Mem_Loc_Val,NetRadio_Mem_Loc_Val,USB_Mem_Loc_Val,Sirius_Mem_Loc_Val,VolDirVal;
+ANALOG_INPUT	TunerDirVal,SiriusDirVal,Pandora_Mem_Loc_Val,Napster_Mem_Loc_Val,Siriusir_Mem_Loc_Val,Rhap_Mem_Loc_Val,Pc_Mem_Loc_Val,NetRadio_Mem_Loc_Val,USB_Mem_Loc_Val,Sirius_Mem_Loc_Val,VolDirVal,Vol2DirVal;
 
 
 DIGITAL_OUTPUT	_SKIP_,_SKIP_,Connected;
@@ -301,6 +301,9 @@ STRING_OUTPUT	iPodUSBLine8Text;
 STRING_OUTPUT	_SKIP_,iPodUSBCurrSongText;
 STRING_OUTPUT	iPodUSBCurrArtistText;
 STRING_OUTPUT	iPodUSBCurrAlbumText;
+
+STRING_OUTPUT	_SKIP_,AirplayCurrSongText;
+STRING_OUTPUT	AirplayCurrArtistText;
 
 //ANALOG_OUTPUT	MainVolRaw;
 
@@ -1870,6 +1873,36 @@ FUNCTION fn_ParseiPodUSB(STRING iPodUSBData)
 		ePos = LEN(iPodUSBData);
 		iPodUSBCurrAlbumText = MID(iPodUSBData,sPos +1,ePos);	
 	}
+}
+
+//AIRPLAY FUNCTION
+FUNCTION fn_ParseAirplay(STRING AirplayData)
+{
+	INTEGER sPos;
+	INTEGER ePos;
+
+	//TRACE("AirplayData Is %s\n",AirplayData);
+
+	IF(FIND("AIRPLAY:SONG=",AirplayData))
+	{
+		sPos = FIND("=",AirplayData);
+		ePos = LEN(AirplayData);
+		AirplayCurrSongText = MID(AirplayData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("AIRPLAY:ARTIST=",AirplayData))
+	{
+		sPos = FIND("=",AirplayData);
+		ePos = LEN(AirplayData);
+		AirplayCurrArtistText = MID(AirplayData,sPos +1,ePos);	
+	}
+
+//	ELSE IF(FIND("NETRADIO:ALBUM=",NetRadioData))
+//	{
+//		sPos = FIND("=",NetRadioData);
+//		ePos = LEN(NetRadioData);
+//		NetRadioCurrAlbumText = MID(NetRadioData,sPos +1,ePos);	
+//	}	
 } 
 
 FUNCTION fnProcessData(STRING 
@@ -1961,6 +1994,11 @@ SData)
 				fn_ParseiPod(sTemp);
 			}
 
+			CASE(FIND("AIRPLAY",sTemp)>0):
+			{
+				fn_ParseAirplay(sTemp);
+			}
+
 		}
 	}
 	CLEARBUFFER(SData);
@@ -2047,6 +2085,29 @@ CHANGE VolDirVal
 	else
 	{
 		MAKESTRING(CmdToSend,"@MAIN:VOL=%d.0\n",(actualvol-162)/2);
+	}
+		
+		RS232_To_Dev = CmdToSend;
+
+		IF (ClientSocketStatus = 2)
+		{
+			SocketSend(ClientSocket,CmdToSend);
+			CmdToSend = "";
+		}
+}
+
+CHANGE Vol2DirVal
+{
+	INTEGER actualvol;
+	actualvol = (Vol2DirVal/335);
+
+    if (actualvol MOD 2 = 1)
+	{
+		MAKESTRING(CmdToSend,"@ZONE2:VOL=%d.5\n",(actualvol-162)/2);
+	}
+	else
+	{
+		MAKESTRING(CmdToSend,"@ZONE2:VOL=%d.0\n",(actualvol-162)/2);
 	}
 		
 		RS232_To_Dev = CmdToSend;

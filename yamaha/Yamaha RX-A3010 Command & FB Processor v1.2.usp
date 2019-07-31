@@ -60,7 +60,7 @@ STRING_INPUT	CmdIn[100];
 BUFFER_INPUT	RS232FromDev[1024];
 
 DIGITAL_INPUT	_SKIP_,TunerIsFm,Pandora_Mem_Save,Napster_Mem_Save,Siriusir_Mem_Save,Rhap_Mem_Save,Pc_Mem_Save,NetRadio_Mem_Save,USB_Mem_Save,Sirius_Mem_Save,NetRadio_Mem_Recall;
-ANALOG_INPUT	TunerDirVal,SiriusDirVal,Pandora_Mem_Loc_Val,Napster_Mem_Loc_Val,Siriusir_Mem_Loc_Val,Rhap_Mem_Loc_Val,Pc_Mem_Loc_Val,NetRadio_Mem_Loc_Val,USB_Mem_Loc_Val,Sirius_Mem_Loc_Val,VolDirVal;
+ANALOG_INPUT	TunerDirVal,SiriusDirVal,Pandora_Mem_Loc_Val,Napster_Mem_Loc_Val,Siriusir_Mem_Loc_Val,Rhap_Mem_Loc_Val,Pc_Mem_Loc_Val,NetRadio_Mem_Loc_Val,USB_Mem_Loc_Val,Sirius_Mem_Loc_Val,VolDirVal,Vol2DirVal;
 
 
 DIGITAL_OUTPUT	_SKIP_,_SKIP_,Connected;
@@ -2085,6 +2085,29 @@ CHANGE VolDirVal
 	else
 	{
 		MAKESTRING(CmdToSend,"@MAIN:VOL=%d.0\n",(actualvol-162)/2);
+	}
+		
+		RS232_To_Dev = CmdToSend;
+
+		IF (ClientSocketStatus = 2)
+		{
+			SocketSend(ClientSocket,CmdToSend);
+			CmdToSend = "";
+		}
+}
+
+CHANGE Vol2DirVal
+{
+	INTEGER actualvol;
+	actualvol = (Vol2DirVal/335);
+
+    if (actualvol MOD 2 = 1)
+	{
+		MAKESTRING(CmdToSend,"@ZONE2:VOL=%d.5\n",(actualvol-162)/2);
+	}
+	else
+	{
+		MAKESTRING(CmdToSend,"@ZONE2:VOL=%d.0\n",(actualvol-162)/2);
 	}
 		
 		RS232_To_Dev = CmdToSend;

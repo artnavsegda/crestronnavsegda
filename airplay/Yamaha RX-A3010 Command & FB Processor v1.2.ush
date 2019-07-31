@@ -560,6 +560,12 @@
   OutputList2SigType227=Serial
   OutputList2Cue228=AirplayCurrArtistText
   OutputList2SigType228=Serial
+  OutputList2Cue229=AirplayCurrAlbumText
+  OutputList2SigType229=Serial
+  OutputList2Cue230=AirplayElapsedTimeText
+  OutputList2SigType230=Serial
+  OutputList2Cue231=AirplayTotalTimeText
+  OutputList2SigType231=Serial
   ParamCue1=[Reference Name]
   ParamCue2=ClientSocketAddress
   ParamSigType2=String
@@ -571,8 +577,8 @@
   MaxVariableInputsList2=14
   MinVariableOutputs=13
   MaxVariableOutputs=13
-  MinVariableOutputsList2=228
-  MaxVariableOutputsList2=228
+  MinVariableOutputsList2=231
+  MaxVariableOutputsList2=231
   MinVariableParams=2
   MaxVariableParams=2
   Expand=expand_separately

@@ -304,6 +304,9 @@ STRING_OUTPUT	iPodUSBCurrAlbumText;
 
 STRING_OUTPUT	_SKIP_,AirplayCurrSongText;
 STRING_OUTPUT	AirplayCurrArtistText;
+STRING_OUTPUT   AirplayCurrAlbumText;
+STRING_OUTPUT	AirplayElapsedTimeText;
+STRING_OUTPUT   AirplayTotalTimeText;
 
 //ANALOG_OUTPUT	MainVolRaw;
 
@@ -1897,12 +1900,27 @@ FUNCTION fn_ParseAirplay(STRING AirplayData)
 		AirplayCurrArtistText = MID(AirplayData,sPos +1,ePos);	
 	}
 
-//	ELSE IF(FIND("NETRADIO:ALBUM=",NetRadioData))
-//	{
-//		sPos = FIND("=",NetRadioData);
-//		ePos = LEN(NetRadioData);
-//		NetRadioCurrAlbumText = MID(NetRadioData,sPos +1,ePos);	
-//	}	
+	ELSE IF(FIND("AIRPLAY:ALBUM=",AirplayData))
+	{
+		sPos = FIND("=",AirplayData);
+		ePos = LEN(AirplayData);
+		AirplayCurrAlbumText = MID(AirplayData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("AIRPLAY:ELAPSEDTIME=",AirplayData))
+	{
+		sPos = FIND("=",AirplayData);
+		ePos = LEN(AirplayData);
+		AirplayElapsedTimeText = MID(AirplayData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("AIRPLAY:TOTALTIME=",AirplayData))
+	{
+		sPos = FIND("=",AirplayData);
+		ePos = LEN(AirplayData);
+		AirplayTotalTimeText = MID(AirplayData,sPos +1,ePos);	
+	}
+	
 } 
 
 FUNCTION fnProcessData(STRING 

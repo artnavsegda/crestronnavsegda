@@ -389,13 +389,23 @@ STRING g_SData[1024];
          the code that calls them.
 *******************************************************************************************/
 
-Integer_Function Main_Vol_Text(string volumetext)
+Integer_Function ParseVolume(string volumetext)
 {
     // TODO:  Add local variable declarations here
+	INTEGER Volume;
+	INTEGER sPos;
 
     // TODO:  Add code here
+	Volume = atoi(volumetext) * 2;
+    sPos = FIND(".",volumetext);
 
-    Return (0);
+	if (Byte(volumetext,sPos +1) = '5')
+		Volume = Volume + 1;
+
+	if (Byte(volumetext,1) = '-')
+		Volume = Volume * -1;
+
+    Return (Volume);
 }
 
  string_function fn_parseDelimitedText(
@@ -450,7 +460,7 @@ FUNCTION fn_ParseMain(STRING MainData)
 		sPos = FIND("=",MainData);
 		ePos = LEN(MainData);
 		Main_Vol_Text = MID(MainData,sPos +1,ePos);
-		MainVolRaw = ParseVolume(Main_Vol_Text);
+		MainVolRaw = (ParseVolume(Main_Vol_Text)+162)*335;
 	}
 
 	ELSE IF(FIND("MAIN:AUDSEL=",MainData))

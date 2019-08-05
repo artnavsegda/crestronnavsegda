@@ -149,6 +149,8 @@ Integer_Function Main_Vol_Text(string volumetext)
 
     // TODO:  Add code here
 	Volume = atoi(volumetext);
+	if (Byte(volumetext,1) = '-')
+		Volume = Volume * -1;
 
     Return (Volume);
 }

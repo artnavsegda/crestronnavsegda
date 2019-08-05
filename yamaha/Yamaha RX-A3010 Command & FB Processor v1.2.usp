@@ -29,7 +29,7 @@ Comments:
 // #HELP_PDF_FILE ""
 // #DEFAULT_NONVOLATILE
 #ENABLE_STACK_CHECKING
-//#ENABLE_TRACE
+#ENABLE_TRACE
 /*
 #HELP_BEGIN
    (add additional lines of help lines)
@@ -60,7 +60,7 @@ STRING_INPUT	CmdIn[100];
 BUFFER_INPUT	RS232FromDev[1024];
 
 DIGITAL_INPUT	_SKIP_,TunerIsFm,Pandora_Mem_Save,Napster_Mem_Save,Siriusir_Mem_Save,Rhap_Mem_Save,Pc_Mem_Save,NetRadio_Mem_Save,USB_Mem_Save,Sirius_Mem_Save,NetRadio_Mem_Recall;
-ANALOG_INPUT	TunerDirVal,SiriusDirVal,Pandora_Mem_Loc_Val,Napster_Mem_Loc_Val,Siriusir_Mem_Loc_Val,Rhap_Mem_Loc_Val,Pc_Mem_Loc_Val,NetRadio_Mem_Loc_Val,USB_Mem_Loc_Val,Sirius_Mem_Loc_Val,VolDirVal,Vol2DirVal;
+ANALOG_INPUT	TunerDirVal,SiriusDirVal,Pandora_Mem_Loc_Val,Napster_Mem_Loc_Val,Siriusir_Mem_Loc_Val,Rhap_Mem_Loc_Val,Pc_Mem_Loc_Val,NetRadio_Mem_Loc_Val,USB_Mem_Loc_Val,Sirius_Mem_Loc_Val,VolDirVal,Vol2DirVal,BassDirVal,TrebleDirVal,Bass2DirVal,Treble2DirVal;
 
 
 DIGITAL_OUTPUT	_SKIP_,_SKIP_,Connected;
@@ -309,6 +309,17 @@ STRING_OUTPUT	AirplayElapsedTimeText;
 STRING_OUTPUT   AirplayTotalTimeText;
 
 ANALOG_OUTPUT	MainVolRaw;
+ANALOG_OUTPUT	Zone2VolRaw;
+
+STRING_OUTPUT	Main_Bass_Text;
+ANALOG_OUTPUT	MainBassRaw;
+STRING_OUTPUT	Main_Treble_Text;
+ANALOG_OUTPUT	MainTrebleRaw;
+
+STRING_OUTPUT	Zone2_Bass_Text;
+ANALOG_OUTPUT	Zone2BassRaw;
+STRING_OUTPUT	Zone2_Treble_Text;
+ANALOG_OUTPUT	Zone2TrebleRaw;
 
 /*******************************************************************************************
   SOCKETS
@@ -461,6 +472,22 @@ FUNCTION fn_ParseMain(STRING MainData)
 		ePos = LEN(MainData);
 		Main_Vol_Text = MID(MainData,sPos +1,ePos);
 		MainVolRaw = (ParseVolume(Main_Vol_Text)+162)*335;
+	}
+
+	ELSE IF(FIND("MAIN:TONEBASS=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Bass_Text = MID(MainData,sPos +1,ePos);
+		MainBassRaw = ParseVolume(Main_Bass_Text);
+	}
+
+	ELSE IF(FIND("MAIN:TONETREBLE=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Treble_Text = MID(MainData,sPos +1,ePos);
+		MainTrebleRaw = ParseVolume(Main_Treble_Text);
 	}
 
 	ELSE IF(FIND("MAIN:AUDSEL=",MainData))
@@ -686,6 +713,7 @@ FUNCTION fn_ParseZone2(STRING Zone2Data)
 		sPos = FIND("=",Zone2Data);
 		ePos = LEN(Zone2Data);
 		Zone2_Vol_Text = MID(Zone2Data,sPos +1,ePos);
+		Zone2VolRaw = (ParseVolume(Main_Vol_Text)+162)*335;
 	}
 
 	ELSE IF(FIND("ZONE2:ZONENAME=",Zone2Data))
@@ -2146,6 +2174,53 @@ CHANGE Vol2DirVal
 	else
 	{
 		MAKESTRING(CmdToSend,"@ZONE2:VOL=%d.0\n",(actualvol-162)/2);
+	}
+		
+		RS232_To_Dev = CmdToSend;
+
+		IF (ClientSocketStatus = 2)
+		{
+			SocketSend(ClientSocket,CmdToSend);
+			CmdToSend = "";
+		}
+}
+
+CHANGE BassDirVal
+{
+	SIGNED_INTEGER actualbass;
+	actualbass = BassDirVal;
+
+    if (abs(actualbass) MOD 2 = 1)
+	{
+		MAKESTRING(CmdToSend,"@MAIN:TONEBASS=%d.5\n",actualbass/2);
+	}
+	else
+	{
+		MAKESTRING(CmdToSend,"@MAIN:TONEBASS=%d.0\n",actualbass/2);
+	}
+		
+		RS232_To_Dev = CmdToSend;
+		trace("%s",CmdToSend);
+
+		IF (ClientSocketStatus = 2)
+		{
+			SocketSend(ClientSocket,CmdToSend);
+			CmdToSend = "";
+		}
+}
+
+CHANGE TrebleDirVal
+{
+	SIGNED_INTEGER actualtreble;
+	actualtreble = TrebleDirVal;
+
+    if (abs(actualtreble) MOD 2 = 1)
+	{
+		MAKESTRING(CmdToSend,"@MAIN:TONETREBLE=%d.5\n",actualtreble/2);
+	}
+	else
+	{
+		MAKESTRING(CmdToSend,"@MAIN:TONETREBLE=%d.0\n",actualtreble/2);
 	}
 		
 		RS232_To_Dev = CmdToSend;

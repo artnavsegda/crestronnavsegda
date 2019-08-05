@@ -22,7 +22,7 @@
   Code=1
   SysRev5=3.090
   SMWRev=2.02.05
-  InputCue1=test
+  InputCue1=myfunc
   InputSigType1=Digital
   ParamCue1=[Reference Name]
   MinVariableInputs=1

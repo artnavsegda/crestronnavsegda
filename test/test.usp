@@ -48,7 +48,7 @@ Comments:
   DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
   (Uncomment and declare inputs and outputs as needed)
 *******************************************************************************************/
-DIGITAL_INPUT test;
+DIGITAL_INPUT myfunc;
 // ANALOG_INPUT 
 // STRING_INPUT 
 // BUFFER_INPUT 
@@ -160,16 +160,16 @@ String_Function MyStrFunction1()
   (Uncomment and declare additional event handlers as needed)
 *******************************************************************************************/
 
-PUSH test
+PUSH myfunc
 {
-    Print("signal high\n");
+    TRACE("signal high\n");
 }
 
 
 
-RELEASE test
+RELEASE myfunc
 {
-    Print("signal low\n");
+    TRACE("signal low\n");
 }
 
 /*
@@ -231,7 +231,7 @@ Function Main()
     //   them afterwards.  Input/Output variables will not have
     //   their correct values set until after the logic processor
     //   runs and propagates the values to them.
-    Print("Program started");
+    TRACE("Shit goes");
 }
 
 

@@ -50,11 +50,11 @@ Comments:
 *******************************************************************************************/
 DIGITAL_INPUT myfunc;
 // ANALOG_INPUT 
-// STRING_INPUT 
+STRING_INPUT mystringinput[10];
 // BUFFER_INPUT 
 
 // DIGITAL_OUTPUT 
-// ANALOG_OUTPUT 
+ANALOG_OUTPUT myanalogoutput;
 // STRING_OUTPUT 
 
 /*******************************************************************************************
@@ -124,16 +124,15 @@ MyStruct1 struct;
   Note:  Functions must be physically placed before the location in
          the code that calls them.
 *******************************************************************************************/
-/*
+
 Function MyFunction1()
 {
     // TODO:  Add local variable declarations here
 
     // TODO:  Add code here
+	TRACE("test function\n");
 }
-*/
 
-/*
 Integer_Function MyIntFunction1()
 {
     // TODO:  Add local variable declarations here
@@ -142,9 +141,18 @@ Integer_Function MyIntFunction1()
 
     Return (0);
 }
-*/
 
-/*
+Integer_Function Main_Vol_Text(string volumetext)
+{
+    // TODO:  Add local variable declarations here
+	INTEGER Volume;
+
+    // TODO:  Add code here
+	Volume = atoi(volumetext);
+
+    Return (Volume);
+}
+
 String_Function MyStrFunction1()
 {
     // TODO:  Add local variable declarations here
@@ -153,7 +161,6 @@ String_Function MyStrFunction1()
 
     Return ("");
 }
-*/
 
 /*******************************************************************************************
   Event Handlers
@@ -172,12 +179,12 @@ RELEASE myfunc
     TRACE("signal low\n");
 }
 
-/*
-CHANGE input
+
+CHANGE mystringinput
 {
     // TODO:  Add code here
+	myanalogoutput = Main_Vol_Text(mystringinput);
 }
-*/
 
 /*
 EVENT

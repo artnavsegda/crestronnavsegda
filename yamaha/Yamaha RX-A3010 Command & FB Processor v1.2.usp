@@ -308,7 +308,7 @@ STRING_OUTPUT   AirplayCurrAlbumText;
 STRING_OUTPUT	AirplayElapsedTimeText;
 STRING_OUTPUT   AirplayTotalTimeText;
 
-//ANALOG_OUTPUT	MainVolRaw;
+ANALOG_OUTPUT	MainVolRaw;
 
 /*******************************************************************************************
   SOCKETS
@@ -389,6 +389,15 @@ STRING g_SData[1024];
          the code that calls them.
 *******************************************************************************************/
 
+Integer_Function Main_Vol_Text(string volumetext)
+{
+    // TODO:  Add local variable declarations here
+
+    // TODO:  Add code here
+
+    Return (0);
+}
+
  string_function fn_parseDelimitedText(
  string szText,
  string szAnchor,
@@ -441,6 +450,7 @@ FUNCTION fn_ParseMain(STRING MainData)
 		sPos = FIND("=",MainData);
 		ePos = LEN(MainData);
 		Main_Vol_Text = MID(MainData,sPos +1,ePos);
+		MainVolRaw = ParseVolume(Main_Vol_Text);
 	}
 
 	ELSE IF(FIND("MAIN:AUDSEL=",MainData))

@@ -146,9 +146,15 @@ Integer_Function Main_Vol_Text(string volumetext)
 {
     // TODO:  Add local variable declarations here
 	INTEGER Volume;
+	INTEGER sPos;
 
     // TODO:  Add code here
-	Volume = atoi(volumetext);
+	Volume = atoi(volumetext) * 2;
+    sPos = FIND(".",volumetext);
+
+	if (Byte(volumetext,sPos +1) = '5')
+		Volume = Volume + 1;
+
 	if (Byte(volumetext,1) = '-')
 		Volume = Volume * -1;
 

@@ -716,6 +716,22 @@ FUNCTION fn_ParseZone2(STRING Zone2Data)
 		Zone2VolRaw = (ParseVolume(Main_Vol_Text)+162)*335;
 	}
 
+	ELSE IF(FIND("ZONE2:TONEBASS=",Zone2Data))
+	{
+		sPos = FIND("=",Zone2Data);
+		ePos = LEN(Zone2Data);
+		Zone2_Bass_Text = MID(Zone2Data,sPos +1,ePos);
+		Zone2BassRaw = ParseVolume(Zone2_Bass_Text);
+	}
+
+	ELSE IF(FIND("ZONE2:TONETREBLE=",Zone2Data))
+	{
+		sPos = FIND("=",Zone2Data);
+		ePos = LEN(Zone2Data);
+		Zone2_Treble_Text = MID(Zone2Data,sPos +1,ePos);
+		Zone2TrebleRaw = ParseVolume(Zone2_Treble_Text);
+	}
+
 	ELSE IF(FIND("ZONE2:ZONENAME=",Zone2Data))
 	{
 		sPos = FIND("=",Zone2Data);
@@ -2221,6 +2237,53 @@ CHANGE TrebleDirVal
 	else
 	{
 		MAKESTRING(CmdToSend,"@MAIN:TONETREBLE=%d.0\n",actualtreble/2);
+	}
+		
+		RS232_To_Dev = CmdToSend;
+
+		IF (ClientSocketStatus = 2)
+		{
+			SocketSend(ClientSocket,CmdToSend);
+			CmdToSend = "";
+		}
+}
+
+CHANGE Bass2DirVal
+{
+	SIGNED_INTEGER actualbass;
+	actualbass = Bass2DirVal;
+
+    if (abs(actualbass) MOD 2 = 1)
+	{
+		MAKESTRING(CmdToSend,"@ZONE2:TONEBASS=%d.5\n",actualbass/2);
+	}
+	else
+	{
+		MAKESTRING(CmdToSend,"@ZONE2:TONEBASS=%d.0\n",actualbass/2);
+	}
+		
+		RS232_To_Dev = CmdToSend;
+		trace("%s",CmdToSend);
+
+		IF (ClientSocketStatus = 2)
+		{
+			SocketSend(ClientSocket,CmdToSend);
+			CmdToSend = "";
+		}
+}
+
+CHANGE Treble2DirVal
+{
+	SIGNED_INTEGER actualtreble;
+	actualtreble = Treble2DirVal;
+
+    if (abs(actualtreble) MOD 2 = 1)
+	{
+		MAKESTRING(CmdToSend,"@ZONE2:TONETREBLE=%d.5\n",actualtreble/2);
+	}
+	else
+	{
+		MAKESTRING(CmdToSend,"@ZONE2:TONETREBLE=%d.0\n",actualtreble/2);
 	}
 		
 		RS232_To_Dev = CmdToSend;

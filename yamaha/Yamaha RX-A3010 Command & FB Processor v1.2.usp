@@ -713,7 +713,7 @@ FUNCTION fn_ParseZone2(STRING Zone2Data)
 		sPos = FIND("=",Zone2Data);
 		ePos = LEN(Zone2Data);
 		Zone2_Vol_Text = MID(Zone2Data,sPos +1,ePos);
-		Zone2VolRaw = (ParseVolume(Main_Vol_Text)+162)*335;
+		Zone2VolRaw = (ParseVolume(Zone2_Vol_Text)+162)*335;
 	}
 
 	ELSE IF(FIND("ZONE2:TONEBASS=",Zone2Data))

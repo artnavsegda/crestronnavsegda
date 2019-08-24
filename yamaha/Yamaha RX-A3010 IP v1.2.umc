@@ -17,15 +17,15 @@ S1Nd=2
 SLNd=3
 PrNm=Yamaha RX-A3010 IP v1.2.umc
 CmVr=3.00
-DbVr=79.00.003.00
-DvcDbVr=105.07.001.00
+DbVr=80.05.003.00
+DvcDbVr=106.05.001.00
 PgmNm=BD
 DlrNm=Crestron Electronics
 CltNm=Yamaha RX-A3010 IP v1.2
 Incl=362,378,380,405,407,408,409,478,522,537,554,586,590,611,624,767,830,883,1032,1062,1079,1134,1157,1199,1220,1222,1299,1348,1439,1472,1473,1499,1746,1803,1975,2229,2354,2514,2523,2532,3235,1766,2574,2651,2817,2886,2938,2947,
 McNm=Yamaha RX-A3010 IP v1.2
-SmVr=1089
-DvVr=1089
+SmVr=1090
+DvVr=1090
 TpN1=1
 TpN2=2
 TpN3=3
@@ -53,50 +53,6 @@ Nm1=\
 Sx1=0
 Sy1=0
 Mx1=0
-]
-[
-ObjTp=Bw
-H=1
-Lx=0
-Ly=0
-Rx=1165
-Ry=307
-Xm=-1
-Ym=-1
-SH=553
-Z=100
-P=5900
-Ht=1
-Hi=3
-]
-[
-ObjTp=Bw
-H=1
-Lx=0
-Ly=307
-Rx=1165
-Ry=614
-Xm=-1
-Ym=-1
-SH=570
-Z=100
-Ht=4
-Hi=3
-]
-[
-ObjTp=Bw
-H=1
-Lx=0
-Ly=614
-Rx=1165
-Ry=921
-Xm=-1
-Ym=-1
-SH=6
-Z=100
-P=5490
-Ht=4
-Hi=240
 ]
 [
 ObjTp=Symbol
@@ -285,7 +241,7 @@ InputSigType147=Digital
 InputSigType148=Digital
 InputSigType149=Digital
 InputSigType150=Digital
-InputSigType151=Digital|Analog|Serial|String
+InputSigType151=Digital
 InputSigType152=Digital
 InputSigType153=Digital
 InputSigType154=Digital|Analog|Serial|String
@@ -297,7 +253,7 @@ InputSigType159=Digital
 InputSigType160=Digital
 InputSigType161=Digital
 InputSigType162=Digital
-InputSigType163=Digital|Analog|Serial|String
+InputSigType163=Digital
 InputSigType164=Digital
 InputSigType165=Digital
 InputSigType166=Digital
@@ -307,10 +263,10 @@ InputSigType169=Digital
 InputSigType170=Digital
 InputSigType171=Digital
 InputSigType172=Digital
-InputSigType173=Digital|Analog|Serial|String
+InputSigType173=Digital
 InputSigType174=Digital
 InputSigType175=Digital
-InputSigType176=Digital|Analog|Serial|String
+InputSigType176=Digital
 InputSigType177=Digital|Analog|Serial|String
 InputSigType178=Digital|Analog|Serial|String
 InputSigType179=Digital|Analog|Serial|String
@@ -2235,7 +2191,7 @@ InputCue147=Main_Sound_Program_Mono_Movie
 InputCue148=Main_Sound_Program_2_Chan_Stereo
 InputCue149=Main_Sound_Program_9_Chan_Stereo
 InputCue150=Main_Sound_Program_Surround_Decoder
-InputCue151=[~UNUSED~]
+InputCue151=Main_Sound_Program_7_Chan_Stereo
 InputCue152=Main_Adaptive_DSP_Auto
 InputCue153=Main_Adaptive_DSP_Off
 InputCue154=[~UNUSED~]
@@ -2247,7 +2203,7 @@ InputCue159=Main_EX_Decoder_Mode_Auto
 InputCue160=Main_EX_Decoder_Mode_Dolby_PL2x_Movie
 InputCue161=Main_EX_Decoder_Mode_Dolby_PL2x_Music
 InputCue162=Main_EX_Decoder_Mode_EX/ES
-InputCue163=[~UNUSED~]
+InputCue163=Main_2_Channel_Decoder_Auto
 InputCue164=Main_2_Channel_Decoder_Dolby_PL
 InputCue165=Main_2_Channel_Decoder_Dolby_PL2_movie
 InputCue166=Main_2_Channel_Decoder_Dolby_PL2_music
@@ -2257,10 +2213,10 @@ InputCue169=Main_2_Channel_Decoder_Dolby_PL2x_music
 InputCue170=Main_2_Channel_Decoder_Dolby_PL2x_game
 InputCue171=Main_2_Channel_Decoder_DTS_Neo6_Cinema
 InputCue172=Main_2_Channel_Decoder_DTS_Neo6_Music
-InputCue173=[~UNUSED~]
+InputCue173=Main_2_Channel_Decoder_Dolby_Surround
 InputCue174=Main_Enhancer_On
 InputCue175=Main_Enhancer_Off
-InputCue176=[~UNUSED~]
+InputCue176=Main_2_Channel_Decoder_DTS_NeuralX
 InputCue177=[~EndGroup~]Main_Zone_Functions
 InputCue178=[~UNUSED~]
 InputCue179=[~BeginGroup~]Zone_2_Functions
@@ -5498,7 +5454,7 @@ I147=292
 I148=293
 I149=294
 I150=295
-I151=415
+I151=2284
 I152=296
 I153=297
 I154=415
@@ -5510,7 +5466,7 @@ I159=301
 I160=302
 I161=303
 I162=304
-I163=415
+I163=2345
 I164=305
 I165=306
 I166=307
@@ -5520,10 +5476,10 @@ I169=310
 I170=311
 I171=312
 I172=313
-I173=415
+I173=2346
 I174=269
 I175=270
-I176=415
+I176=2348
 I177=654
 I178=415
 I179=650
@@ -9270,6 +9226,7 @@ I134=292
 I135=293
 I136=294
 I137=295
+I138=2284
 I139=296
 I140=297
 I142=298
@@ -9279,6 +9236,7 @@ I146=301
 I147=302
 I148=303
 I149=304
+I150=2345
 I151=305
 I152=306
 I153=307
@@ -9288,8 +9246,10 @@ I156=310
 I157=311
 I158=312
 I159=313
+I160=2346
 I161=314
 I162=315
+I163=2348
 I164=316
 I165=317
 I167=318
@@ -9453,7 +9413,7 @@ P133=@MAIN:SOUNDPRG=Mono Movie
 P134=@MAIN:SOUNDPRG=2ch Stereo
 P135=@MAIN:SOUNDPRG=9ch Stereo
 P136=@MAIN:SOUNDPRG=Surround Decoder
-P137=
+P137=@MAIN:SOUNDPRG=7ch Stereo
 P138=@MAIN:ADAPTIVEDSP=Auto
 P139=@MAIN:ADAPTIVEDSP=Off
 P140=
@@ -9465,7 +9425,7 @@ P145=@MAIN:EXSURDECODER=Auto
 P146=@MAIN:EXSURDECODER=Dolby PLIIx Movie
 P147=@MAIN:EXSURDECODER=Dolby PLIIx Music
 P148=@MAIN:EXSURDECODER=EX/ES
-P149=
+P149=@MAIN:2CHDECODER=Auto
 P150=@MAIN:2CHDECODER=Dolby PL
 P151=@MAIN:2CHDECODER=Dolby PLII Movie
 P152=@MAIN:2CHDECODER=Dolby PLII Music
@@ -9475,10 +9435,10 @@ P155=@MAIN:2CHDECODER=Dolby PLIIx Music
 P156=@MAIN:2CHDECODER=Dolby PLIIx Game
 P157=@MAIN:2CHDECODER=DTS NEO:6 Cinema
 P158=@MAIN:2CHDECODER=DTS NEO:6 Music
-P159=
+P159=@MAIN:2CHDECODER=Dolby Surround
 P160=@MAIN:LIPSYNCANLGOUT=Up
 P161=@MAIN:LIPSYNCANLGOUT=Down
-P162=
+P162=@MAIN:2CHDECODER=DTS Neural:X
 P163=@LIPSYNCHDMIOUT1OFFSET=Up
 P164=@LIPSYNCHDMIOUT1OFFSET=Down
 P165=
@@ -14712,32 +14672,25 @@ PrH=198
 CF=2
 Cmn1=Memory
 mC=2
-C1=206
-C2=455
+C1=571
+C2=206
 ]
 [
 ObjTp=Sm
 H=206
-SmC=543
-Nm=Analog Increment
+SmC=46
+Nm=Analog Buffer
 ObjVer=1
 PrH=205
 CF=2
-n1I=3
+n1I=2
 n1O=1
-mI=3
-I1=1315
-I2=1316
+mI=2
+I1=2
+I2=2285
 mO=1
 tO=1
-O1=2284
-mP=6
-P1=1d
-P2=2s
-P3=.5s
-P4=1d
-P5=40d
-P6=0d
+O1=1317
 ]
 [
 ObjTp=Sm
@@ -19349,23 +19302,6 @@ P5=
 ]
 [
 ObjTp=Sm
-H=455
-SmC=46
-Nm=Analog Buffer
-ObjVer=1
-PrH=205
-CF=2
-n1I=2
-n1O=1
-mI=2
-I1=2
-I2=2285
-mO=1
-tO=1
-O1=1317
-]
-[
-ObjTp=Sm
 H=456
 SmC=156
 Nm=SUBSYSTEM
@@ -22297,6 +22233,31 @@ tO=3
 O1=2339
 O2=2340
 O3=2341
+]
+[
+ObjTp=Sm
+H=571
+SmC=605
+Nm=Analog Increment with Optional Feedback
+ObjVer=1
+PrH=205
+CF=2
+n1I=4
+n1O=1
+mI=4
+I1=1315
+I2=1316
+I4=1317
+mO=1
+tO=1
+O1=1317
+mP=6
+P1=1d
+P2=2s
+P3=.5s
+P4=1d
+P5=40d
+P6=0d
 ]
 [
 ObjTp=Sg
@@ -33956,8 +33917,7 @@ Nm=Net_Radio_Memory_Preset_Location_Recall
 [
 ObjTp=Sg
 H=2284
-Nm=//__analog_reserved__
-SgTp=31
+Nm=Main_Sound_Program_7_Chan_Stereo
 ]
 [
 ObjTp=Sg
@@ -34284,6 +34244,21 @@ Nm=Zone2_Tone_Mode_Manual_IL
 ObjTp=Sg
 H=2344
 Nm=Zone2_Tone_Mode_Bypass_IL
+]
+[
+ObjTp=Sg
+H=2345
+Nm=Main_2_Channel_Decoder_Auto
+]
+[
+ObjTp=Sg
+H=2346
+Nm=Main_2_Channel_Decoder_Dolby_Surround
+]
+[
+ObjTp=Sg
+H=2348
+Nm=Main_2_Channel_Decoder_DTS_NeuralX
 ]
 [
 ObjTp=Dp

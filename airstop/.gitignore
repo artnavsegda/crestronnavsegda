@@ -1,0 +1,11 @@
+SPlsWork/*
+*/SPlsWork/*
+*.lpz
+*.lpz.hash
+*.sig
+*_compiled.zip
+*_archive.zip
+*_Manifest.arcv
+*.sm2
+*.ASV
+*.um2

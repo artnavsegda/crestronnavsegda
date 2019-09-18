@@ -1,0 +1,2513 @@
+/*******************************************************************************************
+  SIMPL+ Module Information
+  (Fill in comments below)
+*******************************************************************************************/
+/*
+Dealer Name: Crestron Electronics
+System Name:
+System Number:
+Programmer: BD
+Comments:
+*/
+
+/*******************************************************************************************
+  Compiler Directives
+  (Uncomment and declare compiler directives as needed)
+*******************************************************************************************/
+// #ENABLE_DYNAMIC
+// #HINT ""
+#DEFINE_CONSTANT TRUE 1
+#DEFINE_CONSTANT False 0	
+#DEFINE_CONSTANT HttpSuffix "HTTP/1.1\x0D\x0A\x0D\x0A"
+// #CATEGORY "" 
+#CATEGORY "28" // Receiver/Processor
+#DEFAULT_VOLATILE
+// #PRINT_TO_TRACE
+// #DIGITAL_EXPAND 
+// #ANALOG_SERIAL_EXPAND 
+// #OUTPUT_SHIFT 
+// #HELP_PDF_FILE ""
+// #DEFAULT_NONVOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+/*
+#HELP_BEGIN
+   (add additional lines of help lines)
+#HELP_END
+*/
+
+/*******************************************************************************************
+  Include Libraries
+  (Uncomment and include additional libraries as needed)
+*******************************************************************************************/
+// #CRESTRON_LIBRARY ""
+// #USER_LIBRARY ""
+
+/*******************************************************************************************
+  DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
+  (Uncomment and declare inputs and outputs as needed)
+*******************************************************************************************/
+// DIGITAL_INPUT 
+// ANALOG_INPUT 
+// BUFFER_INPUT 
+
+// DIGITAL_OUTPUT 
+// ANALOG_OUTPUT 
+// STRING_OUTPUT
+DIGITAL_INPUT	_SKIP_,_SKIP_,Connect;
+
+STRING_INPUT	CmdIn[100];
+BUFFER_INPUT	RS232FromDev[1024];
+
+DIGITAL_INPUT	_SKIP_,TunerIsFm,Pandora_Mem_Save,Napster_Mem_Save,Siriusir_Mem_Save,Rhap_Mem_Save,Pc_Mem_Save,NetRadio_Mem_Save,USB_Mem_Save,Sirius_Mem_Save,NetRadio_Mem_Recall;
+ANALOG_INPUT	TunerDirVal,SiriusDirVal,Pandora_Mem_Loc_Val,Napster_Mem_Loc_Val,Siriusir_Mem_Loc_Val,Rhap_Mem_Loc_Val,Pc_Mem_Loc_Val,NetRadio_Mem_Loc_Val,USB_Mem_Loc_Val,Sirius_Mem_Loc_Val,VolDirVal,Vol2DirVal,BassDirVal,TrebleDirVal,Bass2DirVal,Treble2DirVal;
+
+
+DIGITAL_OUTPUT	_SKIP_,_SKIP_,Connected;
+DIGITAL_OUTPUT	_SKIP_,_SKIP_,Tuner_Program1_Avail;
+DIGITAL_OUTPUT	Tuner_Program2_Avail;
+DIGITAL_OUTPUT	Tuner_Program3_Avail;
+DIGITAL_OUTPUT	Tuner_Program4_Avail;
+DIGITAL_OUTPUT	Tuner_Program5_Avail;
+DIGITAL_OUTPUT	Tuner_Program6_Avail;
+DIGITAL_OUTPUT	Tuner_Program7_Avail;
+DIGITAL_OUTPUT	Tuner_Program8_Avail;
+
+STRING_OUTPUT	_SKIP_,_SKIP_,RxProcessed;
+STRING_OUTPUT	RS232_To_Dev;
+
+STRING_OUTPUT	_SKIP_,_SKIP_,Main_Zone_Name;
+STRING_OUTPUT	Main_Scene1_Name;
+STRING_OUTPUT	Main_Scene2_Name;
+STRING_OUTPUT	Main_Scene3_Name;
+STRING_OUTPUT	Main_Scene4_Name;
+STRING_OUTPUT	Main_Scene5_Name;
+STRING_OUTPUT	Main_Scene6_Name;
+STRING_OUTPUT	Main_Scene7_Name;
+STRING_OUTPUT	Main_Scene8_Name;
+STRING_OUTPUT	Main_Scene9_Name;
+STRING_OUTPUT	Main_Scene10_Name;
+STRING_OUTPUT	Main_Scene11_Name;
+STRING_OUTPUT	Main_Scene12_Name;
+STRING_OUTPUT	Main_Sleep_Timer_Text;
+STRING_OUTPUT	Main_Vol_Text;
+STRING_OUTPUT	Main_Curr_Input_Audio_Type;
+STRING_OUTPUT	Main_Decoder_Mode;
+STRING_OUTPUT	Main_Pure_Direct_Mode;
+STRING_OUTPUT	Main_Adaptive_Dynamic_Range_Mode;
+STRING_OUTPUT	Main_Lip_Sync_Mode;
+STRING_OUTPUT	Main_Straight_Mode_Status;
+STRING_OUTPUT	Main_Enhancer_Status;
+STRING_OUTPUT	Main_Sound_Prog_Status;
+STRING_OUTPUT	Main_Adaptive_DSP_Mode;
+STRING_OUTPUT	Main_3D_Cinema_Mode;
+STRING_OUTPUT	Main_Ex_Decoder_Mode;
+STRING_OUTPUT	Main_2chan_Decoder_Mode;
+STRING_OUTPUT	Main_Curr_HDMI_Out_Config;
+STRING_OUTPUT	Main_HDMI_Proc_State;
+STRING_OUTPUT	Main_HDMI_Aspect;
+STRING_OUTPUT	Main_HDMI_Res;
+
+
+STRING_OUTPUT	_SKIP_,_SKIP_,Zone2_Name;
+STRING_OUTPUT	Zone2_Scene1_Name;
+STRING_OUTPUT	Zone2_Scene2_Name;
+STRING_OUTPUT	Zone2_Scene3_Name;
+STRING_OUTPUT	Zone2_Scene4_Name;
+STRING_OUTPUT	Zone2_Sleep_Timer_Text;
+STRING_OUTPUT	Zone2_Vol_Text;
+
+STRING_OUTPUT	_SKIP_,_SKIP_,Zone3_Name;
+STRING_OUTPUT	Zone3_Scene1_Name;
+STRING_OUTPUT	Zone3_Scene2_Name;
+STRING_OUTPUT	Zone3_Scene3_Name;
+STRING_OUTPUT	Zone3_Scene4_Name;
+STRING_OUTPUT	Zone3_Sleep_Timer_Text;
+STRING_OUTPUT	Zone3_Vol_Text;
+
+STRING_OUTPUT	_SKIP_,_SKIP_,Zone4_Name;
+STRING_OUTPUT	Zone4_Scene1_Name;
+STRING_OUTPUT	Zone4_Scene2_Name;
+STRING_OUTPUT	Zone4_Scene3_Name;
+STRING_OUTPUT	Zone4_Scene4_Name;
+STRING_OUTPUT	Zone4_Sleep_Timer_Text;
+
+
+
+STRING_OUTPUT	_SKIP_,_SKIP_,Tuner_Curr_Station;
+STRING_OUTPUT	Tuner_Curr_Program_Number;
+STRING_OUTPUT	Tuner_Curr_Program_Type;
+STRING_OUTPUT	Tuner_Curr_Song;
+STRING_OUTPUT	Tuner_Curr_Artist;
+STRING_OUTPUT	Tuner_Curr_Album;
+
+STRING_OUTPUT	_SKIP_,_SKIP_,PandListLayer;
+STRING_OUTPUT	PandListName;
+STRING_OUTPUT	PandLine1Text;
+STRING_OUTPUT	PandLine2Text;
+STRING_OUTPUT	PandLine3Text;
+STRING_OUTPUT	PandLine4Text;
+STRING_OUTPUT	PandLine5Text;
+STRING_OUTPUT	PandLine6Text;
+STRING_OUTPUT	PandLine7Text;
+STRING_OUTPUT	PandLine8Text;
+
+STRING_OUTPUT	_SKIP_,PandCurrSongText;
+STRING_OUTPUT	PandCurrAlbumText;
+STRING_OUTPUT	PandCurrStationText;
+
+
+STRING_OUTPUT	_SKIP_,_SKIP_,NapListLayer;
+STRING_OUTPUT	NapListName;
+STRING_OUTPUT	NapLine1Text;
+STRING_OUTPUT	NapLine2Text;
+STRING_OUTPUT	NapLine3Text;
+STRING_OUTPUT	NapLine4Text;
+STRING_OUTPUT	NapLine5Text;
+STRING_OUTPUT	NapLine6Text;
+STRING_OUTPUT	NapLine7Text;
+STRING_OUTPUT	NapLine8Text;
+
+STRING_OUTPUT	_SKIP_,NapCurrSongText;
+STRING_OUTPUT	NapCurrArtistText;
+STRING_OUTPUT	NapCurrAlbumText;
+
+
+STRING_OUTPUT	_SKIP_,_SKIP_,SiriusirListLayer;
+STRING_OUTPUT	SiriusirListName;
+STRING_OUTPUT	SiriusirLine1Text;
+STRING_OUTPUT	SiriusirLine2Text;
+STRING_OUTPUT	SiriusirLine3Text;
+STRING_OUTPUT	SiriusirLine4Text;
+STRING_OUTPUT	SiriusirLine5Text;
+STRING_OUTPUT	SiriusirLine6Text;
+STRING_OUTPUT	SiriusirLine7Text;
+STRING_OUTPUT	SiriusirLine8Text;
+
+STRING_OUTPUT	_SKIP_,SiriusirCurrSongText;
+STRING_OUTPUT	SiriusirCurrArtistText;
+STRING_OUTPUT	SiriusirCurrAlbumText;
+STRING_OUTPUT	SiriusirCurrChannelText;
+
+
+
+
+STRING_OUTPUT	_SKIP_,_SKIP_,RhapListLayer;
+STRING_OUTPUT	RhapListName;
+STRING_OUTPUT	RhapLine1Text;
+STRING_OUTPUT	RhapLine2Text;
+STRING_OUTPUT	RhapLine3Text;
+STRING_OUTPUT	RhapLine4Text;
+STRING_OUTPUT	RhapLine5Text;
+STRING_OUTPUT	RhapLine6Text;
+STRING_OUTPUT	RhapLine7Text;
+STRING_OUTPUT	RhapLine8Text;
+
+STRING_OUTPUT	_SKIP_,RhapCurrSongText;
+STRING_OUTPUT	RhapCurrArtistText;
+STRING_OUTPUT	RhapCurrAlbumText;
+
+
+STRING_OUTPUT	_SKIP_,_SKIP_,PcListLayer;
+STRING_OUTPUT	PcListName;
+STRING_OUTPUT	PcLine1Text;
+STRING_OUTPUT	PcLine2Text;
+STRING_OUTPUT	PcLine3Text;
+STRING_OUTPUT	PcLine4Text;
+STRING_OUTPUT	PcLine5Text;
+STRING_OUTPUT	PcLine6Text;
+STRING_OUTPUT	PcLine7Text;
+STRING_OUTPUT	PcLine8Text;
+
+STRING_OUTPUT	_SKIP_,PcCurrSongText;
+STRING_OUTPUT	PcCurrArtistText;
+STRING_OUTPUT	PcCurrAlbumText;
+
+
+
+STRING_OUTPUT	_SKIP_,_SKIP_,NetRadioListLayer;
+STRING_OUTPUT	NetRadioListName;
+STRING_OUTPUT	NetRadioLine1Text;
+STRING_OUTPUT	NetRadioLine2Text;
+STRING_OUTPUT	NetRadioLine3Text;
+STRING_OUTPUT	NetRadioLine4Text;
+STRING_OUTPUT	NetRadioLine5Text;
+STRING_OUTPUT	NetRadioLine6Text;
+STRING_OUTPUT	NetRadioLine7Text;
+STRING_OUTPUT	NetRadioLine8Text;
+
+STRING_OUTPUT	_SKIP_,NetRadioCurrSongText;
+STRING_OUTPUT	NetRadioCurrArtistText;
+STRING_OUTPUT	NetRadioCurrAlbumText;
+STRING_OUTPUT	NetRadioCurrChannelText;
+
+
+
+
+
+STRING_OUTPUT	_SKIP_,_SKIP_,UsbListLayer;
+STRING_OUTPUT	UsbListName;
+STRING_OUTPUT	UsbLine1Text;
+STRING_OUTPUT	UsbLine2Text;
+STRING_OUTPUT	UsbLine3Text;
+STRING_OUTPUT	UsbLine4Text;
+STRING_OUTPUT	UsbLine5Text;
+STRING_OUTPUT	UsbLine6Text;
+STRING_OUTPUT	UsbLine7Text;
+STRING_OUTPUT	UsbLine8Text;
+
+STRING_OUTPUT	_SKIP_,UsbCurrSongText;
+STRING_OUTPUT	UsbCurrArtistText;
+STRING_OUTPUT	UsbCurrAlbumText;
+
+
+
+STRING_OUTPUT	_SKIP_,_SKIP_,iPodListLayer;
+STRING_OUTPUT	iPodListName;
+STRING_OUTPUT	iPodLine1Text;
+STRING_OUTPUT	iPodLine2Text;
+STRING_OUTPUT	iPodLine3Text;
+STRING_OUTPUT	iPodLine4Text;
+STRING_OUTPUT	iPodLine5Text;
+STRING_OUTPUT	iPodLine6Text;
+STRING_OUTPUT	iPodLine7Text;
+STRING_OUTPUT	iPodLine8Text;
+
+STRING_OUTPUT	_SKIP_,iPodCurrSongText;
+STRING_OUTPUT	iPodCurrArtistText;
+STRING_OUTPUT	iPodCurrAlbumText;
+
+
+STRING_OUTPUT	_SKIP_,SiriusAntLevel;
+STRING_OUTPUT	SiriusCurrCatText;
+STRING_OUTPUT	SiriusCurrChanNumText;
+STRING_OUTPUT	SiriusCurrChanNameText;
+STRING_OUTPUT	SiriusCurrArtistText;
+STRING_OUTPUT	SiriusCurrSongText;
+STRING_OUTPUT	SiriusCurrCompText;
+
+
+STRING_OUTPUT	_SKIP_,_SKIP_,iPodUSBListLayer;
+STRING_OUTPUT	iPodUSBListName;
+STRING_OUTPUT	iPodUSBLine1Text;
+STRING_OUTPUT	iPodUSBLine2Text;
+STRING_OUTPUT	iPodUSBLine3Text;
+STRING_OUTPUT	iPodUSBLine4Text;
+STRING_OUTPUT	iPodUSBLine5Text;
+STRING_OUTPUT	iPodUSBLine6Text;
+STRING_OUTPUT	iPodUSBLine7Text;
+STRING_OUTPUT	iPodUSBLine8Text;
+
+STRING_OUTPUT	_SKIP_,iPodUSBCurrSongText;
+STRING_OUTPUT	iPodUSBCurrArtistText;
+STRING_OUTPUT	iPodUSBCurrAlbumText;
+
+STRING_OUTPUT	_SKIP_,AirplayCurrSongText;
+STRING_OUTPUT	AirplayCurrArtistText;
+STRING_OUTPUT   AirplayCurrAlbumText;
+STRING_OUTPUT	AirplayElapsedTimeText;
+STRING_OUTPUT   AirplayTotalTimeText;
+
+ANALOG_OUTPUT	MainVolRaw;
+ANALOG_OUTPUT	Zone2VolRaw;
+
+STRING_OUTPUT	Main_Bass_Text;
+ANALOG_OUTPUT	MainBassRaw;
+STRING_OUTPUT	Main_Treble_Text;
+ANALOG_OUTPUT	MainTrebleRaw;
+
+STRING_OUTPUT	Zone2_Bass_Text;
+ANALOG_OUTPUT	Zone2BassRaw;
+STRING_OUTPUT	Zone2_Treble_Text;
+ANALOG_OUTPUT	Zone2TrebleRaw;
+
+/*******************************************************************************************
+  SOCKETS
+  (Uncomment and define socket definitions as needed)
+*******************************************************************************************/
+TCP_CLIENT	ClientSocket[65534];
+// TCP_SERVER
+// UDP_SOCKET
+
+/*******************************************************************************************
+  Parameters
+  (Uncomment and declare parameters as needed)
+*******************************************************************************************/
+// INTEGER_PARAMETER	
+// SIGNED_INTEGER_PARAMETER
+
+// SIGNED_LONG_INTEGER_PARAMETER
+STRING_PARAMETER	ClientSocketAddress[15];
+INTEGER_PARAMETER ClientSocketPort;
+
+/*******************************************************************************************
+  Parameter Properties
+  (Uncomment and declare parameter properties as needed)
+*******************************************************************************************/
+/*
+#BEGIN_PARAMETER_PROPERTIES parameter_variable, parameter_variable, ...
+   // propValidUnits = // unitString or unitDecimal|unitHex|unitPercent|unitCharacter|unitTime|unitTicks;
+   // propDefaultUnit = // unitString, unitDecimal, unitHex, unitPercent, unitCharacter, unitTime or unitTicks;
+   // propBounds = lower_bound , upper_bound;
+   // propDefaultValue = ;  // or, propDefaultValue = "";
+   // propList = // { "value" , "label" } , { "value" , "label" } , ... ;
+   // propShortDescription = "status_bar_hint_text";
+   // #BEGIN_PROP_FULL_DESCRIPTION  line_1...  line_2...  line_n  #END_PROP_FULL_DESCRIPTION
+   // #BEGIN_PROP_NOTES line_1...  line_2...  line_n  #END_PROP_NOTES
+#END_PARAMETER_PROPERTIES
+*/
+
+#BEGIN_PARAMETER_PROPERTIES ClientSocketPort
+	PropValidUnits = unitDecimal;
+	propBounds = 50000d,65535d;
+	propDefaultValue = 50000d;
+	propShortDescription = "Default Communication Port";
+#End_Parameter_Properties
+
+/*******************************************************************************************
+  Structure Definitions
+  (Uncomment and define structure definitions as needed)
+  Note:  Be sure to initialize all declared STRING variables as needed
+         For example, in Function Main: struct.myString = "";
+*******************************************************************************************/
+/*
+STRUCTURE MyStruct1
+{
+};
+
+MyStruct1 struct;
+*/
+
+/*******************************************************************************************
+  Global Variables
+  (Uncomment and declare global variables as needed)
+  Note:  Be sure to initialize all declared STRING variables as needed
+         For example, in Function Main: myString = "";
+*******************************************************************************************/
+// INTEGER
+// LONG_INTEGER
+// SIGNED_INTEGER
+// SIGNED_LONG_INTEGER
+INTEGER g_bParsing;
+SIGNED_INTEGER ClientSocketStatus;
+STRING CmdToSend[200];
+STRING g_SData[1024];
+
+/*******************************************************************************************
+  Functions
+  (Add any additional functions here)
+  Note:  Functions must be physically placed before the location in
+         the code that calls them.
+*******************************************************************************************/
+
+Integer_Function ParseVolume(string volumetext)
+{
+    // TODO:  Add local variable declarations here
+	INTEGER Volume;
+	INTEGER sPos;
+
+    // TODO:  Add code here
+	Volume = atoi(volumetext) * 2;
+    sPos = FIND(".",volumetext);
+
+	if (Byte(volumetext,sPos +1) = '5')
+		Volume = Volume + 1;
+
+	if (Byte(volumetext,1) = '-')
+		Volume = Volume * -1;
+
+    Return (Volume);
+}
+
+ string_function fn_parseDelimitedText(
+ string szText,
+ string szAnchor,
+ string szDelimiter,
+ integer bCaseMatch)
+{
+ integer nPos;
+ integer nStart;
+ integer nRange;
+ string szValue[256];
+  
+ nPos = 0;
+ nStart = 0;
+ nRange = 0;
+ 
+ if(bCaseMatch) nPos = find(szAnchor, szText);
+ else nPos = findNoCase(szAnchor, szText);
+ 
+ if(nPos > 0)
+ {
+  nStart = nPos+len(szAnchor);
+
+  if(bCaseMatch) nRange = find(szDelimiter, szText, nStart);
+  else nRange = findNoCase(szDelimiter, szText, nStart);
+  
+  nRange = nRange-nStart;
+
+  szValue = mid(szText, nStart, nRange);
+  return(szValue);
+ }
+ else return("");
+}
+
+
+//MAIN FUNCTION
+FUNCTION fn_ParseMain(STRING MainData)
+{
+	INTEGER sPos;
+	INTEGER ePos;
+
+	IF(FIND("MAIN:SLEEP=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Sleep_Timer_Text = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:VOL=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Vol_Text = MID(MainData,sPos +1,ePos);
+		MainVolRaw = (ParseVolume(Main_Vol_Text)+162)*335;
+	}
+
+	ELSE IF(FIND("MAIN:TONEBASS=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Bass_Text = MID(MainData,sPos +1,ePos);
+		MainBassRaw = ParseVolume(Main_Bass_Text);
+	}
+
+	ELSE IF(FIND("MAIN:TONETREBLE=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Treble_Text = MID(MainData,sPos +1,ePos);
+		MainTrebleRaw = ParseVolume(Main_Treble_Text);
+	}
+
+	ELSE IF(FIND("MAIN:AUDSEL=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Curr_Input_Audio_Type = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:DECODERSEL=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Decoder_Mode = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:PUREDIRMODE=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Pure_Direct_Mode = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:ADAPTIVEDRC=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Adaptive_Dynamic_Range_Mode = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:LIPSYNCMODE=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Lip_Sync_Mode = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:STRAIGHT=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Straight_Mode_Status = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:ENHANCER=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Enhancer_Status = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:SOUNDPRG=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Sound_Prog_Status = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:ADAPTIVEDSP=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Adaptive_DSP_Mode = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:ADAPTIVEDSP=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_3D_Cinema_Mode = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:EXSURDECODER=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Ex_Decoder_Mode = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:2CHDECODER=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_2chan_Decoder_Mode = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:HDMIOUT=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Curr_HDMI_Out_Config = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:HDMIPROCESSING=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_HDMI_Proc_State = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:HDMIASPECT=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_HDMI_Aspect = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:HDMIRESOL=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_HDMI_Res = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:ZONENAME=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Zone_Name = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:SCENE1NAME=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Scene1_Name = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:SCENE2NAME=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Scene2_Name = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:SCENE3NAME=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Scene3_Name = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:SCENE4NAME=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Scene4_Name = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:SCENE5NAME=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Scene5_Name = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:SCENE6NAME=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Scene6_Name = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:SCENE7NAME=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Scene7_Name = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:SCENE8NAME=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Scene8_Name = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:SCENE9NAME=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Scene9_Name = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:SCENE10NAME=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Scene10_Name = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:SCENE11NAME=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Scene11_Name = MID(MainData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("MAIN:SCENE12NAME=",MainData))
+	{
+		sPos = FIND("=",MainData);
+		ePos = LEN(MainData);
+		Main_Scene12_Name = MID(MainData,sPos +1,ePos);
+	}
+}
+
+
+// ZONE2 FUNCTIONS
+FUNCTION fn_ParseZone2(STRING Zone2Data)
+{
+    INTEGER sPos;
+	INTEGER ePos;
+
+	IF(FIND("ZONE2:SLEEP=",Zone2Data))
+	{
+		sPos = FIND("=",Zone2Data);
+		ePos = LEN(Zone2Data);
+		Zone2_Sleep_Timer_Text = MID(Zone2Data,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("ZONE2:VOL=",Zone2Data))
+	{
+		sPos = FIND("=",Zone2Data);
+		ePos = LEN(Zone2Data);
+		Zone2_Vol_Text = MID(Zone2Data,sPos +1,ePos);
+		Zone2VolRaw = (ParseVolume(Zone2_Vol_Text)+162)*335;
+	}
+
+	ELSE IF(FIND("ZONE2:TONEBASS=",Zone2Data))
+	{
+		sPos = FIND("=",Zone2Data);
+		ePos = LEN(Zone2Data);
+		Zone2_Bass_Text = MID(Zone2Data,sPos +1,ePos);
+		Zone2BassRaw = ParseVolume(Zone2_Bass_Text);
+	}
+
+	ELSE IF(FIND("ZONE2:TONETREBLE=",Zone2Data))
+	{
+		sPos = FIND("=",Zone2Data);
+		ePos = LEN(Zone2Data);
+		Zone2_Treble_Text = MID(Zone2Data,sPos +1,ePos);
+		Zone2TrebleRaw = ParseVolume(Zone2_Treble_Text);
+	}
+
+	ELSE IF(FIND("ZONE2:ZONENAME=",Zone2Data))
+	{
+		sPos = FIND("=",Zone2Data);
+		ePos = LEN(Zone2Data);
+		Zone2_Name = MID(Zone2Data,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("ZONE2:SCENE1NAME=",Zone2Data))
+	{
+		sPos = FIND("=",Zone2Data);
+		ePos = LEN(Zone2Data);
+		Zone2_Scene1_Name = MID(Zone2Data,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("ZONE2:SCENE2NAME=",Zone2Data))
+	{
+		sPos = FIND("=",Zone2Data);
+		ePos = LEN(Zone2Data);
+		Zone2_Scene2_Name = MID(Zone2Data,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("ZONE2:SCENE3NAME=",Zone2Data))
+	{
+		sPos = FIND("=",Zone2Data);
+		ePos = LEN(Zone2Data);
+		Zone2_Scene3_Name = MID(Zone2Data,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("ZONE2:SCENE4NAME=",Zone2Data))
+	{
+		sPos = FIND("=",Zone2Data);
+		ePos = LEN(Zone2Data);
+		Zone2_Scene4_Name = MID(Zone2Data,sPos +1,ePos);
+	}
+}
+
+// ZONE3 FUNCTIONS
+FUNCTION fn_ParseZone3(STRING Zone3Data)
+{
+	INTEGER sPos;
+	INTEGER ePos;
+
+	IF(FIND("ZONE3:SLEEP=",Zone3Data))
+	{
+		sPos = FIND("=",Zone3Data);
+		ePos = LEN(Zone3Data);
+		Zone3_Sleep_Timer_Text = MID(Zone3Data,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("ZONE3:VOL=",Zone3Data))
+	{
+		sPos = FIND("=",Zone3Data);
+		ePos = LEN(Zone3Data);
+		Zone3_Vol_Text = MID(Zone3Data,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("ZONE3:ZONENAME=",Zone3Data))
+	{
+		sPos = FIND("=",Zone3Data);
+		ePos = LEN(Zone3Data);
+		Zone3_Name = MID(Zone3Data,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("ZONE3:SCENE1NAME=",Zone3Data))
+	{
+		sPos = FIND("=",Zone3Data);
+		ePos = LEN(Zone3Data);
+		Zone3_Scene1_Name = MID(Zone3Data,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("ZONE3:SCENE2NAME=",Zone3Data))
+	{
+		sPos = FIND("=",Zone3Data);
+		ePos = LEN(Zone3Data);
+		Zone3_Scene2_Name = MID(Zone3Data,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("ZONE3:SCENE3NAME=",Zone3Data))
+	{
+		sPos = FIND("=",Zone3Data);
+		ePos = LEN(Zone3Data);
+		Zone3_Scene3_Name = MID(Zone3Data,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("ZONE3:SCENE4NAME=",Zone3Data))
+	{
+		sPos = FIND("=",Zone3Data);
+		ePos = LEN(Zone3Data);
+		Zone3_Scene4_Name = MID(Zone3Data,sPos +1,ePos);
+	}
+} 
+
+// ZONE4 FUNCTIONS
+
+FUNCTION fn_ParseZone4(STRING Zone4Data)
+{
+	INTEGER sPos;
+	INTEGER ePos;
+
+	IF(FIND("ZONE4:SLEEP=",Zone4Data))
+	{
+		sPos = FIND("=",Zone4Data);
+		ePos = LEN(Zone4Data);
+		Zone3_Sleep_Timer_Text = MID(Zone4Data,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("ZONE4:ZONENAME=",Zone4Data))
+	{
+		sPos = FIND("=",Zone4Data);
+		ePos = LEN(Zone4Data);
+		Zone4_Name = MID(Zone4Data,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("ZONE4:SCENE1NAME=",Zone4Data))
+	{
+		sPos = FIND("=",Zone4Data);
+		ePos = LEN(Zone4Data);
+		Zone4_Scene1_Name = MID(Zone4Data,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("ZONE4:SCENE2NAME=",Zone4Data))
+	{
+		sPos = FIND("=",Zone4Data);
+		ePos = LEN(Zone4Data);
+		Zone4_Scene2_Name = MID(Zone4Data,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("ZONE4:SCENE3NAME=",Zone4Data))
+	{
+		sPos = FIND("=",Zone4Data);
+		ePos = LEN(Zone4Data);
+		Zone4_Scene3_Name = MID(Zone4Data,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("ZONE4:SCENE4NAME=",Zone4Data))
+	{
+		sPos = FIND("=",Zone4Data);
+		ePos = LEN(Zone4Data);
+		Zone4_Scene4_Name = MID(Zone4Data,sPos +1,ePos);
+	}
+}
+
+ 
+//TUNER STUFF	
+FUNCTION fn_ParseTuner(STRING TunerData)
+{
+	INTEGER sPos;
+	INTEGER ePos;
+
+	IF(FIND("HDRADIO:FMFREQ=",TunerData))
+	{
+		sPos = FIND("=",TunerData);
+		ePos = LEN(TunerData);
+		Tuner_Curr_Station = MID(TunerData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("HDRADIO:PRGNUM=",TunerData))
+	{
+		sPos = FIND("=",TunerData);
+		ePos = LEN(TunerData);
+		Tuner_Curr_Program_Number = MID(TunerData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("HDRADIO:PRGTYPE=",TunerData))
+	{
+		sPos = FIND("=",TunerData);
+		ePos = LEN(TunerData);
+		Tuner_Curr_Program_Type = MID(TunerData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("HDRADIO:SONG=",TunerData))
+	{
+		sPos = FIND("=",TunerData);
+		ePos = LEN(TunerData);
+		Tuner_Curr_Song = MID(TunerData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("HDRADIO:ARTIST=",TunerData))
+	{
+		sPos = FIND("=",TunerData);
+		ePos = LEN(TunerData);
+		Tuner_Curr_Artist = MID(TunerData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("HDRADIO:ALBUM=",TunerData))
+	{
+		sPos = FIND("=",TunerData);
+		ePos = LEN(TunerData);
+		Tuner_Curr_Album = MID(TunerData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("HDRADIO:AVAILPRG1=Available",TunerData))
+	{
+		sPos = FIND("=",TunerData);
+		ePos = LEN(TunerData);
+		Tuner_Program1_Avail = True;
+	}
+
+	ELSE IF(FIND("HDRADIO:AVAILPRG2=Available",TunerData))
+	{
+		sPos = FIND("=",TunerData);
+		ePos = LEN(TunerData);
+		Tuner_Program2_Avail = True;
+	}
+
+	ELSE IF(FIND("HDRADIO:AVAILPRG3=Available",TunerData))
+	{
+		sPos = FIND("=",TunerData);
+		ePos = LEN(TunerData);
+		Tuner_Program3_Avail = True;
+	}
+
+	ELSE IF(FIND("HDRADIO:AVAILPRG4=Available",TunerData))
+	{
+		sPos = FIND("=",TunerData);
+		ePos = LEN(TunerData);
+		Tuner_Program4_Avail = True;
+	}
+
+	ELSE IF(FIND("HDRADIO:AVAILPRG5=Available",TunerData))
+	{
+		sPos = FIND("=",TunerData);
+		ePos = LEN(TunerData);
+		Tuner_Program5_Avail = True;
+	}
+
+	ELSE IF(FIND("HDRADIO:AVAILPRG6=Available",TunerData))
+	{
+		sPos = FIND("=",TunerData);
+		ePos = LEN(TunerData);
+		Tuner_Program6_Avail = True;
+	}
+
+	ELSE IF(FIND("HDRADIO:AVAILPRG7=Available",TunerData))
+	{
+		sPos = FIND("=",TunerData);
+		ePos = LEN(TunerData);
+		Tuner_Program7_Avail = True;
+	}
+
+	ELSE IF(FIND("HDRADIO:AVAILPRG8=Available",TunerData))
+	{
+		sPos = FIND("=",TunerData);
+		ePos = LEN(TunerData);
+		Tuner_Program8_Avail = True;
+	}
+}
+
+ 
+
+//NAPSTER STUFF
+FUNCTION fn_ParseNapster(STRING NapsterData)
+{
+	INTEGER sPos;
+	INTEGER ePos;
+
+	IF(FIND("NAPSTER:LISTLAYER=",NapsterData))
+	{
+		sPos = FIND("=",NapsterData);
+		ePos = LEN(NapsterData);
+		NapListLayer = MID(NapsterData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NAPSTER:LISTLAYERNAME=",NapsterData))
+	{
+		sPos = FIND("=",NapsterData);
+		ePos = LEN(NapsterData);
+		NapListName = MID(NapsterData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NAPSTER:LINE1TXT=",NapsterData))
+	{
+		sPos = FIND("=",NapsterData);
+		ePos = LEN(NapsterData);
+		NapLine1Text = MID(NapsterData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NAPSTER:LINE2TXT=",NapsterData))
+	{
+		sPos = FIND("=",NapsterData);
+		ePos = LEN(NapsterData);
+		NapLine2Text = MID(NapsterData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NAPSTER:LINE3TXT=",NapsterData))
+	{
+		sPos = FIND("=",NapsterData);
+		ePos = LEN(NapsterData);
+		NapLine3Text = MID(NapsterData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NAPSTER:LINE4TXT=",NapsterData))
+	{
+		sPos = FIND("=",NapsterData);
+		ePos = LEN(NapsterData);
+		NapLine4Text = MID(NapsterData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NAPSTER:LINE5TXT=",NapsterData))
+	{
+		sPos = FIND("=",NapsterData);
+		ePos = LEN(NapsterData);
+		NapLine5Text = MID(NapsterData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NAPSTER:LINE6TXT=",NapsterData))
+	{
+		sPos = FIND("=",NapsterData);
+		ePos = LEN(NapsterData);
+		NapLine6Text = MID(NapsterData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NAPSTER:LINE7TXT=",NapsterData))
+	{
+		sPos = FIND("=",NapsterData);
+		ePos = LEN(NapsterData);
+		NapLine7Text = MID(NapsterData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NAPSTER:LINE8TXT=",NapsterData))
+	{
+		sPos = FIND("=",NapsterData);
+		ePos = LEN(NapsterData);
+		NapLine8Text = MID(NapsterData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NAPSTER:SONG=",NapsterData))
+	{
+		sPos = FIND("=",NapsterData);
+		ePos = LEN(NapsterData);
+		NapCurrSongText = MID(NapsterData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NAPSTER:ARTIST=",NapsterData))
+	{
+		sPos = FIND("=",NapsterData);
+		ePos = LEN(NapsterData);
+		NapCurrArtistText = MID(NapsterData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NAPSTER:ALBUM=",NapsterData))
+	{
+		sPos = FIND("=",NapsterData);
+		ePos = LEN(NapsterData);
+		NapCurrAlbumText = MID(NapsterData,sPos +1,ePos);	
+	}
+}	
+
+
+//SIRIUSIR STUFF
+FUNCTION fn_ParseSiriusIr(STRING SiriusIrData)
+{
+	INTEGER sPos;
+	INTEGER ePos;
+
+	IF(FIND("SIRIUSIR:LISTLAYER=",SiriusIrData))
+	{
+		sPos = FIND("=",SiriusIrData);
+		ePos = LEN(SiriusIrData);
+		SiriusirListLayer = MID(SiriusIrData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("SIRIUSIR:LISTLAYERNAME=",SiriusIrData))
+	{
+		sPos = FIND("=",SiriusIrData);
+		ePos = LEN(SiriusIrData);
+		SiriusirListName = MID(SiriusIrData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("SIRIUSIR:LINE1TXT=",SiriusIrData))
+	{
+		sPos = FIND("=",SiriusIrData);
+		ePos = LEN(SiriusIrData);
+		SiriusirLine1Text = MID(SiriusIrData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("SIRIUSIR:LINE2TXT=",SiriusIrData))
+	{
+		sPos = FIND("=",SiriusIrData);
+		ePos = LEN(SiriusIrData);
+		SiriusirLine2Text = MID(SiriusIrData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("SIRIUSIR:LINE3TXT=",SiriusIrData))
+	{
+		sPos = FIND("=",SiriusIrData);
+		ePos = LEN(SiriusIrData);
+		SiriusirLine3Text = MID(SiriusIrData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("SIRIUSIR:LINE4TXT=",SiriusIrData))
+	{
+		sPos = FIND("=",SiriusIrData);
+		ePos = LEN(SiriusIrData);
+		SiriusirLine4Text = MID(SiriusIrData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("SIRIUSIR:LINE5TXT=",SiriusIrData))
+	{
+		sPos = FIND("=",SiriusIrData);
+		ePos = LEN(SiriusIrData);
+		SiriusirLine5Text = MID(SiriusIrData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("SIRIUSIR:LINE6TXT=",SiriusIrData))
+	{
+		sPos = FIND("=",SiriusIrData);
+		ePos = LEN(SiriusIrData);
+		SiriusirLine6Text = MID(SiriusIrData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("SIRIUSIR:LINE7TXT=",SiriusIrData))
+	{
+		sPos = FIND("=",SiriusIrData);
+		ePos = LEN(SiriusIrData);
+		SiriusirLine7Text = MID(SiriusIrData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("SIRIUSIR:LINE8TXT=",SiriusIrData))
+	{
+		sPos = FIND("=",SiriusIrData);
+		ePos = LEN(SiriusIrData);
+		SiriusirLine8Text = MID(SiriusIrData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("SIRIUSIR:SONG=",SiriusIrData))
+	{
+		sPos = FIND("=",SiriusIrData);
+		ePos = LEN(SiriusIrData);
+		SiriusirCurrSongText = MID(SiriusIrData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("SIRIUSIR:ARTIST=",SiriusIrData))
+	{
+		sPos = FIND("=",SiriusIrData);
+		ePos = LEN(SiriusIrData);
+		SiriusirCurrArtistText = MID(SiriusIrData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("SIRIUSIR:ALBUM=",SiriusIrData))
+	{
+		sPos = FIND("=",SiriusIrData);
+		ePos = LEN(SiriusIrData);
+		SiriusirCurrAlbumText = MID(SiriusIrData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("SIRIUSIR:CHNAME=",SiriusIrData))
+	{
+		sPos = FIND("=",SiriusIrData);
+		ePos = LEN(SiriusIrData);
+		SiriusirCurrChannelText = MID(SiriusIrData,sPos +1,ePos);	
+	}
+}      
+
+//RHAPSODY
+FUNCTION fn_ParseRhap(STRING RhapData)
+{
+
+	INTEGER sPos;
+	INTEGER ePos;
+
+	IF(FIND("RHAP:LISTLAYER=",RhapData))
+	{
+		sPos = FIND("=",RhapData);
+		ePos = LEN(RhapData);
+		RhapListLayer = MID(RhapData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("RHAP:LISTLAYERNAME=",RhapData))
+	{
+		sPos = FIND("=",RhapData);
+		ePos = LEN(RhapData);
+		RhapListName = MID(RhapData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("RHAP:LINE1TXT=",RhapData))
+	{
+		sPos = FIND("=",RhapData);
+		ePos = LEN(RhapData);
+		RhapLine1Text = MID(RhapData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("RHAP:LINE2TXT=",RhapData))
+	{
+		sPos = FIND("=",RhapData);
+		ePos = LEN(RhapData);
+		RhapLine2Text = MID(RhapData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("RHAP:LINE3TXT=",RhapData))
+	{
+		sPos = FIND("=",RhapData);
+		ePos = LEN(RhapData);
+		RhapLine3Text = MID(RhapData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("RHAP:LINE4TXT=",RhapData))
+	{
+		sPos = FIND("=",RhapData);
+		ePos = LEN(RhapData);
+		RhapLine4Text = MID(RhapData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("RHAP:LINE5TXT=",RhapData))
+	{
+		sPos = FIND("=",RhapData);
+		ePos = LEN(RhapData);
+				RhapLine5Text = MID(RhapData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("RHAP:LINE6TXT=",RhapData))
+	{
+		sPos = FIND("=",RhapData);
+		ePos = LEN(RhapData);
+		RhapLine6Text = MID(RhapData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("RHAP:LINE7TXT=",RhapData))
+	{
+		sPos = FIND("=",RhapData);
+		ePos = LEN(RhapData);
+		RhapLine7Text = MID(RhapData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("RHAP:LINE8TXT=",RhapData))
+	{
+		sPos = FIND("=",RhapData);
+		ePos = LEN(RhapData);
+		RhapLine8Text = MID(RhapData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("RHAP:SONG=",RhapData))
+	{
+		sPos = FIND("=",RhapData);
+		ePos = LEN(RhapData);
+		RhapCurrSongText = MID(RhapData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("RHAP:ARTIST=",RhapData))
+	{
+		sPos = FIND("=",RhapData);
+		ePos = LEN(RhapData);
+		RhapCurrArtistText = MID(RhapData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("RHAP:ALBUM=",RhapData))
+	{
+		sPos = FIND("=",RhapData);
+		ePos = LEN(RhapData);
+		RhapCurrAlbumText = MID(RhapData,sPos +1,ePos);	
+	}
+}
+
+//PC
+FUNCTION fn_ParsePc(STRING PcInfo)
+{
+	INTEGER sPos;
+	INTEGER ePos;
+
+	IF(FIND("PC:LISTLAYER=",PcInfo))
+	{
+		sPos = FIND("=",PcInfo);
+		ePos = LEN(PcInfo);
+		PcListLayer = MID(PcInfo,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PC:LISTLAYERNAME=",PcInfo))
+	{
+		sPos = FIND("=",PcInfo);
+		ePos = LEN(PcInfo);
+		PcListName = MID(PcInfo,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PC:LINE1TXT=",PcInfo))
+	{
+		sPos = FIND("=",PcInfo);
+		ePos = LEN(PcInfo);
+		PcLine1Text = MID(PcInfo,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PC:LINE2TXT=",PcInfo))
+	{
+		sPos = FIND("=",PcInfo);
+		ePos = LEN(PcInfo);
+		PcLine2Text = MID(PcInfo,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PC:LINE3TXT=",PcInfo))
+	{
+		sPos = FIND("=",PcInfo);
+		ePos = LEN(PcInfo);
+		PcLine3Text = MID(PcInfo,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PC:LINE4TXT=",PcInfo))
+	{
+		sPos = FIND("=",PcInfo);
+		ePos = LEN(PcInfo);
+		PcLine4Text = MID(PcInfo,sPos +1,ePos);	
+	}
+        	
+	ELSE IF(FIND("PC:LINE5TXT=",PcInfo))
+	{
+		sPos = FIND("=",PcInfo);
+		ePos = LEN(PcInfo);
+		PcLine5Text = MID(PcInfo,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PC:LINE6TXT=",PcInfo))
+	{
+		sPos = FIND("=",PcInfo);
+		ePos = LEN(PcInfo);
+		PcLine6Text = MID(PcInfo,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PC:LINE7TXT=",PcInfo))
+	{
+		sPos = FIND("=",PcInfo);
+		ePos = LEN(PcInfo);
+		PcLine7Text = MID(PcInfo,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PC:LINE8TXT=",PcInfo))
+	{
+		sPos = FIND("=",PcInfo);
+		ePos = LEN(PcInfo);
+		PcLine8Text = MID(PcInfo,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PC:SONG=",PcInfo))
+	{
+		sPos = FIND("=",PcInfo);
+		ePos = LEN(PcInfo);
+		PcCurrSongText = MID(PcInfo,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PC:ARTIST=",PcInfo))
+	{
+		sPos = FIND("=",PcInfo);
+		ePos = LEN(PcInfo);
+		PcCurrArtistText = MID(PcInfo,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PC:ALBUM=",PcInfo))
+	{
+		sPos = FIND("=",PcInfo);
+		ePos = LEN(PcInfo);
+		PcCurrAlbumText = MID(PcInfo,sPos +1,ePos);	
+	}
+}
+
+
+//NET RADIO FUNCTION
+FUNCTION fn_ParseNetRadio(STRING NetRadioData)
+{
+	INTEGER sPos;
+	INTEGER ePos;
+
+	//TRACE("NetRadioData Is %s\n",NetRadioData);
+
+	IF(FIND("NETRADIO:LISTLAYER=",NetRadioData))
+	{
+		sPos = FIND("=",NetRadioData);
+		ePos = LEN(NetRadioData);
+		NetRadioListLayer = MID(NetRadioData,sPos +1,ePos);
+	}
+
+	ELSE IF(FIND("NETRADIO:LISTLAYERNAME=",NetRadioData))
+	{
+		sPos = FIND("=",NetRadioData);
+		ePos = LEN(NetRadioData);
+		NetRadioListName = MID(NetRadioData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NETRADIO:LINE1TXT=",NetRadioData))
+	{
+		sPos = FIND("=",NetRadioData);
+		ePos = LEN(NetRadioData);
+		NetRadioLine1Text = MID(NetRadioData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NETRADIO:LINE2TXT=",NetRadioData))
+	{
+		sPos = FIND("=",NetRadioData);
+		ePos = LEN(NetRadioData);
+		NetRadioLine2Text = MID(NetRadioData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NETRADIO:LINE3TXT=",NetRadioData))
+	{
+		sPos = FIND("=",NetRadioData);
+		ePos = LEN(NetRadioData);
+		NetRadioLine3Text = MID(NetRadioData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NETRADIO:LINE4TXT=",NetRadioData))
+	{
+		sPos = FIND("=",NetRadioData);
+		ePos = LEN(NetRadioData);
+		NetRadioLine4Text = MID(NetRadioData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NETRADIO:LINE5TXT=",NetRadioData))
+	{
+		sPos = FIND("=",NetRadioData);
+		ePos = LEN(NetRadioData);
+		NetRadioLine5Text = MID(NetRadioData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NETRADIO:LINE6TXT=",NetRadioData))
+	{
+		sPos = FIND("=",NetRadioData);
+		ePos = LEN(NetRadioData);
+		NetRadioLine6Text = MID(NetRadioData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NETRADIO:LINE7TXT=",NetRadioData))
+	{
+		sPos = FIND("=",NetRadioData);
+		ePos = LEN(NetRadioData);
+		NetRadioLine7Text = MID(NetRadioData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NETRADIO:LINE8TXT=",NetRadioData))
+	{
+		sPos = FIND("=",NetRadioData);
+		ePos = LEN(NetRadioData);
+		NetRadioLine8Text = MID(NetRadioData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NETRADIO:SONG=",NetRadioData))
+	{
+		sPos = FIND("=",NetRadioData);
+		ePos = LEN(NetRadioData);
+		NetRadioCurrSongText = MID(NetRadioData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NETRADIO:ARTIST=",NetRadioData))
+	{
+		sPos = FIND("=",NetRadioData);
+		ePos = LEN(NetRadioData);
+		NetRadioCurrArtistText = MID(NetRadioData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NETRADIO:ALBUM=",NetRadioData))
+	{
+		sPos = FIND("=",NetRadioData);
+		ePos = LEN(NetRadioData);
+		NetRadioCurrAlbumText = MID(NetRadioData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("NETRADIO:STATION=",NetRadioData))
+	{
+		sPos = FIND("=",NetRadioData);
+		ePos = LEN(NetRadioData);
+		NetRadioCurrChannelText = MID(NetRadioData,sPos +1,ePos);	
+	}	
+}
+ 
+
+//USB STUFF
+FUNCTION fn_ParseUsb(STRING usbData)
+{
+	INTEGER sPos;
+	INTEGER ePos;
+
+	IF(FIND("USB:LISTLAYER=",usbData))
+	{
+		sPos = FIND("=",usbData);
+		ePos = LEN(usbData);
+		USBListLayer = MID(usbData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("USB:LISTLAYERNAME=",usbData))
+	{
+		sPos = FIND("=",usbData);
+		ePos = LEN(usbData);
+		USBListName = MID(usbData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("USB:LINE1TXT=",usbData))
+	{
+		sPos = FIND("=",usbData);
+		ePos = LEN(usbData);
+		USBLine1Text = MID(usbData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("USB:LINE2TXT=",usbData))
+	{
+		sPos = FIND("=",usbData);
+		ePos = LEN(usbData);
+		USBLine2Text = MID(usbData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("USB:LINE3TXT=",usbData))
+	{
+		sPos = FIND("=",usbData);
+		ePos = LEN(usbData);
+		USBLine3Text = MID(usbData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("USB:LINE4TXT=",usbData))
+	{
+		sPos = FIND("=",usbData);
+		ePos = LEN(usbData);
+		USBLine4Text = MID(usbData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("USB:LINE5TXT=",usbData))
+	{
+		sPos = FIND("=",usbData);
+		ePos = LEN(usbData);
+		USBLine5Text = MID(usbData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("USB:LINE6TXT=",usbData))
+	{
+		sPos = FIND("=",usbData);
+		ePos = LEN(usbData);
+		USBLine6Text = MID(usbData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("USB:LINE7TXT=",usbData))
+	{
+		sPos = FIND("=",usbData);
+		ePos = LEN(usbData);
+		USBLine7Text = MID(usbData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("USB:LINE8TXT=",usbData))
+	{
+		sPos = FIND("=",usbData);
+		ePos = LEN(usbData);
+		USBLine8Text = MID(usbData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("USB:SONG=",usbData))
+	{
+		sPos = FIND("=",usbData);
+		ePos = LEN(usbData);
+		USBCurrSongText = MID(usbData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("USB:ARTIST=",usbData))
+	{
+		sPos = FIND("=",usbData);
+		ePos = LEN(usbData);
+		USBCurrArtistText = MID(usbData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("USB:ALBUM=",usbData))
+	{
+		sPos = FIND("=",usbData);
+		ePos = LEN(usbData);
+		USBCurrAlbumText = MID(usbData,sPos +1,ePos);	
+	}
+}
+
+
+
+//PANDORA FUNCTION
+FUNCTION fn_ParsePandora(STRING PandoraData)
+{
+
+	INTEGER sPos;
+	INTEGER ePos;
+
+	IF(FIND("PANDORA:LISTLAYER=",PandoraData))
+	{
+		sPos = FIND("=",PandoraData);
+		ePos = LEN(PandoraData);
+		PandListLayer = MID(PandoraData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PANDORA:LISTLAYERNAME=",PandoraData))
+	{
+		sPos = FIND("=",PandoraData);
+		ePos = LEN(PandoraData);
+		PandListName = MID(PandoraData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PANDORA:LINE1TXT=",PandoraData))
+	{
+		sPos = FIND("=",PandoraData);
+		ePos = LEN(PandoraData);
+		PandLine1Text = MID(PandoraData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PANDORA:LINE2TXT=",PandoraData))
+	{
+		sPos = FIND("=",PandoraData);
+		ePos = LEN(PandoraData);
+		PandLine2Text = MID(PandoraData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PANDORA:LINE3TXT=",PandoraData))
+	{
+		sPos = FIND("=",PandoraData);
+		ePos = LEN(PandoraData);
+		PandLine3Text = MID(PandoraData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PANDORA:LINE4TXT=",PandoraData))
+	{
+		sPos = FIND("=",PandoraData);
+		ePos = LEN(PandoraData);
+		PandLine4Text = MID(PandoraData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PANDORA:LINE5TXT=",PandoraData))
+	{
+		sPos = FIND("=",PandoraData);
+		ePos = LEN(PandoraData);
+		PandLine5Text = MID(PandoraData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PANDORA:LINE6TXT=",PandoraData))
+	{
+		sPos = FIND("=",PandoraData);
+		ePos = LEN(PandoraData);
+		PandLine6Text = MID(PandoraData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PANDORA:LINE7TXT=",PandoraData))
+	{
+		sPos = FIND("=",PandoraData);
+		ePos = LEN(PandoraData);
+		PandLine7Text = MID(PandoraData,sPos +1,ePos);	
+	}	
+
+	ELSE IF(FIND("PANDORA:LINE8TXT=",PandoraData))
+	{
+		sPos = FIND("=",PandoraData);
+		ePos = LEN(PandoraData);
+		PandLine8Text = MID(PandoraData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PANDORA:SONG=",PandoraData))
+	{
+		sPos = FIND("=",PandoraData);
+		ePos = LEN(PandoraData);
+		PandCurrSongText = MID(PandoraData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PANDORA:ALBUM=",PandoraData))
+	{
+		sPos = FIND("=",PandoraData);
+		ePos = LEN(PandoraData);
+		PandCurrAlbumText = MID(PandoraData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("PANDORA:STATION=",PandoraData))
+	{
+		sPos = FIND("=",PandoraData);
+		ePos = LEN(PandoraData);
+		PandCurrStationText = MID(PandoraData,sPos +1,ePos);	
+	}
+
+}
+
+
+//IPOD STUFF
+FUNCTION fn_ParseiPod(STRING iPodData)
+{
+	INTEGER sPos;
+	INTEGER ePos;
+
+	IF(FIND("IPOD:LISTLAYER=",iPodData))
+	{
+		sPos = FIND("=",iPodData);
+		ePos = LEN(iPodData);
+		iPodListLayer = MID(iPodData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPOD:LISTLAYERNAME=",iPodData))
+	{
+		sPos = FIND("=",iPodData);
+		ePos = LEN(iPodData);
+		iPodListName = MID(iPodData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPOD:LINE1TXT=",iPodData))
+	{
+		sPos = FIND("=",iPodData);
+		ePos = LEN(iPodData);
+		iPodLine1Text = MID(iPodData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPOD:LINE2TXT=",iPodData))
+	{
+		sPos = FIND("=",iPodData);
+		ePos = LEN(iPodData);
+		iPodLine2Text = MID(iPodData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPOD:LINE3TXT=",iPodData))
+	{
+		sPos = FIND("=",iPodData);
+		ePos = LEN(iPodData);
+		iPodLine3Text = MID(iPodData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPOD:LINE4TXT=",iPodData))
+	{
+		sPos = FIND("=",iPodData);
+		ePos = LEN(iPodData);
+		iPodLine4Text = MID(iPodData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPOD:LINE5TXT=",iPodData))
+	{
+		sPos = FIND("=",iPodData);
+		ePos = LEN(iPodData);
+		iPodLine5Text = MID(iPodData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPOD:LINE6TXT=",iPodData))
+	{
+		sPos = FIND("=",iPodData);
+		ePos = LEN(iPodData);
+		iPodLine6Text = MID(iPodData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPOD:LINE7TXT=",iPodData))
+	{
+		sPos = FIND("=",iPodData);
+		ePos = LEN(iPodData);
+		iPodLine7Text = MID(iPodData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPOD:LINE8TXT=",iPodData))
+	{
+		sPos = FIND("=",iPodData);
+		ePos = LEN(iPodData);
+		iPodLine8Text = MID(iPodData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPOD:SONG=",iPodData))
+	{
+		sPos = FIND("=",iPodData);
+		ePos = LEN(iPodData);
+		iPodCurrSongText = MID(iPodData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPOD:ARTIST=",iPodData))
+	{
+		sPos = FIND("=",iPodData);
+		ePos = LEN(iPodData);
+		iPodCurrArtistText = MID(iPodData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPOD:ALBUM=",iPodData))
+	{
+		sPos = FIND("=",iPodData);
+		ePos = LEN(iPodData);
+		iPodCurrAlbumText = MID(iPodData,sPos +1,ePos);	
+	}
+}
+
+
+
+//SIRIUS STUFF
+FUNCTION fn_ParseSirius(STRING SiriusData)
+{
+	INTEGER sPos;
+	INTEGER ePos;
+
+	IF(FIND("SIRIUS:ANTLVL=",SiriusData))
+	{
+		sPos = FIND("=",SiriusData);
+		ePos = LEN(SiriusData);
+		SiriusAntLevel = MID(SiriusData,sPos +1,ePos);	
+	}
+	IF(FIND("SIRIUS:CATNAME=",SiriusData))
+	{
+		sPos = FIND("=",SiriusData);
+		ePos = LEN(SiriusData);
+		SiriusCurrCatText = MID(SiriusData,sPos +1,ePos);	
+	}
+	IF(FIND("SIRIUS:CHNUM=",SiriusData))
+	{
+		sPos = FIND("=",SiriusData);
+		ePos = LEN(SiriusData);
+		SiriusCurrChanNumText = MID(SiriusData,sPos +1,ePos);	
+	}
+	IF(FIND("SIRIUS:CHNAME=",SiriusData))
+	{
+		sPos = FIND("=",SiriusData);
+		ePos = LEN(SiriusData);
+		SiriusCurrChanNameText = MID(SiriusData,sPos +1,ePos);	
+	}
+	IF(FIND("SIRIUS:ARTIST=",SiriusData))
+	{
+		sPos = FIND("=",SiriusData);
+		ePos = LEN(SiriusData);
+		SiriusCurrArtistText = MID(SiriusData,sPos +1,ePos);	
+	}
+	IF(FIND("SIRIUS:SONG=",SiriusData))
+	{
+		sPos = FIND("=",SiriusData);
+		ePos = LEN(SiriusData);
+		SiriusCurrSongText = MID(SiriusData,sPos +1,ePos);	
+	}
+	IF(FIND("SIRIUS:COMPOSER=",SiriusData))
+	{
+		sPos = FIND("=",SiriusData);
+		ePos = LEN(SiriusData);
+		SiriusCurrCompText = MID(SiriusData,sPos +1,ePos);	
+	}
+}
+
+
+//iPodUSB STUFF
+FUNCTION fn_ParseiPodUSB(STRING iPodUSBData)
+{
+	INTEGER sPos;
+	INTEGER ePos;
+
+	IF(FIND("IPODUSB:LISTLAYER=",iPodUSBData))
+	{
+		sPos = FIND("=",iPodUSBData);
+		ePos = LEN(iPodUSBData);
+		iPodUSBListLayer = MID(iPodUSBData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPODUSBB:LISTLAYERNAME=",iPodUSBData))
+	{
+		sPos = FIND("=",iPodUSBData);
+		ePos = LEN(iPodUSBData);
+		iPodUSBListName = MID(iPodUSBData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPODUSB:LINE1TXT=",iPodUSBData))
+	{
+		sPos = FIND("=",iPodUSBData);
+		ePos = LEN(iPodUSBData);
+		iPodUSBLine1Text = MID(iPodUSBData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPODUSB:LINE2TXT=",iPodUSBData))
+	{
+		sPos = FIND("=",iPodUSBData);
+		ePos = LEN(iPodUSBData);
+		iPodUSBLine2Text = MID(iPodUSBData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPODUSB:LINE3TXT=",iPodUSBData))
+	{
+		sPos = FIND("=",iPodUSBData);
+		ePos = LEN(iPodUSBData);
+		iPodUSBLine3Text = MID(iPodUSBData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPODUSB:LINE4TXT=",iPodUSBData))
+	{
+		sPos = FIND("=",iPodUSBData);
+		ePos = LEN(iPodUSBData);
+		iPodUSBLine4Text = MID(iPodUSBData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPODUSB:LINE5TXT=",iPodUSBData))
+	{
+		sPos = FIND("=",iPodUSBData);
+		ePos = LEN(iPodUSBData);
+		iPodUSBLine5Text = MID(iPodUSBData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPODUSB:LINE6TXT=",iPodUSBData))
+	{
+		sPos = FIND("=",iPodUSBData);
+		ePos = LEN(iPodUSBData);
+		iPodUSBLine6Text = MID(iPodUSBData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPODUSB:LINE7TXT=",iPodUSBData))
+	{
+		sPos = FIND("=",iPodUSBData);
+		ePos = LEN(iPodUSBData);
+		iPodUSBLine7Text = MID(iPodUSBData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPODUSB:LINE8TXT=",iPodUSBData))
+	{
+		sPos = FIND("=",iPodUSBData);
+		ePos = LEN(iPodUSBData);
+		iPodUSBLine8Text = MID(iPodUSBData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPODUSB:SONG=",iPodUSBData))
+	{
+		sPos = FIND("=",iPodUSBData);
+		ePos = LEN(iPodUSBData);
+		iPodUSBCurrSongText = MID(iPodUSBData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPODUSB:ARTIST=",iPodUSBData))
+	{
+		sPos = FIND("=",iPodUSBData);
+		ePos = LEN(iPodUSBData);
+		iPodUSBCurrArtistText = MID(iPodUSBData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("IPODUSB:ALBUM=",iPodUSBData))
+	{
+		sPos = FIND("=",iPodUSBData);
+		ePos = LEN(iPodUSBData);
+		iPodUSBCurrAlbumText = MID(iPodUSBData,sPos +1,ePos);	
+	}
+}
+
+//AIRPLAY FUNCTION
+FUNCTION fn_ParseAirplay(STRING AirplayData)
+{
+	INTEGER sPos;
+	INTEGER ePos;
+
+	//TRACE("AirplayData Is %s\n",AirplayData);
+
+	IF(FIND("AIRPLAY:SONG=",AirplayData))
+	{
+		sPos = FIND("=",AirplayData);
+		ePos = LEN(AirplayData);
+		AirplayCurrSongText = MID(AirplayData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("AIRPLAY:ARTIST=",AirplayData))
+	{
+		sPos = FIND("=",AirplayData);
+		ePos = LEN(AirplayData);
+		AirplayCurrArtistText = MID(AirplayData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("AIRPLAY:ALBUM=",AirplayData))
+	{
+		sPos = FIND("=",AirplayData);
+		ePos = LEN(AirplayData);
+		AirplayCurrAlbumText = MID(AirplayData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("AIRPLAY:ELAPSEDTIME=",AirplayData))
+	{
+		sPos = FIND("=",AirplayData);
+		ePos = LEN(AirplayData);
+		AirplayElapsedTimeText = MID(AirplayData,sPos +1,ePos);	
+	}
+
+	ELSE IF(FIND("AIRPLAY:TOTALTIME=",AirplayData))
+	{
+		sPos = FIND("=",AirplayData);
+		ePos = LEN(AirplayData);
+		AirplayTotalTimeText = MID(AirplayData,sPos +1,ePos);	
+	}
+	
+} 
+
+FUNCTION fnProcessData(STRING 
+SData)
+{
+	STRING sTemp[600];
+	STRING sTrash[100];
+		
+	WHILE (FIND("\x0D\x0A",SData))
+   	{
+   		sTemp = fn_parseDelimitedText(SData,"@","\x0D\x0A",0);
+		sTrash = REMOVE("\x0D\x0A",SData);
+		
+		RxProcessed = sTemp;
+      	
+		SWITCH(1)
+		{
+			CASE(FIND("MAIN",sTemp)>0):
+			{
+           		fn_ParseMain(sTemp);
+        	}
+
+			CASE(FIND("ZONE2",sTemp)>0):
+			{
+           		fn_ParseZone2(sTemp);
+        	}
+
+			CASE(FIND("ZONE3",sTemp)>0):
+			{
+           		fn_ParseZone3(sTemp);
+        	}
+
+			CASE(FIND("ZONE4",sTemp)>0):
+			{
+           		fn_ParseZone4(sTemp);
+        	}
+
+			CASE(FIND("HDRADIO",sTemp)>0):
+			{
+           		fn_ParseTuner(sTemp);
+        	}
+
+			CASE(FIND("SIRIUS",sTemp)>0):
+			{
+				fn_ParseSirius(sTemp);
+			}
+
+			CASE(FIND("PANDORA",sTemp)>0):
+			{
+           		fn_ParsePandora(sTemp);
+        	}
+
+			CASE(FIND("NAPSTER",sTemp)>0):
+			{
+           		fn_ParseNapster(sTemp);
+        	}
+
+			CASE(FIND("SIRIUSIR",sTemp)>0):
+			{
+           		fn_ParseSiriusIr(sTemp);
+        	}
+
+			CASE(FIND("RHAP",sTemp)>0):
+			{
+           		fn_ParseRhap(sTemp);
+        	}
+			CASE(FIND("PC",sTemp)>0):
+			{
+           		fn_ParsePc(sTemp);
+        	}
+
+			CASE(FIND("IPODUSB",sTemp)>0):
+			{
+				fn_ParseiPodUSB(sTemp);
+			}
+
+			CASE(FIND("USB",sTemp)>0):
+			{
+           		fn_ParseUsb(sTemp);
+        	}
+
+			CASE(FIND("NETRADIO",sTemp)>0):
+			{
+				fn_ParseNetRadio(sTemp);
+			}
+
+			CASE(FIND("IPOD",sTemp)>0):
+			{
+				fn_ParseiPod(sTemp);
+			}
+
+			CASE(FIND("AIRPLAY",sTemp)>0):
+			{
+				fn_ParseAirplay(sTemp);
+			}
+
+		}
+	}
+	CLEARBUFFER(SData);
+    CLEARBUFFER(g_SData);
+	trace("Parsing OFF\n");
+	g_bParsing = 0;
+}
+
+
+
+
+/*******************************************************************************************
+  Event Handlers
+  (Uncomment and declare additional event handlers as needed)
+*******************************************************************************************/
+PUSH Connect
+{
+	SocketConnectClient(ClientSocket,ClientSocketAddress,ClientSocketPort,1);	
+}
+
+CHANGE CmdIn
+{
+	CmdToSend = CmdIn;
+
+	RS232_To_Dev = CmdToSend;
+	
+	IF (ClientSocketStatus = 2)
+	{
+		SocketSend(ClientSocket,CmdToSend);
+		CmdToSend = "";
+	} 
+}
+
+CHANGE TunerDirVal
+{
+	IF(TunerIsFm = True)
+	{
+		MAKESTRING(CmdToSend,"@HDRADIO:FMFREQ=%d\n",TunerDirVal);
+		
+		RS232_To_Dev = CmdToSend;
+
+		IF (ClientSocketStatus = 2)
+		{
+			SocketSend(ClientSocket,CmdToSend);
+			CmdToSend = "";
+		}
+	}
+	ELSE
+	{
+		MAKESTRING(CmdToSend,"@HDRADIO:AMFREQ=%d\n",TunerDirVal);
+
+		RS232_To_Dev = CmdToSend;
+
+		IF (ClientSocketStatus = 2)
+		{
+			SocketSend(ClientSocket,CmdToSend);
+			CmdToSend = "";
+		}      
+	}
+}
+
+CHANGE SiriusDirVal
+{
+	MAKESTRING(CmdToSend,"@SIRIUS:CHSEL=%d\n",SiriusDirVal);
+		
+		RS232_To_Dev = CmdToSend;
+
+		IF (ClientSocketStatus = 2)
+		{
+			SocketSend(ClientSocket,CmdToSend);
+			CmdToSend = "";
+		}
+}
+
+CHANGE VolDirVal
+{
+	INTEGER actualvol;
+	actualvol = (VolDirVal/335);
+
+    if (actualvol MOD 2 = 1)
+	{
+		MAKESTRING(CmdToSend,"@MAIN:VOL=%d.5\n",(actualvol-162)/2);
+	}
+	else
+	{
+		MAKESTRING(CmdToSend,"@MAIN:VOL=%d.0\n",(actualvol-162)/2);
+	}
+		
+		RS232_To_Dev = CmdToSend;
+
+		IF (ClientSocketStatus = 2)
+		{
+			SocketSend(ClientSocket,CmdToSend);
+			CmdToSend = "";
+		}
+}
+
+CHANGE Vol2DirVal
+{
+	INTEGER actualvol;
+	actualvol = (Vol2DirVal/335);
+
+    if (actualvol MOD 2 = 1)
+	{
+		MAKESTRING(CmdToSend,"@ZONE2:VOL=%d.5\n",(actualvol-162)/2);
+	}
+	else
+	{
+		MAKESTRING(CmdToSend,"@ZONE2:VOL=%d.0\n",(actualvol-162)/2);
+	}
+		
+		RS232_To_Dev = CmdToSend;
+
+		IF (ClientSocketStatus = 2)
+		{
+			SocketSend(ClientSocket,CmdToSend);
+			CmdToSend = "";
+		}
+}
+
+CHANGE BassDirVal
+{
+	SIGNED_INTEGER actualbass;
+	actualbass = BassDirVal;
+
+    if (abs(actualbass) MOD 2 = 1)
+	{
+		MAKESTRING(CmdToSend,"@MAIN:TONEBASS=%d.5\n",actualbass/2);
+	}
+	else
+	{
+		MAKESTRING(CmdToSend,"@MAIN:TONEBASS=%d.0\n",actualbass/2);
+	}
+		
+		RS232_To_Dev = CmdToSend;
+		trace("%s",CmdToSend);
+
+		IF (ClientSocketStatus = 2)
+		{
+			SocketSend(ClientSocket,CmdToSend);
+			CmdToSend = "";
+		}
+}
+
+CHANGE TrebleDirVal
+{
+	SIGNED_INTEGER actualtreble;
+	actualtreble = TrebleDirVal;
+
+    if (abs(actualtreble) MOD 2 = 1)
+	{
+		MAKESTRING(CmdToSend,"@MAIN:TONETREBLE=%d.5\n",actualtreble/2);
+	}
+	else
+	{
+		MAKESTRING(CmdToSend,"@MAIN:TONETREBLE=%d.0\n",actualtreble/2);
+	}
+		
+		RS232_To_Dev = CmdToSend;
+
+		IF (ClientSocketStatus = 2)
+		{
+			SocketSend(ClientSocket,CmdToSend);
+			CmdToSend = "";
+		}
+}
+
+CHANGE Bass2DirVal
+{
+	SIGNED_INTEGER actualbass;
+	actualbass = Bass2DirVal;
+
+    if (abs(actualbass) MOD 2 = 1)
+	{
+		MAKESTRING(CmdToSend,"@ZONE2:TONEBASS=%d.5\n",actualbass/2);
+	}
+	else
+	{
+		MAKESTRING(CmdToSend,"@ZONE2:TONEBASS=%d.0\n",actualbass/2);
+	}
+		
+		RS232_To_Dev = CmdToSend;
+		trace("%s",CmdToSend);
+
+		IF (ClientSocketStatus = 2)
+		{
+			SocketSend(ClientSocket,CmdToSend);
+			CmdToSend = "";
+		}
+}
+
+CHANGE Treble2DirVal
+{
+	SIGNED_INTEGER actualtreble;
+	actualtreble = Treble2DirVal;
+
+    if (abs(actualtreble) MOD 2 = 1)
+	{
+		MAKESTRING(CmdToSend,"@ZONE2:TONETREBLE=%d.5\n",actualtreble/2);
+	}
+	else
+	{
+		MAKESTRING(CmdToSend,"@ZONE2:TONETREBLE=%d.0\n",actualtreble/2);
+	}
+		
+		RS232_To_Dev = CmdToSend;
+
+		IF (ClientSocketStatus = 2)
+		{
+			SocketSend(ClientSocket,CmdToSend);
+			CmdToSend = "";
+		}
+}
+
+PUSH Pandora_Mem_Save
+{
+	MAKESTRING(CmdToSend,"@PANDORA:MEM=%d\n",Pandora_Mem_Loc_Val);
+
+	RS232_To_Dev = CmdToSend;
+
+	IF (ClientSocketStatus = 2)
+	{
+		SocketSend(ClientSocket,CmdToSend);
+		CmdToSend = "";
+	}
+}
+
+
+PUSH Napster_Mem_Save
+{
+	MAKESTRING(CmdToSend,"@NAPSTER:MEM=%d\n",Napster_Mem_Loc_Val);
+
+	RS232_To_Dev = CmdToSend;
+
+	IF (ClientSocketStatus = 2)
+	{
+		SocketSend(ClientSocket,CmdToSend);
+		CmdToSend = "";
+	}
+}
+
+PUSH Siriusir_Mem_Save
+{
+	MAKESTRING(CmdToSend,"@SIRIUSIR:MEM=%d\n",Siriusir_Mem_Loc_Val);
+
+	RS232_To_Dev = CmdToSend;
+
+	IF (ClientSocketStatus = 2)
+	{
+		SocketSend(ClientSocket,CmdToSend);
+		CmdToSend = "";
+	}
+}
+
+PUSH Rhap_Mem_Save
+{
+	MAKESTRING(CmdToSend,"@RHAP:MEM=%d\n",Rhap_Mem_Loc_Val);
+
+	RS232_To_Dev = CmdToSend;
+
+	IF (ClientSocketStatus = 2)
+	{
+		SocketSend(ClientSocket,CmdToSend);
+		CmdToSend = "";
+	}
+}
+
+PUSH Pc_Mem_Save
+{
+	MAKESTRING(CmdToSend,"@PC:MEM=%d\n",Pc_Mem_Loc_Val);
+
+	RS232_To_Dev = CmdToSend;
+
+	IF (ClientSocketStatus = 2)
+	{
+		SocketSend(ClientSocket,CmdToSend);
+		CmdToSend = "";
+	}
+}
+
+PUSH NetRadio_Mem_Save
+{
+	MAKESTRING(CmdToSend,"@NETRADIO:MEM=%d\n",NetRadio_Mem_Loc_Val);
+
+	RS232_To_Dev = CmdToSend;
+
+	IF (ClientSocketStatus = 2)
+	{
+		SocketSend(ClientSocket,CmdToSend);
+		CmdToSend = "";
+	}
+}
+
+PUSH NetRadio_Mem_Recall
+{
+	MAKESTRING(CmdToSend,"@NETRADIO:PRESET=%d\n",NetRadio_Mem_Loc_Val);
+
+	RS232_To_Dev = CmdToSend;
+
+	IF (ClientSocketStatus = 2)
+	{
+		SocketSend(ClientSocket,CmdToSend);
+		CmdToSend = "";
+	}
+}
+
+PUSH USB_Mem_Save
+{
+	MAKESTRING(CmdToSend,"@USB:MEM=%d\n",USB_Mem_Loc_Val);
+
+	RS232_To_Dev = CmdToSend;
+
+	IF (ClientSocketStatus = 2)
+	{
+		SocketSend(ClientSocket,CmdToSend);
+		CmdToSend = "";
+	}
+}
+
+PUSH Sirius_Mem_Save
+{
+	MAKESTRING(CmdToSend,"@SIRIUS:MEM=%d\n",Sirius_Mem_Loc_Val);
+
+	RS232_To_Dev = CmdToSend;
+
+	IF (ClientSocketStatus = 2)
+	{
+		SocketSend(ClientSocket,CmdToSend);
+		CmdToSend = "";
+	}
+}
+
+ 
+
+CHANGE RS232FromDev
+{
+
+	//integer i;    
+
+	//while(g_bParsing) processLogic();
+
+	g_SData = GATHER("\x0D\x0A",RS232FromDev,500);
+	TRACE("g_sData is %s\n",g_SData);
+
+	//clearBuffer(RS232FromDev);
+    
+	if(len(g_SData) > 0)
+	{
+		//g_bParsing = 1;
+		trace("Parsing ON\n");
+
+		fnProcessData(g_SData);
+	}
+	//fnProcessData(g_SData);
+	//trace("Parsing ON\n");
+}
+
+
+/*
+CHANGE RS232FromDev
+{
+	integer i; 
+
+	TRACE("Buffer Is %s",RS232FromDev);   
+
+	g_SData = GATHER("\x0D\x0A",RS232FromDev,100);
+	TRACE("g_sData is %s",g_SData);
+
+	if(len(g_SData) > 0)
+	{
+		g_bParsing = 1;
+		trace("Parsing ON");
+
+		fnProcessData(g_SData);
+	}
+	
+}
+*/
+
+
+//Socket Handling
+
+SOCKETCONNECT ClientSocket
+{	
+	//TRACE("Socket Connected");
+	Connected = True;
+}
+
+
+SOCKETDISCONNECT ClientSocket
+{
+	//TRACE("Socket Closed");
+	Connected = False;
+}
+
+
+SOCKETSTATUS ClientSocket
+{
+	ClientSocketStatus = SocketGetStatus();
+}
+
+
+SOCKETRECEIVE ClientSocket
+{
+	integer i;
+
+	while(g_bParsing) processLogic();
+
+	g_SData = ClientSocket.SocketRxBuf;
+	clearBuffer(ClientSocket.SocketRxBuf);
+
+	if(len(g_SData) > 0)
+	{
+		g_bParsing = 1;
+		trace("Parsing ON");
+
+		Wait(1) fnProcessData(g_SData);
+	}
+}
+
+/*******************************************************************************************
+  Main()
+  Uncomment and place one-time startup code here
+  (This code will get called when the system starts up)
+*******************************************************************************************/
+function Main()
+{
+	g_bParsing = 0;
+}
+

@@ -1,0 +1,10 @@
+<Device Model="MC3" Name="MC3.">
+   <Network Type="Cresnet" Id="01">
+      <Device Model="DIN-1DIMU4" DeviceId="0A"/>
+      <Device Model="C2N-CBD-P" DeviceId="25"/>
+      <Device Model="C2NI-CB" DeviceId="26"/>
+      <Device Model="DIN-8SW8-I" DeviceId="92"/>
+   </Network>
+   <Network Type="Ethernet" Id="02"/>
+   <Network Type="RF" Id="03"/>
+</Device>

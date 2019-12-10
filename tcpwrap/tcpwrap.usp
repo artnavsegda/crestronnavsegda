@@ -125,14 +125,17 @@ MyStruct1 struct;
   Note:  Functions must be physically placed before the location in
          the code that calls them.
 *******************************************************************************************/
-/*
+
 Function MyFunction1()
 {
     // TODO:  Add local variable declarations here
+	MyTCPServer tcpsrvinst;
 
     // TODO:  Add code here
+	MyTCPServer.MyFunction("hello");
+	tcpsrvinst.Init("hello");
 }
-*/
+
 
 /*
 Integer_Function MyIntFunction1()

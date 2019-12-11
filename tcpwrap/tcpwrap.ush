@@ -24,9 +24,11 @@
   SMWRev=2.02.05
   InputCue1=init
   InputSigType1=Digital
+  InputCue2=sample
+  InputSigType2=Digital
   ParamCue1=[Reference Name]
-  MinVariableInputs=1
-  MaxVariableInputs=1
+  MinVariableInputs=2
+  MaxVariableInputs=2
   MinVariableInputsList2=0
   MaxVariableInputsList2=0
   MinVariableOutputs=0

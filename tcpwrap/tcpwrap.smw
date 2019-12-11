@@ -1552,7 +1552,7 @@ Ym=-1
 SH=25
 Z=100
 Ht=1
-Hi=1
+Hi=2
 ]
 [
 ObjTp=Sm
@@ -1955,9 +1955,10 @@ Nm=tcpwrap.usp
 ObjVer=1
 PrH=4
 CF=2
-n1I=1
-mI=1
+n1I=2
+mI=2
 I1=4
+I2=5
 mP=1
 P1=
 ]
@@ -1965,4 +1966,9 @@ P1=
 ObjTp=Sg
 H=4
 Nm=S-1_init
+]
+[
+ObjTp=Sg
+H=5
+Nm=S-1_sample
 ]

@@ -49,7 +49,7 @@ Comments:
   DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
   (Uncomment and declare inputs and outputs as needed)
 *******************************************************************************************/
-DIGITAL_INPUT init;
+DIGITAL_INPUT init, sample;
 // ANALOG_INPUT 
 // STRING_INPUT 
 // BUFFER_INPUT 
@@ -132,7 +132,6 @@ Function MyFunction1()
 	MyTCPServer tcpsrvinst;
 
     // TODO:  Add code here
-	MyTCPServer.MyFunction("hello");
 	tcpsrvinst.Init("hello");
 }
 
@@ -169,6 +168,13 @@ PUSH init
     // TODO:  Add code here
 	MyFunction1();
 }
+
+PUSH sample
+{
+    // TODO:  Add code here
+	MyTCPServer.MyFunction("hello");
+}
+
 
 
 /*

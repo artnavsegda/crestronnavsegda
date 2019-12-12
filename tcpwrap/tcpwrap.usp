@@ -129,10 +129,10 @@ MyStruct1 struct;
 Function MyFunction1()
 {
     // TODO:  Add local variable declarations here
-	MyTCPServer tcpsrvinst;
+	Server tcpsrvinst;
 
     // TODO:  Add code here
-	tcpsrvinst.Init("hello");
+	tcpsrvinst.Init(9999,100);
 }
 
 
@@ -172,7 +172,7 @@ PUSH init
 PUSH sample
 {
     // TODO:  Add code here
-	MyTCPServer.MyFunction("hello");
+	//ServerMyTCPServer.MyFunction("hello");
 }
 
 

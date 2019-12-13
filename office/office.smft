@@ -5,6 +5,8 @@
       <Device Model="C2NI-CB" DeviceId="26"/>
       <Device Model="DIN-8SW8-I" DeviceId="92"/>
    </Network>
-   <Network Type="Ethernet" Id="02"/>
+   <Network Type="Ethernet" Id="02">
+      <Device Model="Core3 UI XPanel" DeviceId="03" Name="XPanel 2.0 Smart Graphics"/>
+   </Network>
    <Network Type="RF" Id="03"/>
 </Device>

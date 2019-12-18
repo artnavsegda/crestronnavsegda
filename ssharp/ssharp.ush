@@ -11,6 +11,7 @@
 [END]
 [BEGIN]
   ObjTp=Hd
+  IncludePath1=C:\Users\artna\Documents\GitHub\ssharpnavsegda\SIMPLSharpLibrary1\SIMPLSharpLibrary1\bin\Debug
 [END]
 [BEGIN]
   ObjTp=Symbol
@@ -58,6 +59,7 @@
   SymJam=NonExclusive
   FileName=ssharp.ush
   SIMPLPlusModuleEncoding=0
+  clz1=SIMPLSharpLibrary1
 [END]
 [BEGIN]
   ObjTp=Dp

@@ -5,7 +5,7 @@ using Crestron.SimplSharp.Net.Http;
 
 namespace FM.WebServer
 {
-    public delegate void WebServerRequestDelegate(SimplSharpString path);
+    public delegate SimplSharpString WebServerRequestDelegate(SimplSharpString path);
 
     public class WebServer
     {
@@ -101,12 +101,13 @@ namespace FM.WebServer
             if (TraceEnabled == 1)
                 CrestronConsole.PrintLine(String.Format("[{0}] {1}", TraceName, message.Trim()));
         }
-        void RequestCallbackNotify(string path)
+        SimplSharpString RequestCallbackNotify(string path)
         {
             if (RequestCallback != null)
-                RequestCallback(path);
+                return RequestCallback(path);
             else
                 Trace("RequestCallbackNotify() callback is not defined.");
+            return("no data");
         }
         #endregion
 
@@ -114,8 +115,8 @@ namespace FM.WebServer
         void ServerHttpRequestHandler(object sender, OnHttpRequestArgs e)
         {
             Trace("ServerHttpRequestHandler() received request. Path: " + e.Request.Path);
-            RequestCallbackNotify(e.Request.Path);
-            CrestronConsole.PrintLine("ATTENTION");
+            SimplSharpString answer = RequestCallbackNotify(e.Request.Path);
+            CrestronConsole.PrintLine("ATTENTION " + answer.ToString());
         }
         #endregion
     }

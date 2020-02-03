@@ -225,9 +225,10 @@ SOCKETSTATUS
 }
 */
 
-callback function WebServerRequestCallback(String path)
+callback string_function WebServerRequestCallback(String path)
 {
 	Trace("SIMPL+ callback");
+	return ("simplplus");
 }
 
 function InitializeSimplSharpObjects()

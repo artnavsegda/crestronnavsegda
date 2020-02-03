@@ -73,9 +73,10 @@ namespace TestSystem
         #endregion
 
         #region Event callbacks
-        void WebServerRequestCallback(SimplSharpString path)
+        SimplSharpString WebServerRequestCallback(SimplSharpString path)
         {
             Trace("WebServerRequestCallback() received request for path: " + path.ToString());
+            return("simplsharp");
         }
         #endregion
     }

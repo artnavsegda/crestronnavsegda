@@ -50,7 +50,7 @@ namespace TestSystem
                 webServer = new WebServer();
                 webServer.TraceEnabled = 1;
                 webServer.RequestCallback += new WebServerRequestDelegate(WebServerRequestCallback);
-                if (webServer.StartListening())
+                if (webServer.StartListening() == 1)
                     Trace("InitializeSystem() web server started successfully.");
                 else
                     Trace("InitializeSystem() web server failed to start.");
@@ -73,9 +73,9 @@ namespace TestSystem
         #endregion
 
         #region Event callbacks
-        void WebServerRequestCallback(string path)
+        void WebServerRequestCallback(SimplSharpString path)
         {
-            Trace("WebServerRequestCallback() received request for path: " + path);
+            Trace("WebServerRequestCallback() received request for path: " + path.ToString());
         }
         #endregion
     }

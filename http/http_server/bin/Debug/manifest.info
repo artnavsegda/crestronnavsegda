@@ -1,4 +1,4 @@
-﻿MainAssembly=http_server.dll:ae23c01b1e42a6928778ecb241184490
+﻿MainAssembly=http_server.dll:88cb77b1235e793d8043f1800332c908
 MainAssemblyMinFirmwareVersion=1.009.0029
 MainAssemblyResource=SimplSharpData.dat:820b61c48c8a2cace82957eed4cc377c
 MainAssemblyResource=SimplSharpData.dat.der:bf862965c00f3e6ec535e4e00e82d30c
@@ -9,9 +9,9 @@ DependencySource=Crestron.SimplSharpPro.DeviceSupport.dll:caae4b4259aaf619059f0a
 DependencyPath=http_server.cpz:Crestron.SimplSharpPro.DeviceSupport.dll
 DependencyMainAssembly=Crestron.SimplSharpPro.DeviceSupport.dll:caae4b4259aaf619059f0ae34473bfd2
 ü
-DependencySource=http_sharp.dll:817b27934120dd20c198fc2eebbbe6f5
+DependencySource=http_sharp.dll:df2841241856f16c0254e4f473aa9a0b
 DependencyPath=http_server.cpz:http_sharp.dll
-DependencyMainAssembly=http_sharp.dll:817b27934120dd20c198fc2eebbbe6f5
+DependencyMainAssembly=http_sharp.dll:df2841241856f16c0254e4f473aa9a0b
 ü
 DependencySource=SimplSharpCustomAttributesInterface.dll:9c4b4d4c519b655af90016edca2d66b9
 DependencyPath=http_server.cpz:SimplSharpCustomAttributesInterface.dll

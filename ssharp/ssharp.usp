@@ -222,9 +222,10 @@ SOCKETSTATUS
   Uncomment and place one-time startup code here
   (This code will get called when the system starts up)
 *******************************************************************************************/
-/*
+
 Function Main()
 {
+	Class1 myClass;
     // TODO:  Add code here
     // Initialize declared global and local variables/arrays as needed.
 
@@ -235,5 +236,3 @@ Function Main()
     //   their correct values set until after the logic processor
     //   runs and propagates the values to them.
 }
-*/
-

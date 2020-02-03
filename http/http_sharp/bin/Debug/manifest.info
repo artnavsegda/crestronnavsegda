@@ -1,5 +1,7 @@
-﻿MainAssembly=http_sharp.dll:0473d5e5f14c4dcd52d14ab4c220d388
+﻿MainAssembly=http_sharp.dll:adf48700e04e7b6a47cd9c85e3880e8c
 MainAssemblyMinFirmwareVersion=1.007.0017
+MainAssemblyResource=SimplSharpData.dat:820b61c48c8a2cace82957eed4cc377c
+MainAssemblyResource=SimplSharpData.dat.der:bf862965c00f3e6ec535e4e00e82d30c
 MainAssemblyResource=SimplSharpData.dat:820b61c48c8a2cace82957eed4cc377c
 MainAssemblyResource=SimplSharpData.dat.der:bf862965c00f3e6ec535e4e00e82d30c
 ü

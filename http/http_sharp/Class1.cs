@@ -4,15 +4,31 @@ using Crestron.SimplSharp;                          				// For Basic SIMPL# Clas
 
 namespace http_sharp
 {
-    public class Class1
+    // Define the delegate:
+
+    public delegate short DelegateComputeFn();
+    public delegate string DelegateFn(uint id);
+
+    // Create a property in a class:
+
+    public class DelegateTest
     {
 
-        /// <summary>
-        /// SIMPL+ can only execute the default constructor. If you have variables that require initialization, please
-        /// use an Initialize method
-        /// </summary>
-        public Class1()
+        // non-static property
+        public DelegateComputeFn ComputeFn { get; set; }
+        // static property
+        static public DelegateFn StaticFn { get; set; }
+
+        private short Compute()
         {
+
+            short ret = 0;
+            // Call the mapped function in SIMPL+
+            // * remember to check for null in case *
+            // *   the function was never mapped!   *
+            if (ComputeFn != null)
+                ret = ComputeFn();
+            return ret;
         }
-    }
+    } 
 }

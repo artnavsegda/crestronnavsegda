@@ -31,7 +31,7 @@ namespace FM.WebServer
         public WebServer()
         {
             this.TraceName = this.GetType().Name;
-            this.port = 80;
+            this.port = 7000;
         }
         #endregion
 

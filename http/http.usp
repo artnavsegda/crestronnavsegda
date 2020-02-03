@@ -242,4 +242,5 @@ Function Main()
 function InitializeSimplSharpObjects()
 {
 	WebServer myWebServer; // instantiate a variable of your SIMPL# class in the SIMPL+ module
+	myWebServer.TraceEnabled = 1;
 }

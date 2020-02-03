@@ -19,7 +19,7 @@ namespace FM.WebServer
         #endregion
 
         #region Properties
-        public bool TraceEnabled { get; set; }
+        public int TraceEnabled { get; set; }
         public string TraceName { get; set; }
         #endregion
 
@@ -92,7 +92,7 @@ namespace FM.WebServer
         #region Private methods
         void Trace(string message)
         {
-            if (TraceEnabled)
+            if (TraceEnabled == 1)
                 CrestronConsole.PrintLine(String.Format("[{0}] {1}", TraceName, message.Trim()));
         }
         void RequestCallbackNotify(string path)

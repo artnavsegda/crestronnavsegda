@@ -15,7 +15,7 @@ namespace TestSystem
         #endregion
 
         #region Properties
-        public bool TraceEnabled { get; set; }
+        public int TraceEnabled { get; set; }
         public string TraceName { get; set; }
         #endregion
 
@@ -43,12 +43,12 @@ namespace TestSystem
             try
             {
                 // trace defaults
-                this.TraceEnabled = true;
+                this.TraceEnabled = 1;
                 this.TraceName = this.GetType().Name;
 
                 // web server component
                 webServer = new WebServer();
-                webServer.TraceEnabled = true;
+                webServer.TraceEnabled = 1;
                 webServer.RequestCallback += new WebServerRequestDelegate(WebServerRequestCallback);
                 if (webServer.StartListening())
                     Trace("InitializeSystem() web server started successfully.");
@@ -67,7 +67,7 @@ namespace TestSystem
         #region Debugging
         private void Trace(string message)
         {
-            if (TraceEnabled)
+            if (TraceEnabled == 1)
                 CrestronConsole.PrintLine(String.Format("[{0}] {1}", TraceName, message.Trim()));
         }
         #endregion

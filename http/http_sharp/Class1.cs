@@ -5,18 +5,24 @@ using Crestron.SimplSharp.Net.Http;
 
 namespace FM.WebServer
 {
-    public delegate void WebServerRequestDelegate(string path);
+    public delegate void WebServerRequestDelegate(SimplSharpString path);
 
     public class WebServer
     {
+        int ID = 12;
+
+        public int GetID()
+        {
+            CrestronConsole.PrintLine("Sample simplsharp callback");
+            return ID;
+        }
+
         #region Class variables
         HttpServer server;
         int port;
         #endregion
 
-        #region Events
-        public event WebServerRequestDelegate RequestCallback;
-        #endregion
+        public WebServerRequestDelegate RequestCallback { get; set; }
 
         #region Properties
         public int TraceEnabled { get; set; }
@@ -36,7 +42,7 @@ namespace FM.WebServer
         #endregion
 
         #region Public methods
-        public bool StartListening()
+        public int StartListening()
         {
             try
             {
@@ -50,18 +56,18 @@ namespace FM.WebServer
                     server.OnHttpRequest += new OnHttpRequestHandler(ServerHttpRequestHandler);
                     server.Open();
 
-                    return true;
+                    return 1;
                 }
                 else
                 {
                     Trace("StartListening() server object already exists. No action taken.");
-                    return false;
+                    return 0;
                 }
             }
             catch (Exception ex)
             {
                 Trace("StartListening() exception caught: " + ex.Message);
-                return false;
+                return 0;
             }
         }
         public bool StopListening()
@@ -109,6 +115,7 @@ namespace FM.WebServer
         {
             Trace("ServerHttpRequestHandler() received request. Path: " + e.Request.Path);
             RequestCallbackNotify(e.Request.Path);
+            CrestronConsole.PrintLine("ATTENTION");
         }
         #endregion
     }

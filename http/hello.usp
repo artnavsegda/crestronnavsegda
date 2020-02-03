@@ -43,19 +43,17 @@ Comments:
 *******************************************************************************************/
 // #CRESTRON_LIBRARY ""
 // #USER_LIBRARY ""
-#INCLUDEPATH "C:\Users\artna\Documents\GitHub\ssharpnavsegda\SIMPLSharpLibrary1\SIMPLSharpLibrary1\bin\Debug"
-#USER_SIMPLSHARP_LIBRARY "SIMPLSharpLibrary1"
 
 /*******************************************************************************************
   DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
   (Uncomment and declare inputs and outputs as needed)
 *******************************************************************************************/
-// DIGITAL_INPUT 
+DIGITAL_INPUT speak;
 // ANALOG_INPUT 
 // STRING_INPUT 
 // BUFFER_INPUT 
 
-// DIGITAL_OUTPUT 
+DIGITAL_OUTPUT sorry;
 // ANALOG_OUTPUT 
 // STRING_OUTPUT 
 
@@ -168,12 +166,25 @@ PUSH input
 }
 */
 
+PUSH speak
+{
+	Print( "Hello world!\n");
+}
+
+
 /*
 RELEASE input
 {
     // TODO:  Add code here
 }
 */
+
+RELEASE speak
+{
+	Print( "Crestron people make the difference\n");
+	Pulse(1000, sorry);
+}
+
 
 /*
 CHANGE input
@@ -222,10 +233,9 @@ SOCKETSTATUS
   Uncomment and place one-time startup code here
   (This code will get called when the system starts up)
 *******************************************************************************************/
-
+/*
 Function Main()
 {
-	Class1 myClass;
     // TODO:  Add code here
     // Initialize declared global and local variables/arrays as needed.
 
@@ -236,3 +246,12 @@ Function Main()
     //   their correct values set until after the logic processor
     //   runs and propagates the values to them.
 }
+*/
+
+Function Main()
+{
+	WaitForInitializationComplete();
+	Print( "I am born!\n");
+}
+
+

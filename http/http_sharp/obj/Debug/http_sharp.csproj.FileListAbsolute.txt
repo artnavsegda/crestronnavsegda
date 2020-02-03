@@ -1,0 +1,7 @@
+C:\Users\artna\Documents\GitHub\crestronnavsegda\http\http_sharp\bin\Debug\http_sharp.dll
+C:\Users\artna\Documents\GitHub\crestronnavsegda\http\http_sharp\bin\Debug\http_sharp.pdb
+C:\Users\artna\Documents\GitHub\crestronnavsegda\http\http_sharp\bin\Debug\SimplSharpCustomAttributesInterface.dll
+C:\Users\artna\Documents\GitHub\crestronnavsegda\http\http_sharp\bin\Debug\SimplSharpHelperInterface.dll
+C:\Users\artna\Documents\GitHub\crestronnavsegda\http\http_sharp\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\artna\Documents\GitHub\crestronnavsegda\http\http_sharp\obj\Debug\http_sharp.dll
+C:\Users\artna\Documents\GitHub\crestronnavsegda\http\http_sharp\obj\Debug\http_sharp.pdb

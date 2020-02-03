@@ -241,5 +241,5 @@ Function Main()
 
 function InitializeSimplSharpObjects()
 {
-	WebServer myWebServer = new WebServer(80); // instantiate a variable of your SIMPL# class in the SIMPL+ module
+	WebServer myWebServer; // instantiate a variable of your SIMPL# class in the SIMPL+ module
 }

@@ -28,10 +28,10 @@ namespace FM.WebServer
         #endregion
 
         #region Constructor
-        public WebServer(int port)
+        public WebServer()
         {
             this.TraceName = this.GetType().Name;
-            this.port = port;
+            this.port = 80;
         }
         #endregion
 

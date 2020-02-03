@@ -11,6 +11,7 @@
 [END]
 [BEGIN]
   ObjTp=Hd
+  IncludePath1=C:\Users\artna\Documents\GitHub\crestronnavsegda\http\http_sharp\bin\Debug
 [END]
 [BEGIN]
   ObjTp=Symbol
@@ -62,6 +63,7 @@
   SymJam=NonExclusive
   FileName=http.ush
   SIMPLPlusModuleEncoding=0
+  clz1=http_sharp
 [END]
 [BEGIN]
   ObjTp=Dp

@@ -43,6 +43,8 @@ Comments:
 *******************************************************************************************/
 // #CRESTRON_LIBRARY ""
 // #USER_LIBRARY ""
+#INCLUDEPATH "C:\Users\artna\Documents\GitHub\crestronnavsegda\http\http_sharp\bin\Debug"
+#USER_SIMPLSHARP_LIBRARY "http_sharp"
 
 /*******************************************************************************************
   DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
@@ -236,31 +238,3 @@ Function Main()
     //   runs and propagates the values to them.
 }
 */
-
-DelegateTest delTest;
-function Init()
-{
-	// register non-static property
-	RegisterDelegate (delTest, ComputeFn, ComputeCallbackFn);
-	// register static property
-	RegisterDelegate (DelegateTest, StaticFn, StaticCallbackFn);
-}
-
-function Close()
-{
-	// unregister non-static property
-	UnregisterDelegate (delTest, ComputeFn);
-
-	// unregister static property
-	UnregisterDelegate (DelegateTest, StaticFn);
-}
-
-callback signed_integer_function ComputeCallbackFn()
-{
-	return (0);
-}
-
-callback string_function StaticCallbackFn (long_integer id)
-{
-	return ("");
-}

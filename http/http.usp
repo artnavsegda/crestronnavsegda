@@ -280,7 +280,6 @@ callback string_function WebServerRequestCallback(String path)
 		}
 	}
 
-
 	return ("simplplus");
 }
 

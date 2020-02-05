@@ -117,6 +117,7 @@ MyStruct1 struct;
          For example, in Function Main: myString = "";
 *******************************************************************************************/
 INTEGER lamp0status;
+INTEGER tvstatus;
 // LONG_INTEGER
 // SIGNED_INTEGER
 // SIGNED_LONG_INTEGER
@@ -257,6 +258,28 @@ callback string_function WebServerRequestCallback(String path)
 			return ("{\"status\":\"ok\",\"text\":\"Lamp off\",\"value\":false}");
 		}
 	}
+	else if (path = "/tv=1")
+	{
+		tvstatus = 1;
+		return ("{\"status\":\"ok\",\"text\":\"TV on\",\"value\":true}");
+	}
+	else if (path = "/tv=0")
+	{
+		tvstatus = 0;
+		return ("{\"status\":\"ok\",\"text\":\"TV off\",\"value\":false}");
+	}
+	else if (path = "/tv")
+	{
+		if (tvstatus = 1)
+		{
+			return ("{\"status\":\"ok\",\"text\":\"TV on\",\"value\":true}");
+		}
+		else
+		{
+			return ("{\"status\":\"ok\",\"text\":\"TV off\",\"value\":false}");
+		}
+	}
+
 
 	return ("simplplus");
 }

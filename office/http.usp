@@ -61,6 +61,12 @@ DIGITAL_OUTPUT lamp0status;
 DIGITAL_OUTPUT lamp0on;
 DIGITAL_OUTPUT lamp0off;
 DIGITAL_OUTPUT tvstatus;
+DIGITAL_OUTPUT leftshadestatus;
+DIGITAL_OUTPUT leftshadeup;
+DIGITAL_OUTPUT leftshadedown;
+DIGITAL_OUTPUT rightshadestatus;
+DIGITAL_OUTPUT rightshadeup;
+DIGITAL_OUTPUT rightshadedown;
 // STRING_OUTPUT 
 
 /*******************************************************************************************
@@ -255,7 +261,8 @@ callback string_function WebServerRequestCallback(String path)
 		//makestring(webreply, "%d", tvvolume);
 		return (webreply);
 	}
-	if (path = "/lamp0=1")
+
+	else if (path = "/lamp0=1")
 	{
 		lamp0status = 1;
 		Pulse(50, lamp0on);
@@ -278,6 +285,31 @@ callback string_function WebServerRequestCallback(String path)
 			return ("{\"status\":\"ok\",\"text\":\"Lamp off\",\"value\":false}");
 		}
 	}
+
+	else if (path = "/leftshade=1")
+	{
+		leftshadestatus = 1;
+		Pulse(50, leftshadeup);
+		return ("{\"status\":\"ok\",\"text\":\"Left shade up\",\"value\":true}");
+	}
+	else if (path = "/leftshade=0")
+	{
+		leftshadestatus = 0;
+		Pulse(50, leftshadedown);
+		return ("{\"status\":\"ok\",\"text\":\"Left shade down\",\"value\":false}");
+	}
+	else if (path = "/leftshade")
+	{
+		if (leftshadestatus = 1)
+		{
+			return ("{\"status\":\"ok\",\"text\":\"Left shade up\",\"value\":true}");
+		}
+		else
+		{
+			return ("{\"status\":\"ok\",\"text\":\"Left shade down\",\"value\":false}");
+		}
+	}
+
 	else if (path = "/tv=1")
 	{
 		tvstatus = 1;

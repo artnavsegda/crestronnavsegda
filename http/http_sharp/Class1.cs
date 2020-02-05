@@ -117,6 +117,7 @@ namespace FM.WebServer
             Trace("ServerHttpRequestHandler() received request. Path: " + e.Request.Path);
             SimplSharpString answer = RequestCallbackNotify(e.Request.Path);
             CrestronConsole.PrintLine("ATTENTION " + answer.ToString());
+            e.Response.ContentString = "response = " + answer.ToString();
         }
         #endregion
     }

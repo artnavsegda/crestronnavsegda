@@ -27,10 +27,12 @@
   InputSigType1=Digital
   OutputCue1=testtwo
   OutputSigType1=Digital
-  OutputCue2=lamp0on
+  OutputCue2=lamp0status
   OutputSigType2=Digital
-  OutputCue3=lamp0off
+  OutputCue3=tvstatus
   OutputSigType3=Digital
+  OutputList2Cue1=tvvolume
+  OutputList2SigType1=Analog
   ParamCue1=[Reference Name]
   MinVariableInputs=1
   MaxVariableInputs=1
@@ -38,8 +40,8 @@
   MaxVariableInputsList2=0
   MinVariableOutputs=3
   MaxVariableOutputs=3
-  MinVariableOutputsList2=0
-  MaxVariableOutputsList2=0
+  MinVariableOutputsList2=1
+  MaxVariableOutputsList2=1
   MinVariableParams=0
   MaxVariableParams=0
   Expand=expand_separately

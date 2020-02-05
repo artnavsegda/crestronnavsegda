@@ -27,13 +27,17 @@
   InputSigType1=Digital
   OutputCue1=testtwo
   OutputSigType1=Digital
+  OutputCue2=lamp0on
+  OutputSigType2=Digital
+  OutputCue3=lamp0off
+  OutputSigType3=Digital
   ParamCue1=[Reference Name]
   MinVariableInputs=1
   MaxVariableInputs=1
   MinVariableInputsList2=0
   MaxVariableInputsList2=0
-  MinVariableOutputs=1
-  MaxVariableOutputs=1
+  MinVariableOutputs=3
+  MaxVariableOutputs=3
   MinVariableOutputsList2=0
   MaxVariableOutputsList2=0
   MinVariableParams=0
@@ -63,7 +67,8 @@
   SymJam=NonExclusive
   FileName=http.ush
   SIMPLPlusModuleEncoding=0
-  clz1=http_sharp
+  clz1=SIMPLSharpLibrary1
+  clz2=http_sharp
 [END]
 [BEGIN]
   ObjTp=Dp

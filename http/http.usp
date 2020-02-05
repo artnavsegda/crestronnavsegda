@@ -56,6 +56,8 @@ DIGITAL_INPUT testone;
 // BUFFER_INPUT 
 
 DIGITAL_OUTPUT testtwo;
+DIGITAL_OUTPUT lamp0on;
+DIGITAL_OUTPUT lamp0off;
 // ANALOG_OUTPUT 
 // STRING_OUTPUT 
 
@@ -227,7 +229,22 @@ SOCKETSTATUS
 
 callback string_function WebServerRequestCallback(String path)
 {
+	string reply[100];
 	Trace("SIMPL+ callback");
+    reply = "SIMPL+ path is " + path;
+	Trace("%s", reply);
+
+	if (path = "/lamp0=1")
+	{
+		Pulse(50,lamp0on);
+		return ("lamp zero switch on");
+	}
+	else if (path = "/lamp0=0")
+	{
+		Pulse(50,lamp0off);
+		return ("lamp zero switch off");
+	}
+
 	return ("simplplus");
 }
 

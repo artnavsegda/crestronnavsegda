@@ -67,8 +67,7 @@
   SymJam=NonExclusive
   FileName=http.ush
   SIMPLPlusModuleEncoding=0
-  clz1=SIMPLSharpLibrary1
-  clz2=http_sharp
+  clz1=http_sharp
 [END]
 [BEGIN]
   ObjTp=Dp

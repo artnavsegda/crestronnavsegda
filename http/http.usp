@@ -116,7 +116,7 @@ MyStruct1 struct;
   Note:  Be sure to initialize all declared STRING variables as needed
          For example, in Function Main: myString = "";
 *******************************************************************************************/
-// INTEGER
+INTEGER lamp0status;
 // LONG_INTEGER
 // SIGNED_INTEGER
 // SIGNED_LONG_INTEGER
@@ -237,12 +237,25 @@ callback string_function WebServerRequestCallback(String path)
 	if (path = "/lamp0=1")
 	{
 		Pulse(50,lamp0on);
-		return ("lamp zero switch on");
+		lamp0status = 1;
+		return ("{\"status\":\"ok\",\"text\":\"Lamp on\",\"value\":true}");
 	}
 	else if (path = "/lamp0=0")
 	{
 		Pulse(50,lamp0off);
-		return ("lamp zero switch off");
+		lamp0status = 0;
+		return ("{\"status\":\"ok\",\"text\":\"Lamp off\",\"value\":false}");
+	}
+	else if (path = "/lamp0")
+	{
+		if (lamp0status = 1)
+		{
+			return ("{\"status\":\"ok\",\"text\":\"Lamp on\",\"value\":true}");
+		}
+		else
+		{
+			return ("{\"status\":\"ok\",\"text\":\"Lamp off\",\"value\":false}");
+		}
 	}
 
 	return ("simplplus");

@@ -58,6 +58,8 @@ DIGITAL_INPUT testone;
 DIGITAL_OUTPUT testtwo;
 ANALOG_OUTPUT tvvolume;
 DIGITAL_OUTPUT lamp0status;
+DIGITAL_OUTPUT lamp0on;
+DIGITAL_OUTPUT lamp0off;
 DIGITAL_OUTPUT tvstatus;
 // STRING_OUTPUT 
 
@@ -256,11 +258,13 @@ callback string_function WebServerRequestCallback(String path)
 	if (path = "/lamp0=1")
 	{
 		lamp0status = 1;
+		Pulse(50, lamp0on);
 		return ("{\"status\":\"ok\",\"text\":\"Lamp on\",\"value\":true}");
 	}
 	else if (path = "/lamp0=0")
 	{
 		lamp0status = 0;
+		Pulse(50, lamp0off);
 		return ("{\"status\":\"ok\",\"text\":\"Lamp off\",\"value\":false}");
 	}
 	else if (path = "/lamp0")

@@ -20,7 +20,7 @@ Comments:
 // #DEFINE_CONSTANT
 // #CATEGORY "" 
 // #PRINT_TO_TRACE
-// #DIGITAL_EXPAND 
+#DIGITAL_EXPAND InputsWithOutputs
 // #ANALOG_SERIAL_EXPAND 
 // #OUTPUT_SHIFT 
 // #HELP_PDF_FILE ""
@@ -59,6 +59,13 @@ DIGITAL_OUTPUT testtwo;
 ANALOG_OUTPUT tvvolume;
 DIGITAL_OUTPUT lamp0status;
 DIGITAL_OUTPUT tvstatus;
+
+DIGITAL_INPUT discreteinput[10];
+DIGITAL_OUTPUT discreteoutput[10];
+
+ANALOG_INPUT analoginput[10];
+ANALOG_OUTPUT analogoutput[10];
+
 // STRING_OUTPUT 
 
 /*******************************************************************************************

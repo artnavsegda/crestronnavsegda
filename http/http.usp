@@ -243,7 +243,7 @@ callback string_function WebServerRequestCallback(String path)
 	string reply[100];
 	string webreply[100];
 	string comparepath[100];
-	integer joinnumber;
+	integer joinnumber, analogvalue;
 	Trace("SIMPL+ callback");
     reply = "SIMPL+ path is " + path;
 	Trace("%s", reply);
@@ -272,7 +272,7 @@ callback string_function WebServerRequestCallback(String path)
 		{
 			Trace("It's an discrete value set on");
 			//enable discrete
-			discreteoutput[joinnumber] = 1;
+			//discreteoutput[joinnumber] = 1;
 			return ("{\"status\":\"ok\",\"text\":\"Discrete join value\",\"value\":true}");
 		}
 		comparepath = "/discrete" + itoa(joinnumber) + "=0";
@@ -280,7 +280,7 @@ callback string_function WebServerRequestCallback(String path)
 		{
 			Trace("It's an discrete value set off");
 			//disable discrete
-			discreteoutput[joinnumber] = 0;
+			//discreteoutput[joinnumber] = 0;
 			return ("{\"status\":\"ok\",\"text\":\"Discrete join value\",\"value\":false}");
 		}
 	}	
@@ -289,7 +289,8 @@ callback string_function WebServerRequestCallback(String path)
 		Trace("It's an analog");
 		joinnumber = atoi(mid(path,10,2));
 		Trace("Analog join number is %d", joinnumber);
-        comparepath = "/discrete" + itoa(joinnumber);
+        comparepath = "/analog" + itoa(joinnumber);
+		Trace("Compare path %s", comparepath);
 		if (path = comparepath)
 		{
 			Trace("It's an analog status request");
@@ -301,9 +302,10 @@ callback string_function WebServerRequestCallback(String path)
 		{
 			Trace("It's an analog value set request");
 			//set analog value
-			analogoutput[joinnumber] = atoi(mid(path,len(comparepath)+1,3));
-			Trace("Analog join %d value set to %d", joinnumber, analogoutput[joinnumber]);
-			makestring(webreply,"{\"status\":\"ok\",\"text\":\"Analog join value\",\"value\": %d }", analogoutput[joinnumber]);
+			analogvalue = atoi(mid(path,len(comparepath)+1,3));
+			//analogoutput[joinnumber] = analogvalue;
+			Trace("Analog join %d value set to %d", joinnumber, analogvalue);
+			makestring(webreply,"{\"status\":\"ok\",\"text\":\"Analog join value\",\"value\": %d }", analogvalue);
 			return (webreply);
 		}
 	}

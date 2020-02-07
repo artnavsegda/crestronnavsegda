@@ -246,13 +246,35 @@ callback string_function WebServerRequestCallback(String path)
 {
 	string reply[100];
 	string webreply[100];
+	string comparepath[100];
+	integer joinnumber;
 	Trace("SIMPL+ callback");
     reply = "SIMPL+ path is " + path;
 	Trace("%s", reply);
 
-	if (find("lamp",path))
+	if (find("/discrete",path))
 	{
-		Trace("It's a lamp");
+		Trace("It's a discrete");
+		joinnumber = atoi(mid(path,10,2));
+        comparepath = "/discrete" + itoa(joinnumber);
+		if (path = comparepath)
+		{
+			//reply status
+		}
+		comparepath = "/discrete" + itoa(joinnumber) + "=1";
+		if (path = comparepath)
+		{
+			//enable discrete
+		}
+		comparepath = "/discrete" + itoa(joinnumber) + "=0";
+		if (path = comparepath)
+		{
+			//disable discrete
+		}
+	}	
+	else if (find("/analog",path))
+	{
+		Trace("It's an analog");
 	}
 
 	if (find("/tvvolume=",path))
@@ -266,14 +288,17 @@ callback string_function WebServerRequestCallback(String path)
 		//makestring(webreply, "%d", tvvolume);
 		return (webreply);
 	}
-	if (path = "/lamp0=1")
+
+	else if (path = "/lamp0=1")
 	{
 		lamp0status = 1;
+		Pulse(50, lamp0on);
 		return ("{\"status\":\"ok\",\"text\":\"Lamp on\",\"value\":true}");
 	}
 	else if (path = "/lamp0=0")
 	{
 		lamp0status = 0;
+		Pulse(50, lamp0off);
 		return ("{\"status\":\"ok\",\"text\":\"Lamp off\",\"value\":false}");
 	}
 	else if (path = "/lamp0")
@@ -287,6 +312,31 @@ callback string_function WebServerRequestCallback(String path)
 			return ("{\"status\":\"ok\",\"text\":\"Lamp off\",\"value\":false}");
 		}
 	}
+
+	else if (path = "/leftshade=1")
+	{
+		leftshadestatus = 1;
+		Pulse(50, leftshadeup);
+		return ("{\"status\":\"ok\",\"text\":\"Left shade up\",\"value\":true}");
+	}
+	else if (path = "/leftshade=0")
+	{
+		leftshadestatus = 0;
+		Pulse(50, leftshadedown);
+		return ("{\"status\":\"ok\",\"text\":\"Left shade down\",\"value\":false}");
+	}
+	else if (path = "/leftshade")
+	{
+		if (leftshadestatus = 1)
+		{
+			return ("{\"status\":\"ok\",\"text\":\"Left shade up\",\"value\":true}");
+		}
+		else
+		{
+			return ("{\"status\":\"ok\",\"text\":\"Left shade down\",\"value\":false}");
+		}
+	}
+
 	else if (path = "/tv=1")
 	{
 		tvstatus = 1;

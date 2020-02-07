@@ -265,16 +265,29 @@ callback string_function WebServerRequestCallback(String path)
 		if (path = comparepath)
 		{
 			//enable discrete
+			discreteoutput[joinnumber] = 1;
 		}
 		comparepath = "/discrete" + itoa(joinnumber) + "=0";
 		if (path = comparepath)
 		{
 			//disable discrete
+			discreteoutput[joinnumber] = 0;
 		}
 	}	
 	else if (find("/analog",path))
 	{
 		Trace("It's an analog");
+		joinnumber = atoi(mid(path,10,2));
+        comparepath = "/discrete" + itoa(joinnumber);
+		if (path = comparepath)
+		{
+			//reply status
+		}
+		else
+		{
+			//set analog value
+			analogoutput[joinnumber] = atoi(mid(path,len(comparepath)+1,3));
+		}
 	}
 
 	if (find("/tvvolume=",path))

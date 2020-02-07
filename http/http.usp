@@ -185,7 +185,13 @@ PUSH testone
 	ID = myWebServer.GetID();
 }
 
+push discreteinput
+{
+    integer index;
+    index = GetLastModifiedArrayIndex();
 
+    //do stuff based on index
+}
 
 RELEASE testone
 {

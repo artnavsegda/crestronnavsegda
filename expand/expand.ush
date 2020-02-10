@@ -22,8 +22,10 @@
   Code=1
   SysRev5=3.083
   SMWRev=2.02.05
-  InputCue1=discreteinput[#]
+  InputCue1=testinput
   InputSigType1=Digital
+  InputCue2=discreteinput[#]
+  InputSigType2=Digital
   OutputCue1=discreteoutput[#]
   OutputSigType1=Digital
   InputList2Cue1=analoginput[#]
@@ -31,8 +33,8 @@
   OutputList2Cue1=analogoutput[#]
   OutputList2SigType1=Analog
   ParamCue1=[Reference Name]
-  MinVariableInputs=1
-  MaxVariableInputs=10
+  MinVariableInputs=2
+  MaxVariableInputs=11
   MinVariableInputsList2=1
   MaxVariableInputsList2=10
   MinVariableOutputs=1

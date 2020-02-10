@@ -57,6 +57,12 @@ Comments:
 // ANALOG_OUTPUT 
 // STRING_OUTPUT 
 
+DIGITAL_INPUT discreteinput[10];
+DIGITAL_OUTPUT discreteoutput[10];
+
+ANALOG_INPUT analoginput[10];
+ANALOG_OUTPUT analogoutput[10];
+
 /*******************************************************************************************
   SOCKETS
   (Uncomment and define socket definitions as needed)

@@ -170,15 +170,13 @@ String_Function MyStrFunction1()
 
 PUSH testinput
 {
-    Pulse(50, discreteoutput[1]);
+    discreteoutput[0] = 1;
 }
 
-/*
-RELEASE input
+RELEASE testinput
 {
-    // TODO:  Add code here
+    discreteoutput[0] = 0;
 }
-*/
 
 /*
 CHANGE input

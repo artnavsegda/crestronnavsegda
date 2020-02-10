@@ -226,6 +226,7 @@ SOCKETSTATUS
 
 callback function CallbackEventHandler(String data)
 {
+	Trace("S# data: %s", data);
 }
 
 Function Main()

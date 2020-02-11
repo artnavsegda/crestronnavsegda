@@ -21,7 +21,7 @@
   Name=http
   SmplCName=http.usp
   Code=1
-  SysRev5=3.090
+  SysRev5=4.000
   SMWRev=3.00.00
   InputCue1=testone
   InputSigType1=Digital
@@ -71,7 +71,8 @@
   SymJam=NonExclusive
   FileName=http.ush
   SIMPLPlusModuleEncoding=0
-  clz1=http_sharp
+  clz1=WebsocketServer
+  clz2=http_sharp
 [END]
 [BEGIN]
   ObjTp=Dp

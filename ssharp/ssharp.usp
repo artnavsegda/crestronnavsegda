@@ -59,6 +59,12 @@ DIGITAL_OUTPUT sorry;
 // ANALOG_OUTPUT 
 // STRING_OUTPUT 
 
+DIGITAL_INPUT discreteinput[10];
+DIGITAL_OUTPUT discreteoutput[10];
+
+ANALOG_INPUT analoginput[10];
+ANALOG_OUTPUT analogoutput[10];
+
 /*******************************************************************************************
   SOCKETS
   (Uncomment and define socket definitions as needed)
@@ -168,12 +174,14 @@ PUSH speak
 	SIGNED_LONG_INTEGER ID;
 	Print( "Hello world!\n");
 	ID = myClass.GetID();
+	//discreteoutput[0] = 1;
 }
 
 RELEASE speak
 {
 	Print( "Crestron people make the difference\n");
 	Pulse(1000, sorry);
+	//discreteoutput[0] = 0;
 }
 
 /*
@@ -227,6 +235,7 @@ SOCKETSTATUS
 callback function CallbackEventHandler(String data)
 {
 	Trace("S# data: %s", data);
+	discreteoutput[0] = 1;
 }
 
 Function Main()

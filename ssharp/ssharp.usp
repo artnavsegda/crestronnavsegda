@@ -234,8 +234,10 @@ SOCKETSTATUS
 
 callback function CallbackEventHandler(String data)
 {
+	integer tracenum;
+	tracenum = 0;
 	Trace("S# data: %s", data);
-	discreteoutput[0] = 1;
+	discreteoutput[tracenum] = 1;
 }
 
 Function Main()

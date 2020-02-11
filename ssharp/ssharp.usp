@@ -181,7 +181,7 @@ RELEASE speak
 {
 	Print( "Crestron people make the difference\n");
 	Pulse(1000, sorry);
-	//discreteoutput[0] = 0;
+	discreteoutput[0] = 0;
 }
 
 /*

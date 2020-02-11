@@ -20,7 +20,7 @@ Comments:
 // #DEFINE_CONSTANT
 // #CATEGORY "" 
 // #PRINT_TO_TRACE
-// #DIGITAL_EXPAND 
+#DIGITAL_EXPAND InputsWithOutputs
 // #ANALOG_SERIAL_EXPAND 
 // #OUTPUT_SHIFT 
 // #HELP_PDF_FILE ""
@@ -56,17 +56,12 @@ DIGITAL_INPUT testone;
 // BUFFER_INPUT 
 
 DIGITAL_OUTPUT testtwo;
-ANALOG_OUTPUT tvvolume;
-DIGITAL_OUTPUT lamp0status;
-DIGITAL_OUTPUT lamp0on;
-DIGITAL_OUTPUT lamp0off;
-DIGITAL_OUTPUT tvstatus;
-DIGITAL_OUTPUT leftshadestatus;
-DIGITAL_OUTPUT leftshadeup;
-DIGITAL_OUTPUT leftshadedown;
-DIGITAL_OUTPUT rightshadestatus;
-DIGITAL_OUTPUT rightshadeup;
-DIGITAL_OUTPUT rightshadedown;
+DIGITAL_INPUT discreteinput[10];
+DIGITAL_OUTPUT discreteoutput[10];
+
+ANALOG_INPUT analoginput[10];
+ANALOG_OUTPUT analogoutput[10];
+
 // STRING_OUTPUT 
 
 /*******************************************************************************************
@@ -186,7 +181,13 @@ PUSH testone
 	ID = myWebServer.GetID();
 }
 
+push discreteinput
+{
+    integer index;
+    index = GetLastModifiedArrayIndex();
 
+    //do stuff based on index
+}
 
 RELEASE testone
 {
@@ -241,97 +242,74 @@ callback string_function WebServerRequestCallback(String path)
 {
 	string reply[100];
 	string webreply[100];
+	string comparepath[100];
+	integer joinnumber, analogvalue;
 	Trace("SIMPL+ callback");
     reply = "SIMPL+ path is " + path;
 	Trace("%s", reply);
 
-	if (find("lamp",path))
+	if (find("/discrete",path))
 	{
-		Trace("It's a lamp");
-	}
-
-	if (find("/tvvolume=",path))
-	{
-		tvvolume = atoi(Mid(path, 11, 3));
-		Trace("TV volume is %d", tvvolume);
-	}
-	else if (path = "/tvvolume")
-	{
-		makestring(webreply,"{\"status\":\"ok\",\"text\":\"TV volume\",\"value\": %d }", tvvolume);
-		//makestring(webreply, "%d", tvvolume);
-		return (webreply);
-	}
-
-	else if (path = "/lamp0=1")
-	{
-		lamp0status = 1;
-		Pulse(50, lamp0on);
-		return ("{\"status\":\"ok\",\"text\":\"Lamp on\",\"value\":true}");
-	}
-	else if (path = "/lamp0=0")
-	{
-		lamp0status = 0;
-		Pulse(50, lamp0off);
-		return ("{\"status\":\"ok\",\"text\":\"Lamp off\",\"value\":false}");
-	}
-	else if (path = "/lamp0")
-	{
-		if (lamp0status = 1)
+		Trace("It's a discrete");
+		joinnumber = atoi(mid(path,10,2));
+		Trace("Discrete join number is %d", joinnumber);
+        comparepath = "/discrete" + itoa(joinnumber);
+		if (path = comparepath)
 		{
-			return ("{\"status\":\"ok\",\"text\":\"Lamp on\",\"value\":true}");
+			Trace("It's an discrete status request");
+			//reply status
+			if (discreteinput[joinnumber] = 1)
+			{
+				return ("{\"status\":\"ok\",\"text\":\"Discrete join value\",\"value\":true}");
+			}
+			else
+			{
+				return ("{\"status\":\"ok\",\"text\":\"Discrete join value\",\"value\":false}");
+			}
+		}
+		comparepath = "/discrete" + itoa(joinnumber) + "=1";
+		if (path = comparepath)
+		{
+			Trace("It's an discrete value set on");
+			//enable discrete
+			discreteoutput[joinnumber] = 1;
+			return ("{\"status\":\"ok\",\"text\":\"Discrete join value\",\"value\":true}");
+		}
+		comparepath = "/discrete" + itoa(joinnumber) + "=0";
+		if (path = comparepath)
+		{
+			Trace("It's an discrete value set off");
+			//disable discrete
+			discreteoutput[joinnumber] = 0;
+			return ("{\"status\":\"ok\",\"text\":\"Discrete join value\",\"value\":false}");
+		}
+	}	
+	else if (find("/analog",path))
+	{
+		Trace("It's an analog");
+		joinnumber = atoi(mid(path,8,2));
+		Trace("Analog join number is %d", joinnumber);
+        comparepath = "/analog" + itoa(joinnumber);
+		Trace("Compare path %s", comparepath);
+		if (path = comparepath)
+		{
+			Trace("It's an analog status request");
+			//reply status
+			makestring(webreply,"{\"status\":\"ok\",\"text\":\"Analog join value\",\"value\": %d }", analoginput[joinnumber]);
+			return (webreply);
 		}
 		else
 		{
-			return ("{\"status\":\"ok\",\"text\":\"Lamp off\",\"value\":false}");
+			Trace("It's an analog value set request");
+			//set analog value
+			analogvalue = atoi(mid(path,len(comparepath)+1,10));
+			analogoutput[joinnumber] = analogvalue;
+			Trace("Analog join %d value set to %d", joinnumber, analogvalue);
+			Trace("Actual value %d", analogoutput[joinnumber]);
+			makestring(webreply,"{\"status\":\"ok\",\"text\":\"Analog join value\",\"value\": %d }", analogvalue);
+			return (webreply);
 		}
 	}
-
-	else if (path = "/leftshade=1")
-	{
-		leftshadestatus = 1;
-		Pulse(50, leftshadeup);
-		return ("{\"status\":\"ok\",\"text\":\"Left shade up\",\"value\":true}");
-	}
-	else if (path = "/leftshade=0")
-	{
-		leftshadestatus = 0;
-		Pulse(50, leftshadedown);
-		return ("{\"status\":\"ok\",\"text\":\"Left shade down\",\"value\":false}");
-	}
-	else if (path = "/leftshade")
-	{
-		if (leftshadestatus = 1)
-		{
-			return ("{\"status\":\"ok\",\"text\":\"Left shade up\",\"value\":true}");
-		}
-		else
-		{
-			return ("{\"status\":\"ok\",\"text\":\"Left shade down\",\"value\":false}");
-		}
-	}
-
-	else if (path = "/tv=1")
-	{
-		tvstatus = 1;
-		return ("{\"status\":\"ok\",\"text\":\"TV on\",\"value\":true}");
-	}
-	else if (path = "/tv=0")
-	{
-		tvstatus = 0;
-		return ("{\"status\":\"ok\",\"text\":\"TV off\",\"value\":false}");
-	}
-	else if (path = "/tv")
-	{
-		if (tvstatus = 1)
-		{
-			return ("{\"status\":\"ok\",\"text\":\"TV on\",\"value\":true}");
-		}
-		else
-		{
-			return ("{\"status\":\"ok\",\"text\":\"TV off\",\"value\":false}");
-		}
-	}
-
 	return ("simplplus");
 }
 

@@ -48,7 +48,8 @@ Comments:
   DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
   (Uncomment and declare inputs and outputs as needed)
 *******************************************************************************************/
-// DIGITAL_INPUT 
+// DIGITAL_INPUT
+DIGITAL_INPUT speak; 
 // ANALOG_INPUT 
 // STRING_INPUT 
 // BUFFER_INPUT 
@@ -166,12 +167,23 @@ PUSH input
 }
 */
 
+PUSH speak
+{
+	Print( "Hello world!\n");
+}
+
+
 /*
 RELEASE input
 {
     // TODO:  Add code here
 }
 */
+
+RELEASE speak
+{
+	Print( "Crestron people make the difference\n");
+}
 
 /*
 CHANGE input
@@ -220,7 +232,7 @@ SOCKETSTATUS
   Uncomment and place one-time startup code here
   (This code will get called when the system starts up)
 *******************************************************************************************/
-/*
+
 Function Main()
 {
     // TODO:  Add code here
@@ -232,6 +244,7 @@ Function Main()
     //   them afterwards.  Input/Output variables will not have
     //   their correct values set until after the logic processor
     //   runs and propagates the values to them.
+	Print("I am born!\n");
 }
-*/
+
 

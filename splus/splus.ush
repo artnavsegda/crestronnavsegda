@@ -22,9 +22,11 @@
   Code=1
   SysRev5=3.083
   SMWRev=2.02.05
+  InputCue1=speak
+  InputSigType1=Digital
   ParamCue1=[Reference Name]
-  MinVariableInputs=0
-  MaxVariableInputs=0
+  MinVariableInputs=1
+  MaxVariableInputs=1
   MinVariableInputsList2=0
   MaxVariableInputsList2=0
   MinVariableOutputs=0

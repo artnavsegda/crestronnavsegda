@@ -57,7 +57,7 @@ DIGITAL_INPUT testone;
 
 DIGITAL_OUTPUT testtwo;
 DIGITAL_INPUT discreteinput[10];
-DIGITAL_OUTPUT discreteoutput[10];
+DIGITAL_OUTPUT discreteon[10], discreteoff[10];
 
 ANALOG_INPUT analoginput[10];
 ANALOG_OUTPUT analogoutput[10];
@@ -272,7 +272,7 @@ callback string_function WebServerRequestCallback(String path)
 		{
 			Trace("It's an discrete value set on");
 			//enable discrete
-			discreteoutput[joinnumber] = 1;
+			Pulse(1,discreteon[joinnumber]);
 			return ("{\"status\":\"ok\",\"text\":\"Discrete join value\",\"value\":true}");
 		}
 		comparepath = "/discrete" + itoa(joinnumber) + "=0";
@@ -280,7 +280,7 @@ callback string_function WebServerRequestCallback(String path)
 		{
 			Trace("It's an discrete value set off");
 			//disable discrete
-			discreteoutput[joinnumber] = 0;
+			Pulse(1,discreteoff[joinnumber]);
 			return ("{\"status\":\"ok\",\"text\":\"Discrete join value\",\"value\":false}");
 		}
 	}	

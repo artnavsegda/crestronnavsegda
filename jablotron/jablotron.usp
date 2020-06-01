@@ -173,12 +173,15 @@ RELEASE input
 }
 */
 
-/*
-CHANGE input
+CHANGE string_in
 {
-    // TODO:  Add code here
+    Print("String event %s\n", string_in);
 }
-*/
+
+CHANGE buffer_in
+{
+    Print("Buffer event %s\n", buffer_in);
+}
 
 /*
 EVENT

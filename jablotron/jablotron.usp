@@ -19,7 +19,7 @@ Comments:
 // #HINT ""
 // #DEFINE_CONSTANT
 // #CATEGORY "" 
-// #PRINT_TO_TRACE
+#PRINT_TO_TRACE
 // #DIGITAL_EXPAND 
 // #ANALOG_SERIAL_EXPAND 
 // #OUTPUT_SHIFT 
@@ -48,7 +48,7 @@ Comments:
   DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
   (Uncomment and declare inputs and outputs as needed)
 *******************************************************************************************/
-// DIGITAL_INPUT 
+DIGITAL_INPUT speak;
 // ANALOG_INPUT 
 STRING_INPUT string_in[1000];
 BUFFER_INPUT buffer_in[1000];
@@ -159,12 +159,12 @@ String_Function MyStrFunction1()
   Event Handlers
   (Uncomment and declare additional event handlers as needed)
 *******************************************************************************************/
-/*
-PUSH input
+
+PUSH speak
 {
-    // TODO:  Add code here
+    Print("Hello World!\n");
 }
-*/
+
 
 /*
 RELEASE input

@@ -22,6 +22,8 @@
   Code=1
   SysRev5=3.083
   SMWRev=2.02.05
+  InputCue1=speak
+  InputSigType1=Digital
   InputList2Cue1=string_in
   InputList2SigType1=Serial
   InputList2Cue2=buffer_in
@@ -29,8 +31,8 @@
   OutputList2Cue1=string_out
   OutputList2SigType1=Serial
   ParamCue1=[Reference Name]
-  MinVariableInputs=0
-  MaxVariableInputs=0
+  MinVariableInputs=1
+  MaxVariableInputs=1
   MinVariableInputsList2=2
   MaxVariableInputsList2=2
   MinVariableOutputs=0

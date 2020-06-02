@@ -1,0 +1,583 @@
+
+/*
+Dealer Name:
+System Name:
+System Number:
+Programmer:
+Comments:
+*/
+
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+
+#define_constant CRESTRON_VERSION  "V1.04"
+#DEFINE_CONSTANT MAX_OUTPUTS 16
+#DEFINE_CONSTANT MAX_PRESETS 20
+
+
+/*******************************************************************************************
+  Include Libraries
+  (Uncomment and include additional libraries as needed)
+*******************************************************************************************/
+#INCLUDEPATH "..\\h2x\\SimplSharp\\Wyrestorm.H2X\\bin"
+            
+
+#USER_SIMPLSHARP_LIBRARY "Wyrestorm_v3.0.1.H2X"
+
+
+/**inputs**/    
+BUFFER_INPUT RX[60000];    
+STRING_INPUT CONSOLE_COMMAND[256];
+               
+ANALOG_INPUT SET_VIDEO_ALL_INPUT;
+ANALOG_INPUT SET_AUDIO_ALL_INPUT;
+DIGITAL_INPUT SET_CEC_PWR_ALL_ON;
+DIGITAL_INPUT SET_CEC_PWR_ALL_OFF;
+ANALOG_INPUT SET_VOLUME_ALL;
+DIGITAL_INPUT SET_MUTE_AUDIO_ALL_ON;
+DIGITAL_INPUT SET_MUTE_AUDIO_ALL_OFF;
+DIGITAL_INPUT SET_EQ_ALL_ON;
+DIGITAL_INPUT SET_EQ_ALL_OFF;
+DIGITAL_INPUT SET_AUDIOSW_MODE_ON;
+DIGITAL_INPUT SET_AUDIOSW_MODE_OFF;
+DIGITAL_INPUT SET_VOLGAIN_FIX_ALL_ON;
+DIGITAL_INPUT SET_VOLGAIN_FIX_ALL_OFF;
+DIGITAL_INPUT SET_MUTE_ALL_RAMP;
+DIGITAL_INPUT SET_MUTE_ALL_CUT;
+
+
+ANALOG_INPUT SET_VIDEO_INPUT[MAX_OUTPUTS];
+ANALOG_INPUT SET_AUDIO_INPUT[MAX_OUTPUTS];
+DIGITAL_INPUT SET_CEC_PWR_HDMI_ON[MAX_OUTPUTS];
+DIGITAL_INPUT SET_CEC_PWR_HDBT_ON[MAX_OUTPUTS];
+DIGITAL_INPUT SET_CEC_PWR_HDMI_OFF[MAX_OUTPUTS];
+DIGITAL_INPUT SET_CEC_PWR_HDBT_OFF[MAX_OUTPUTS];
+ANALOG_INPUT SET_VOLUME[MAX_OUTPUTS];
+DIGITAL_INPUT SET_MUTE_SPDIF_ON[MAX_OUTPUTS];
+DIGITAL_INPUT SET_MUTE_AUDIO_ON[MAX_OUTPUTS];
+DIGITAL_INPUT SET_MUTE_SPDIF_OFF[MAX_OUTPUTS];
+DIGITAL_INPUT SET_MUTE_AUDIO_OFF[MAX_OUTPUTS];
+DIGITAL_INPUT SET_EQ_ON[MAX_OUTPUTS];
+DIGITAL_INPUT SET_EQ_OFF[MAX_OUTPUTS];
+DIGITAL_INPUT SAVE_PRESET[MAX_PRESETS];
+DIGITAL_INPUT RECALL_PRESET[MAX_PRESETS];
+DIGITAL_INPUT SAVE_PRESET_AUDIO[MAX_PRESETS];
+DIGITAL_INPUT RECALL_PRESET_AUDIO[MAX_PRESETS];
+DIGITAL_INPUT SAVE_PRESET_VIDEO[MAX_PRESETS];
+DIGITAL_INPUT RECALL_PRESET_VIDEO[MAX_PRESETS];
+DIGITAL_INPUT SET_VOLUME_FIX_ON[MAX_OUTPUTS];
+DIGITAL_INPUT SET_VOLUME_FIX_OFF[MAX_OUTPUTS];
+DIGITAL_INPUT SET_MUTE_RAMP[MAX_OUTPUTS];
+DIGITAL_INPUT SET_MUTE_CUT[MAX_OUTPUTS];
+
+/**outputs**/
+STRING_OUTPUT TX;
+STRING_OUTPUT CONNECTION_STATUS;
+DIGITAL_OUTPUT CONNECTION_STATE;
+DIGITAL_OUTPUT SET_AUDIOSW_MODE_FB;
+
+ANALOG_OUTPUT VIDEO_INPUT_FB[MAX_OUTPUTS];
+ANALOG_OUTPUT AUDIO_INPUT_FB[MAX_OUTPUTS];
+DIGITAL_OUTPUT CEC_PWR_HDMI_FB[MAX_OUTPUTS];
+DIGITAL_OUTPUT CEC_PWR_HDBT_FB[MAX_OUTPUTS];
+ANALOG_OUTPUT VOLUME_FB[MAX_OUTPUTS];
+DIGITAL_OUTPUT MUTE_SPDIF_FB[MAX_OUTPUTS];
+DIGITAL_OUTPUT MUTE_AUDIO_FB[MAX_OUTPUTS];                                          
+DIGITAL_OUTPUT EQ_FB[MAX_OUTPUTS];
+DIGITAL_OUTPUT VOLUME_FIX_FB[MAX_OUTPUTS];
+DIGITAL_OUTPUT MUTE_RAMP_FB[MAX_OUTPUTS];
+
+string_parameter ipAddress[20];
+integer_parameter port;
+string_parameter model_id[4];       
+
+AVSwitchCS AVSwitchCSInstance;
+
+CMutex string_mutex;
+CMutex work_mutex;
+
+integer totalChannels;
+                      
+
+CALLBACK FUNCTION SerialTXSimpl(string toSend)
+{
+    TX = toSend;
+}
+          
+CALLBACK FUNCTION ConnectionStatusFunc(string connstatus)
+{
+	CONNECTION_STATUS = connstatus;
+}
+
+
+CALLBACK FUNCTION ConnectionStateFunc(integer connstate)
+{
+	CONNECTION_STATE = connstate;
+}
+  
+CALLBACK FUNCTION AudioOutputToInputFunc(integer o, integer i)
+{
+	AUDIO_INPUT_FB[o] = i;
+}
+ 
+CALLBACK FUNCTION VideoOutputToInputFunc(integer o, integer i)
+{
+	VIDEO_INPUT_FB[o] = i;
+}
+        
+CALLBACK FUNCTION CECPowerHDMIFunc(integer o, integer v)
+{
+	CEC_PWR_HDMI_FB[o] = v;
+}
+ 
+CALLBACK FUNCTION CECPowerHDBTFunc(integer o, integer v)
+{
+	CEC_PWR_HDBT_FB[o] = v;
+}
+
+CALLBACK FUNCTION VolumeFunc(integer o, integer v)
+{
+	VOLUME_FB[o] = v;
+}
+
+CALLBACK FUNCTION VolumeFixFunc(integer o, integer v)
+{
+	VOLUME_FIX_FB[o] = v;
+}
+
+CALLBACK FUNCTION MuteRampFunc(integer o, integer v)
+{
+	MUTE_RAMP_FB[o] = v;
+}
+
+CALLBACK FUNCTION MuteSFDIFFunc(integer o, integer v)
+{
+	MUTE_SPDIF_FB[o] = v;
+}
+
+
+CALLBACK FUNCTION MuteAudioFunc(integer o, integer v)
+{
+	MUTE_AUDIO_FB[o] = v;
+}
+
+CALLBACK FUNCTION EQFunc(integer o, integer v)
+{
+	EQ_FB[o] = v;
+}
+
+
+
+CHANGE RX
+{
+  STRING serial[60000];      
+
+  string_mutex.WaitForMutex();
+  serial = RemoveByLength( len( RX ), RX );
+  if (0 != len( serial ))
+  {
+    work_mutex.WaitForMutex();
+    string_mutex.ReleaseMutex();
+    AVSwitchCSInstance.SetSerialRx(serial);
+
+    work_mutex.ReleaseMutex();
+	Delay(500);
+  }
+  else
+  {
+    string_mutex.ReleaseMutex();
+  }
+}
+    
+
+CHANGE SET_VIDEO_ALL_INPUT
+{ 
+	integer i;
+	
+	AVSwitchCSInstance.SetVideoOutputToInput( 0, SET_VIDEO_ALL_INPUT ); 
+
+	for(i=1 to totalChannels)
+	{
+		VideoOutputToInputFunc(i, SET_VIDEO_ALL_INPUT);
+	}
+}
+
+
+CHANGE SET_AUDIO_ALL_INPUT
+{ 
+	integer i;
+
+	AVSwitchCSInstance.SetAudioOutputToInput( 0, SET_AUDIO_ALL_INPUT ); 
+		
+	for(i=1 to totalChannels)
+	{
+		AudioOutputToInputFunc(i, SET_AUDIO_ALL_INPUT);
+	}		
+}
+
+CHANGE SET_VOLUME_ALL{ AVSwitchCSInstance.SetVolume(0, SET_VOLUME_ALL); }
+
+
+PUSH SET_CEC_PWR_ALL_ON
+{ 
+	integer i;
+	
+	AVSwitchCSInstance.SetCECPower(0, 1, 0); 
+
+	for(i=1 to totalChannels)
+	{
+    	  CECPowerHDMIFunc(i, 1);
+		CECPowerHDBTFunc(i, 1);
+	}
+  	if(model_id = "H2A")
+	{
+      CECPowerHDMIFunc(1, 1);
+	}	
+}
+
+PUSH SET_CEC_PWR_ALL_OFF
+{ 
+	integer i;
+
+	AVSwitchCSInstance.SetCECPower(0, 0, 0); 
+
+	for(i=1 to totalChannels)
+	{
+    	CECPowerHDMIFunc(i, 0);
+		CECPowerHDBTFunc(i, 0);
+	}	
+}
+   
+
+
+
+
+PUSH SET_MUTE_AUDIO_ALL_ON
+{
+	integer i;
+
+	AVSwitchCSInstance.SetMute(0, 1, 0);
+
+	for(i=1 to totalChannels)
+	{
+		MuteSFDIFFunc(i, 1);
+		MuteAudioFunc(i, 1);
+	}
+}
+
+PUSH SET_MUTE_AUDIO_ALL_OFF
+{
+	integer i;
+
+	AVSwitchCSInstance.SetMute(0, 0, 0);
+
+  	for(i=1 to totalChannels)
+	{
+		MuteSFDIFFunc(i, 0);
+		MuteAudioFunc(i, 0);
+	}	
+}
+
+PUSH SET_VOLGAIN_FIX_ALL_ON
+{
+	integer i;
+
+	AVSwitchCSInstance.SetVolumeFix(0, 1);
+
+	for(i=1 to totalChannels)
+	{
+		VolumeFixFunc(i, 1);
+	}
+}
+
+PUSH SET_VOLGAIN_FIX_ALL_OFF
+{
+	integer i;
+
+	AVSwitchCSInstance.SetVolumeFix(0, 0);
+
+  	for(i=1 to totalChannels)
+	{
+		VolumeFixFunc(i, 0);
+	}	
+}
+
+PUSH SET_MUTE_ALL_RAMP
+{
+	integer i;
+
+	AVSwitchCSInstance.SetMuteMType(0, 1);
+
+	for(i=1 to totalChannels)
+	{
+		MuteRampFunc(i, 1);
+	}
+}
+
+PUSH SET_MUTE_ALL_CUT
+{
+	integer i;
+
+	AVSwitchCSInstance.SetMuteMType(0, 0);
+
+  	for(i=1 to totalChannels)
+	{
+		MuteRampFunc(i, 0);
+	}	
+}
+
+PUSH SET_EQ_ALL_ON
+{
+	integer i;
+ 
+	AVSwitchCSInstance.EnableEQ(0, 1); 
+
+  	for(i=1 to totalChannels)
+	{
+		EqFunc(i, 1);
+		EqFunc(i, 1);
+	}	
+}
+
+PUSH SET_EQ_ALL_OFF
+{ 
+	integer i;
+ 
+	AVSwitchCSInstance.EnableEQ(0, 0); 
+
+  	for(i=1 to totalChannels)
+	{
+		EqFunc(i, 0);
+		EqFunc(i, 0);
+	}	
+}
+
+
+CHANGE SET_VIDEO_INPUT
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetVideoOutputToInput( i, SET_VIDEO_INPUT[i] );
+}
+
+CHANGE SET_AUDIO_INPUT
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetAudioOutputToInput( i, SET_AUDIO_INPUT[i] );
+}
+
+
+CHANGE SET_VOLUME
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetVolume( i, SET_VOLUME[i] );
+
+}
+
+ 
+PUSH SET_CEC_PWR_HDMI_ON
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetCECPower( i, 1, 1 );
+}
+
+PUSH SET_CEC_PWR_HDBT_ON
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetCECPower( i, 1, 2 );
+
+}
+
+PUSH SET_CEC_PWR_HDMI_OFF
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetCECPower( i, 0, 1 );
+
+}
+
+PUSH SET_CEC_PWR_HDBT_OFF
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetCECPower( i, 0, 2 );
+
+}
+
+PUSH SET_MUTE_SPDIF_ON
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetMute( i, 1, 1 );
+}
+
+PUSH SET_MUTE_AUDIO_ON
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetMute( i, 1, 2 );
+
+}
+
+PUSH SET_VOLUME_FIX_ON
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetVolumeFix( i, 1 );
+
+}
+
+PUSH SET_MUTE_RAMP
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetMuteMType( i, 1 );
+
+}
+
+PUSH SET_MUTE_SPDIF_OFF
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetMute( i, 0, 1 );
+
+}
+
+PUSH SET_MUTE_AUDIO_OFF
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetMute( i, 0, 2 );
+
+}
+
+PUSH SET_VOLUME_FIX_OFF
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetVolumeFix( i, 0 );
+
+}
+
+PUSH SET_MUTE_CUT
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetMuteMType( i, 0 );
+
+}
+
+PUSH SET_EQ_ON
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.EnableEQ( i, 1 );
+}
+
+PUSH SET_EQ_OFF
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.EnableEQ( i, 0 );
+}
+
+PUSH SAVE_PRESET
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetPreset( i );
+
+}
+
+PUSH RECALL_PRESET
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.RecallPreset( i );
+
+}
+
+PUSH SAVE_PRESET_AUDIO
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetPresetA( i );
+
+}
+
+PUSH RECALL_PRESET_AUDIO
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.RecallPresetA( i );
+
+}
+
+PUSH SAVE_PRESET_VIDEO
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.SetPresetV( i );
+
+}
+
+PUSH RECALL_PRESET_VIDEO
+{
+  integer i;
+  i = getlastmodifiedarrayindex();
+  AVSwitchCSInstance.RecallPresetV( i );
+
+}
+
+
+PUSH SET_AUDIOSW_MODE_ON
+{
+ 	AVSwitchCSInstance.SetAudioSWMode(1);
+} 
+
+PUSH SET_AUDIOSW_MODE_OFF
+{
+	AVSwitchCSInstance.SetAudioSWMode(0);
+}
+             
+CHANGE CONSOLE_COMMAND
+{
+  AVSwitchCSInstance.ConsoleCommand( CONSOLE_COMMAND );
+}
+
+
+Function Main()
+{
+	WaitForInitializationComplete();                                                            
+	RegisterDelegate(AVSwitchCSInstance, TheSerialTXDelegate, SerialTXSimpl);
+  	RegisterDelegate(AVSwitchCSInstance, ConnectionStatusDelegate, ConnectionStatusFunc);
+	RegisterDelegate(AVSwitchCSInstance, ConnectionStateDelegate, ConnectionStateFunc);
+    RegisterDelegate(AVSwitchCSInstance, AudioOutputToInputDelegate, AudioOutputToInputFunc);
+  	RegisterDelegate(AVSwitchCSInstance, VideoOutputToInputDelegate, VideoOutputToInputFunc);
+	RegisterDelegate(AVSwitchCSInstance, CECPowerHDMIDelegate, CECPowerHDMIFunc);
+   	RegisterDelegate(AVSwitchCSInstance, CECPowerHDBTDelegate, CECPowerHDBTFunc);
+	RegisterDelegate(AVSwitchCSInstance, VolumeDelegate, VolumeFunc);
+    RegisterDelegate(AVSwitchCSInstance, MuteSFDIFDelegate, MuteSFDIFFunc);
+  	RegisterDelegate(AVSwitchCSInstance, MuteAudioDelegate, MuteAudioFunc);
+	RegisterDelegate(AVSwitchCSInstance, EQDelegate, EQFunc);
+    RegisterDelegate(AVSwitchCSInstance, VolumeFixDelegate, VolumeFixFunc);
+    RegisterDelegate(AVSwitchCSInstance, MuteMAudioDelegate, MuteRampFunc);
+    
+		totalChannels = MAX_OUTPUTS;
+         
+	AVSwitchCSInstance.WhichModel(model_id);
+
+	if(ipAddress != ""){
+	  AVSwitchCSInstance.CreateTCPConnection(ipAddress,port);	
+		    }else{
+ 	  AVSwitchCSInstance.CreateSerialConnection();
+	}
+     
+  	  	
+}
+

@@ -20,7 +20,7 @@ Comments:
 // #DEFINE_CONSTANT
 // #CATEGORY "" 
 // #PRINT_TO_TRACE
-#DIGITAL_EXPAND InputsWithOutputs
+// #DIGITAL_EXPAND InputsWithOutputs
 // #ANALOG_SERIAL_EXPAND 
 // #OUTPUT_SHIFT 
 // #HELP_PDF_FILE ""
@@ -53,8 +53,8 @@ ANALOG_INPUT analoginput[100];
 // STRING_INPUT 
 // BUFFER_INPUT 
 
-// DIGITAL_OUTPUT 
-// ANALOG_OUTPUT 
+DIGITAL_OUTPUT discreteoutput[100];
+ANALOG_OUTPUT analogoutput[100];
 // STRING_OUTPUT 
 
 /*******************************************************************************************
@@ -164,15 +164,17 @@ PUSH discreteinput
 {
     integer index;
 	signed_integer iStatus;
+	string response[100];
 	index = GetLastModifiedArrayIndex();
-	iStatus = SocketSend(MyServer, "hello");
+	makestring(response, "D%04uV%05u", index, discreteinput[index]);
+	iStatus = SocketSend(MyServer, response);
 	if (iStatus < 0)
 	{
-		Print("Error Sending to MyServer: %d\n", iStatus);
+		Print("Error sending digital data to MyServer: %d\n", iStatus);
 	}
 	else
 	{
-		Print("Sent data\n");
+		Print("Sent digital data %s\n", response);
 	}
 }
 
@@ -183,12 +185,23 @@ RELEASE input
 }
 */
 
-/*
-CHANGE input
+CHANGE analoginput
 {
-    // TODO:  Add code here
+	integer index;
+	signed_integer iStatus;
+	string response[100];
+	index = GetLastModifiedArrayIndex();
+	makestring(response, "A%04uV%05u", index, analoginput[index]);
+	iStatus = SocketSend(MyServer, response);
+	if (iStatus < 0)
+	{
+		Print("Error sending analog data to MyServer: %d\n", iStatus);
+	}
+	else
+	{
+		Print("Sent analog data %s\n", response);
+	}
 }
-*/
 
 /*
 EVENT
@@ -209,7 +222,24 @@ SOCKETDISCONNECT MyServer
 
 SOCKETRECEIVE MyServer
 {
-    Print("Rx: %s", MyServer.SocketRxBuf);
+	integer joinnumber, joinvalue;
+    Print("Rx: %s\n", MyServer.SocketRxBuf);
+	if (byte(MyServer.SocketRxBuf,1) = 'D'){
+		Print("Data type digital\n");
+		joinnumber = atoi(mid(MyServer.SocketRxBuf,2,4));
+        Print("Join number %u\n", joinnumber);
+		Pulse(1,discreteoutput[joinnumber]);		
+	} else if (byte(MyServer.SocketRxBuf,1) = 'A'){
+		Print("Data type analog\n");
+		joinnumber = atoi(mid(MyServer.SocketRxBuf,2,4));
+        Print("Join number %u\n", joinnumber);
+		joinvalue = atoi(mid(MyServer.SocketRxBuf,7,5));
+		Print("Join value %u\n", joinvalue);
+		analogoutput[joinnumber] = joinvalue;
+		Print("Result value %u\n", analogoutput[joinnumber]);
+	} else {
+		Print("Data format not expected\n");
+	}
 	ClearBuffer(MyServer.SocketRxBuf);
 }
 
@@ -219,7 +249,7 @@ SOCKETSTATUS MyServer
 }
 
 function StartServer() {
-	SIGNED_INTEGER status;
+	signed_integer status;
 	status = SocketServerStartListen(MyServer, "0.0.0.0", 6666);
 	if (status < 0) {
 		Print("Error listening (status: %d)", status);

@@ -275,7 +275,7 @@ function InitializeSimplSharpObjects()
 {
 	myWebServer.TraceEnabled = 1;
 	RegisterDelegate(myWebServer,RequestCallback,WebServerRequestCallback);
-	myWebServer.StartListening(6667);
+	myWebServer.StartListening(7001);
 }
 
 /*******************************************************************************************

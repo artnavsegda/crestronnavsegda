@@ -226,7 +226,7 @@ SOCKETDISCONNECT MyServer
 
 SOCKETRECEIVE MyServer
 {
-  Print("Rx: %s\n", MyServer.SocketRxBuf);
+	Print("Rx: %s\n", MyServer.SocketRxBuf);
 	ClearBuffer(MyServer.SocketRxBuf);
 }
 
@@ -247,6 +247,27 @@ function StartServer() {
 
 callback string_function WebServerRequestCallback(String path)
 {
+	string webreply[100];
+	integer joinnumber, joinvalue;
+	Print("Path: %s\n", path);
+	if (byte(path,2) = 'D'){
+		joinnumber = atoi(mid(path,3,4));
+		Pulse(1,discreteoutput[joinnumber]);		
+	} else if (byte(path,2) = 'A'){
+		joinnumber = atoi(mid(path,3,4));
+		joinvalue = atoi(mid(path,8,5));
+		analogoutput[joinnumber] = joinvalue;
+	} else if (byte(path,2) = 'G'){
+        joinnumber = atoi(mid(path,3,4));
+		makestring(webreply, "%05u", discreteinput[joinnumber]);
+		return (webreply);
+	} else if (byte(path,2) = 'R'){
+        joinnumber = atoi(mid(path,3,4));
+		makestring(webreply, "%05u", analoginput[joinnumber]);
+        return (webreply);
+	} else {
+		Print("Data format not expected\n");
+	}
 	return ("homekit");
 }
 
@@ -254,7 +275,7 @@ function InitializeSimplSharpObjects()
 {
 	myWebServer.TraceEnabled = 1;
 	RegisterDelegate(myWebServer,RequestCallback,WebServerRequestCallback);
-  myWebServer.StartListening(6667);
+	myWebServer.StartListening(6667);
 }
 
 /*******************************************************************************************

@@ -20,7 +20,7 @@ Comments:
 // #DEFINE_CONSTANT
 // #CATEGORY "" 
 // #PRINT_TO_TRACE
-// #DIGITAL_EXPAND 
+#DIGITAL_EXPAND InputsWithOutputs
 // #ANALOG_SERIAL_EXPAND 
 // #OUTPUT_SHIFT 
 // #HELP_PDF_FILE ""
@@ -48,8 +48,8 @@ Comments:
   DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
   (Uncomment and declare inputs and outputs as needed)
 *******************************************************************************************/
-// DIGITAL_INPUT 
-// ANALOG_INPUT 
+DIGITAL_INPUT discreteinput[100];
+ANALOG_INPUT analoginput[100];
 // STRING_INPUT 
 // BUFFER_INPUT 
 
@@ -159,12 +159,22 @@ String_Function MyStrFunction1()
   Event Handlers
   (Uncomment and declare additional event handlers as needed)
 *******************************************************************************************/
-/*
-PUSH input
+
+PUSH discreteinput
 {
-    // TODO:  Add code here
+    integer index;
+	signed_integer iStatus;
+	index = GetLastModifiedArrayIndex();
+	iStatus = SocketSend(MyServer, "hello");
+	if (iStatus < 0)
+	{
+		Print("Error Sending to MyServer: %d\n", iStatus);
+	}
+	else
+	{
+		Print("Sent data\n");
+	}
 }
-*/
 
 /*
 RELEASE input

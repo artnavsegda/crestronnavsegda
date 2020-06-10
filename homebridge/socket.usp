@@ -1,0 +1,273 @@
+/*******************************************************************************************
+  SIMPL+ Module Information
+  (Fill in comments below)
+*******************************************************************************************/
+/*
+Dealer Name:
+System Name:
+System Number:
+Programmer:
+Comments:
+*/
+
+/*******************************************************************************************
+  Compiler Directives
+  (Uncomment and declare compiler directives as needed)
+*******************************************************************************************/
+// #ENABLE_DYNAMIC
+// #SYMBOL_NAME ""
+// #HINT ""
+// #DEFINE_CONSTANT
+// #CATEGORY "" 
+// #PRINT_TO_TRACE
+// #DIGITAL_EXPAND InputsWithOutputs
+// #ANALOG_SERIAL_EXPAND 
+// #OUTPUT_SHIFT 
+// #HELP_PDF_FILE ""
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+// #ENCODING_ASCII
+// #ENCODING_UTF16
+// #ENCODING_INHERIT_FROM_PARENT
+// #ENCODING_INHERIT_FROM_PROGRAM
+/*
+#HELP_BEGIN
+   (add additional lines of help lines)
+#HELP_END
+*/
+
+/*******************************************************************************************
+  Include Libraries
+  (Uncomment and include additional libraries as needed)
+*******************************************************************************************/
+// #CRESTRON_LIBRARY ""
+// #USER_LIBRARY ""
+
+/*******************************************************************************************
+  DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
+  (Uncomment and declare inputs and outputs as needed)
+*******************************************************************************************/
+DIGITAL_INPUT discreteinput[100];
+ANALOG_INPUT analoginput[100];
+// STRING_INPUT 
+// BUFFER_INPUT 
+
+DIGITAL_OUTPUT discreteoutput[100];
+ANALOG_OUTPUT analogoutput[100];
+// STRING_OUTPUT 
+
+/*******************************************************************************************
+  SOCKETS
+  (Uncomment and define socket definitions as needed)
+*******************************************************************************************/
+// TCP_CLIENT
+TCP_SERVER MyServer[9999];
+// UDP_SOCKET
+
+/*******************************************************************************************
+  Parameters
+  (Uncomment and declare parameters as needed)
+*******************************************************************************************/
+// INTEGER_PARAMETER
+// SIGNED_INTEGER_PARAMETER
+// LONG_INTEGER_PARAMETER
+// SIGNED_LONG_INTEGER_PARAMETER
+// STRING_PARAMETER
+
+/*******************************************************************************************
+  Parameter Properties
+  (Uncomment and declare parameter properties as needed)
+*******************************************************************************************/
+/*
+#BEGIN_PARAMETER_PROPERTIES parameter_variable, parameter_variable, ...
+   // propValidUnits = // unitString or unitDecimal|unitHex|unitPercent|unitCharacter|unitTime|unitTicks;
+   // propDefaultUnit = // unitString, unitDecimal, unitHex, unitPercent, unitCharacter, unitTime or unitTicks;
+   // propBounds = lower_bound , upper_bound;
+   // propDefaultValue = ;  // or, propDefaultValue = "";
+   // propList = // { "value" , "label" } , { "value" , "label" } , ... ;
+   // propShortDescription = "status_bar_hint_text";
+   // #BEGIN_PROP_FULL_DESCRIPTION  line_1...  line_2...  line_n  #END_PROP_FULL_DESCRIPTION
+   // #BEGIN_PROP_NOTES line_1...  line_2...  line_n  #END_PROP_NOTES
+#END_PARAMETER_PROPERTIES
+*/
+
+/*******************************************************************************************
+  Structure Definitions
+  (Uncomment and define structure definitions as needed)
+  Note:  Be sure to initialize all declared STRING variables as needed
+         For example, in Function Main: struct.myString = "";
+*******************************************************************************************/
+/*
+STRUCTURE MyStruct1
+{
+};
+
+MyStruct1 struct;
+*/
+
+/*******************************************************************************************
+  Global Variables
+  (Uncomment and declare global variables as needed)
+  Note:  Be sure to initialize all declared STRING variables as needed
+         For example, in Function Main: myString = "";
+*******************************************************************************************/
+// INTEGER
+// LONG_INTEGER
+// SIGNED_INTEGER
+// SIGNED_LONG_INTEGER
+// STRING
+
+/*******************************************************************************************
+  Functions
+  (Add any additional functions here)
+  Note:  Functions must be physically placed before the location in
+         the code that calls them.
+*******************************************************************************************/
+/*
+Function MyFunction1()
+{
+    // TODO:  Add local variable declarations here
+
+    // TODO:  Add code here
+}
+*/
+
+/*
+Integer_Function MyIntFunction1()
+{
+    // TODO:  Add local variable declarations here
+
+    // TODO:  Add code here
+
+    Return (0);
+}
+*/
+
+/*
+String_Function MyStrFunction1()
+{
+    // TODO:  Add local variable declarations here
+
+    // TODO:  Add code here
+
+    Return ("");
+}
+*/
+
+/*******************************************************************************************
+  Event Handlers
+  (Uncomment and declare additional event handlers as needed)
+*******************************************************************************************/
+
+PUSH discreteinput
+{
+    integer index;
+	signed_integer iStatus;
+	string response[100];
+	index = GetLastModifiedArrayIndex();
+	makestring(response, "D%04uV%05u", index, discreteinput[index]);
+	iStatus = SocketSend(MyServer, response);
+	if (iStatus < 0)
+	{
+		Print("Error sending digital data to MyServer: %d\n", iStatus);
+	}
+	else
+	{
+		Print("Sent digital data %s\n", response);
+	}
+}
+
+/*
+RELEASE input
+{
+    // TODO:  Add code here
+}
+*/
+
+CHANGE analoginput
+{
+	integer index;
+	signed_integer iStatus;
+	string response[100];
+	index = GetLastModifiedArrayIndex();
+	makestring(response, "A%04uV%05u", index, analoginput[index]);
+	iStatus = SocketSend(MyServer, response);
+	if (iStatus < 0)
+	{
+		Print("Error sending analog data to MyServer: %d\n", iStatus);
+	}
+	else
+	{
+		Print("Sent analog data %s\n", response);
+	}
+}
+
+/*
+EVENT
+{
+    // TODO:  Add code here
+}
+*/
+
+SOCKETCONNECT MyServer
+{
+    // TODO:  Add code here
+}
+
+SOCKETDISCONNECT MyServer
+{
+    // TODO:  Add code here
+}
+
+SOCKETRECEIVE MyServer
+{
+	integer joinnumber, joinvalue;
+    Print("Rx: %s\n", MyServer.SocketRxBuf);
+	if (byte(MyServer.SocketRxBuf,1) = 'D'){
+		Print("Data type digital\n");
+		joinnumber = atoi(mid(MyServer.SocketRxBuf,2,4));
+        Print("Join number %u\n", joinnumber);
+		Pulse(1,discreteoutput[joinnumber]);		
+	} else if (byte(MyServer.SocketRxBuf,1) = 'A'){
+		Print("Data type analog\n");
+		joinnumber = atoi(mid(MyServer.SocketRxBuf,2,4));
+        Print("Join number %u\n", joinnumber);
+		joinvalue = atoi(mid(MyServer.SocketRxBuf,7,5));
+		Print("Join value %u\n", joinvalue);
+		analogoutput[joinnumber] = joinvalue;
+		Print("Result value %u\n", analogoutput[joinnumber]);
+	} else {
+		Print("Data format not expected\n");
+	}
+	ClearBuffer(MyServer.SocketRxBuf);
+}
+
+SOCKETSTATUS MyServer
+{
+    // TODO:  Add code here
+}
+
+function StartServer() {
+	signed_integer status;
+	status = SocketServerStartListen(MyServer, "0.0.0.0", 6666);
+	if (status < 0) {
+		Print("Error listening (status: %d)", status);
+	} else {
+        Print("Server started (status: %d)", status);
+	}
+}
+
+/*******************************************************************************************
+  Main()
+  Uncomment and place one-time startup code here
+  (This code will get called when the system starts up)
+*******************************************************************************************/
+
+Function Main()
+{
+    WaitForInitializationComplete();
+	StartServer();
+}
+
+

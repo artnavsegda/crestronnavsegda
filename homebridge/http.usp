@@ -1,0 +1,431 @@
+/*******************************************************************************************
+  SIMPL+ Module Information
+  (Fill in comments below)
+*******************************************************************************************/
+/*
+Dealer Name:
+System Name:
+System Number:
+Programmer:
+Comments:
+*/
+
+/*******************************************************************************************
+  Compiler Directives
+  (Uncomment and declare compiler directives as needed)
+*******************************************************************************************/
+// #ENABLE_DYNAMIC
+// #SYMBOL_NAME ""
+// #HINT ""
+// #DEFINE_CONSTANT
+// #CATEGORY ""
+// #PRINT_TO_TRACE
+#DIGITAL_EXPAND InputsWithOutputs
+// #ANALOG_SERIAL_EXPAND
+// #OUTPUT_SHIFT
+// #HELP_PDF_FILE ""
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+// #ENCODING_ASCII
+// #ENCODING_UTF16
+// #ENCODING_INHERIT_FROM_PARENT
+// #ENCODING_INHERIT_FROM_PROGRAM
+/*
+#HELP_BEGIN
+   (add additional lines of help lines)
+#HELP_END
+*/
+
+/*******************************************************************************************
+  Include Libraries
+  (Uncomment and include additional libraries as needed)
+*******************************************************************************************/
+// #CRESTRON_LIBRARY ""
+// #USER_LIBRARY ""
+#INCLUDEPATH "C:\Users\artna\Documents\GitHub\http-server\bin\Debug"
+#USER_SIMPLSHARP_LIBRARY "http_sharp"
+
+/*******************************************************************************************
+  DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
+  (Uncomment and declare inputs and outputs as needed)
+*******************************************************************************************/
+DIGITAL_INPUT testone;
+// ANALOG_INPUT
+// STRING_INPUT
+// BUFFER_INPUT
+
+DIGITAL_OUTPUT testtwo;
+DIGITAL_INPUT discreteinput[10];
+DIGITAL_OUTPUT discreteon[10], discreteoff[10];
+
+ANALOG_INPUT analoginput[10], redinput[10], greeninput[10], blueinput[10];
+ANALOG_OUTPUT analogoutput[10], redoutput[10], greenoutput[10], blueoutput[10];
+
+// STRING_OUTPUT
+
+/*******************************************************************************************
+  SOCKETS
+  (Uncomment and define socket definitions as needed)
+*******************************************************************************************/
+// TCP_CLIENT
+// TCP_SERVER
+// UDP_SOCKET
+
+/*******************************************************************************************
+  Parameters
+  (Uncomment and declare parameters as needed)
+*******************************************************************************************/
+// INTEGER_PARAMETER
+// SIGNED_INTEGER_PARAMETER
+// LONG_INTEGER_PARAMETER
+// SIGNED_LONG_INTEGER_PARAMETER
+// STRING_PARAMETER
+
+/*******************************************************************************************
+  Parameter Properties
+  (Uncomment and declare parameter properties as needed)
+*******************************************************************************************/
+/*
+#BEGIN_PARAMETER_PROPERTIES parameter_variable, parameter_variable, ...
+   // propValidUnits = // unitString or unitDecimal|unitHex|unitPercent|unitCharacter|unitTime|unitTicks;
+   // propDefaultUnit = // unitString, unitDecimal, unitHex, unitPercent, unitCharacter, unitTime or unitTicks;
+   // propBounds = lower_bound , upper_bound;
+   // propDefaultValue = ;  // or, propDefaultValue = "";
+   // propList = // { "value" , "label" } , { "value" , "label" } , ... ;
+   // propShortDescription = "status_bar_hint_text";
+   // #BEGIN_PROP_FULL_DESCRIPTION  line_1...  line_2...  line_n  #END_PROP_FULL_DESCRIPTION
+   // #BEGIN_PROP_NOTES line_1...  line_2...  line_n  #END_PROP_NOTES
+#END_PARAMETER_PROPERTIES
+*/
+
+/*******************************************************************************************
+  Structure Definitions
+  (Uncomment and define structure definitions as needed)
+  Note:  Be sure to initialize all declared STRING variables as needed
+         For example, in Function Main: struct.myString = "";
+*******************************************************************************************/
+/*
+STRUCTURE MyStruct1
+{
+};
+
+MyStruct1 struct;
+*/
+
+/*******************************************************************************************
+  Global Variables
+  (Uncomment and declare global variables as needed)
+  Note:  Be sure to initialize all declared STRING variables as needed
+         For example, in Function Main: myString = "";
+*******************************************************************************************/
+//INTEGER lamp0status;
+//INTEGER tvstatus;
+// INTEGER tvvolume;
+// LONG_INTEGER
+// SIGNED_INTEGER
+// SIGNED_LONG_INTEGER
+// STRING
+
+/*******************************************************************************************
+  Functions
+  (Add any additional functions here)
+  Note:  Functions must be physically placed before the location in
+         the code that calls them.
+*******************************************************************************************/
+/*
+Function MyFunction1()
+{
+    // TODO:  Add local variable declarations here
+
+    // TODO:  Add code here
+}
+*/
+
+/*
+Integer_Function MyIntFunction1()
+{
+    // TODO:  Add local variable declarations here
+
+    // TODO:  Add code here
+
+    Return (0);
+}
+*/
+
+/*
+String_Function MyStrFunction1()
+{
+    // TODO:  Add local variable declarations here
+
+    // TODO:  Add code here
+
+    Return ("");
+}
+*/
+
+/*******************************************************************************************
+  Event Handlers
+  (Uncomment and declare additional event handlers as needed)
+*******************************************************************************************/
+
+WebServer myWebServer; // instantiate a variable of your SIMPL# class in the SIMPL+ module
+
+PUSH testone
+{
+	SIGNED_LONG_INTEGER ID;
+    // TODO:  Add code here
+	//Delay(500);
+	Pulse(50,testtwo);
+	Trace("push");
+	ID = myWebServer.GetID();
+}
+
+push discreteinput
+{
+    integer index;
+    index = GetLastModifiedArrayIndex();
+
+    //do stuff based on index
+}
+
+RELEASE testone
+{
+    // TODO:  Add code here
+	Trace("release");
+}
+
+
+/*
+CHANGE input
+{
+    // TODO:  Add code here
+}
+*/
+
+/*
+EVENT
+{
+    // TODO:  Add code here
+}
+*/
+
+/*
+SOCKETCONNECT
+{
+    // TODO:  Add code here
+}
+*/
+
+/*
+SOCKETDISCONNECT
+{
+    // TODO:  Add code here
+}
+*/
+
+/*
+SOCKETRECEIVE
+{
+    // TODO:  Add code here
+}
+*/
+
+/*
+SOCKETSTATUS
+{
+    // TODO:  Add code here
+}
+*/
+
+callback string_function WebServerRequestCallback(String path)
+{
+	string reply[100];
+	string webreply[100];
+	string comparepath[100];
+	integer joinnumber, analogvalue, rgbvalue;
+	Trace("SIMPL+ callback");
+    reply = "SIMPL+ path is " + path;
+	Trace("%s", reply);
+
+	if (find("/discrete",path))
+	{
+		Trace("It's a discrete");
+		joinnumber = atoi(mid(path,10,2));
+		Trace("Discrete join number is %d", joinnumber);
+        comparepath = "/discrete" + itoa(joinnumber);
+		if (path = comparepath)
+		{
+			Trace("It's an discrete status request");
+			//reply status
+			if (discreteinput[joinnumber] = 1)
+			{
+				return ("{\"status\":\"ok\",\"text\":\"Discrete join value\",\"value\":true}");
+			}
+			else
+			{
+				return ("{\"status\":\"ok\",\"text\":\"Discrete join value\",\"value\":false}");
+			}
+		}
+		comparepath = "/discrete" + itoa(joinnumber) + "=1";
+		if (path = comparepath)
+		{
+			Trace("It's an discrete value set on");
+			//enable discrete
+			Pulse(1,discreteon[joinnumber]);
+			return ("{\"status\":\"ok\",\"text\":\"Discrete join value\",\"value\":true}");
+		}
+		comparepath = "/discrete" + itoa(joinnumber) + "=0";
+		if (path = comparepath)
+		{
+			Trace("It's an discrete value set off");
+			//disable discrete
+			Pulse(1,discreteoff[joinnumber]);
+			return ("{\"status\":\"ok\",\"text\":\"Discrete join value\",\"value\":false}");
+		}
+	}
+	else if (find("/biscrete",path))
+	{
+		Trace("It's a biscrete");
+		joinnumber = atoi(mid(path,10,2));
+		Trace("Biscrete join number is %d", joinnumber);
+        comparepath = "/biscrete" + itoa(joinnumber);
+		if (path = comparepath)
+		{
+			Trace("It's an biscrete status request");
+			//reply status
+			if (discreteinput[joinnumber] = 1)
+			{
+				return ("{\"status\":\"ok\",\"text\":\"Biscrete join value\",\"value\":1}");
+			}
+			else
+			{
+				return ("{\"status\":\"ok\",\"text\":\"Biscrete join value\",\"value\":0}");
+			}
+		}
+		comparepath = "/biscrete" + itoa(joinnumber) + "=1";
+		if (path = comparepath)
+		{
+			Trace("It's an biscrete value set on");
+			//enable discrete
+			Pulse(1,discreteon[joinnumber]);
+			return ("{\"status\":\"ok\",\"text\":\"Biscrete join value\",\"value\":1}");
+		}
+		comparepath = "/biscrete" + itoa(joinnumber) + "=0";
+		if (path = comparepath)
+		{
+			Trace("It's an biscrete value set off");
+			//disable discrete
+			Pulse(1,discreteoff[joinnumber]);
+			return ("{\"status\":\"ok\",\"text\":\"Biscrete join value\",\"value\":0}");
+		}
+	}
+	else if (find("/analog",path))
+	{
+		Trace("It's an analog");
+		joinnumber = atoi(mid(path,8,2));
+		Trace("Analog join number is %d", joinnumber);
+        comparepath = "/analog" + itoa(joinnumber);
+		Trace("Compare path %s", comparepath);
+		if (path = comparepath)
+		{
+			Trace("It's an analog status request");
+			//reply status
+			makestring(webreply,"{\"status\":\"ok\",\"text\":\"Analog join value\",\"value\": %u }", analoginput[joinnumber]);
+			return (webreply);
+		}
+		else
+		{
+			Trace("It's an analog value set request");
+			//set analog value
+			analogvalue = atoi(mid(path,len(comparepath)+1,10));
+			analogoutput[joinnumber] = analogvalue;
+			Trace("Analog join %d value set to %d", joinnumber, analogvalue);
+			Trace("Actual value %d", analogoutput[joinnumber]);
+			makestring(webreply,"{\"status\":\"ok\",\"text\":\"Analog join value\",\"value\": %u }", analogvalue);
+			return (webreply);
+		}
+	}
+	else if (find("/analod",path))
+	{
+		Trace("It's an analod");
+		joinnumber = atoi(mid(path,8,2));
+		Trace("Analod join number is %d", joinnumber);
+        comparepath = "/analod" + itoa(joinnumber);
+		Trace("Compare path %s", comparepath);
+		if (path = comparepath)
+		{
+			Trace("It's an analod status request");
+			//reply status
+			makestring(webreply,"{\"status\":\"ok\",\"text\":\"Analod join value\",\"value\": %u.%u }", analoginput[joinnumber]/10, analoginput[joinnumber]%10);
+			return (webreply);
+		}
+		else
+		{
+			Trace("It's an analod value set request");
+			//set analodd value
+			analogvalue = atoi(mid(path,len(comparepath)+1,10));
+			analogoutput[joinnumber] = analogvalue;
+			Trace("Analod join %d value set to %d", joinnumber, analogvalue);
+			Trace("Actual value %d", analogoutput[joinnumber]);
+			makestring(webreply,"{\"status\":\"ok\",\"text\":\"Analod join value\",\"value\": %u }", analogvalue);
+			return (webreply);
+		}
+	}
+	else if (find("/rgb",path))
+	{
+		Trace("It's an RGB");
+		joinnumber = atoi(mid(path,5,2));
+		Trace("RGB join number is %d", joinnumber);
+        comparepath = "/rgb" + itoa(joinnumber);
+		Trace("Compare path %s", comparepath);
+		if (path = comparepath)
+		{
+			Trace("It's an RGB status request");
+			//reply status
+			rgbvalue = redinput[joinnumber] + greeninput[joinnumber] + blueinput[joinnumber];
+			makestring(webreply,"{\"status\":\"ok\",\"text\":\"Analog join value\",\"value\": %u }", rgbvalue);
+			return (webreply);
+		}
+		else
+		{
+			Trace("It's an RGB value set request");
+			//set RGB value
+			analogvalue = atoi(mid(path,len(comparepath)+1,10));
+			analogoutput[joinnumber] = analogvalue;
+			Trace("RGB join %d value set to %d", joinnumber, analogvalue);
+			Trace("Actual value %d", analogoutput[joinnumber]);
+			makestring(webreply,"{\"status\":\"ok\",\"text\":\"Analog join value\",\"value\": %u }", analogvalue);
+			return (webreply);
+		}
+	}
+	return ("simplplus");
+}
+
+function InitializeSimplSharpObjects()
+{
+	myWebServer.TraceEnabled = 1;
+	RegisterDelegate(myWebServer,RequestCallback,WebServerRequestCallback);
+  myWebServer.StartListening(7000);
+}
+
+/*******************************************************************************************
+  Main()
+  Uncomment and place one-time startup code here
+  (This code will get called when the system starts up)
+*******************************************************************************************/
+
+Function Main()
+{
+    // TODO:  Add code here
+    // Initialize declared global and local variables/arrays as needed.
+
+    WaitForInitializationComplete();
+    // If you are reading any Input or Output variables, uncomment
+    //   the WaitForInitializationComplete statement above and read
+    //   them afterwards.  Input/Output variables will not have
+    //   their correct values set until after the logic processor
+    //   runs and propagates the values to them.
+
+	InitializeSimplSharpObjects();
+}

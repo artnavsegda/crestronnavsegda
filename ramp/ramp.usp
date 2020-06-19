@@ -1,0 +1,21 @@
+DIGITAL_INPUT GoToPresetLevel;
+ANALOG_OUTPUT LightLevel[20];
+PUSH GoToPresetLevel
+{
+   RAMP_INFO LightInfo;
+   SIGNED_INTEGER status;
+   
+   // 10% of 65535 is 6553.
+   LightInfo.rampTargetValue=6553;
+
+   // Transition time of 10 seconds (1000 hundredths of a second)
+   LightInfo.rampTransitionTime=1000;
+  
+   if (IsSignalDefined(LightLevel[1]))
+   {     
+     status = CreateRamp(LightLevel[1], LightInfo);
+     if(status <> 0)
+        GenerateUserWarning("Could not create Ramping Process, status = %d", status);
+   }
+}
+

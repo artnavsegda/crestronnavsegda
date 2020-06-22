@@ -1551,8 +1551,9 @@ Xm=-1
 Ym=-1
 SH=25
 Z=100
-Ht=1
-Hi=1
+P=24
+Ht=4
+Hi=11
 ]
 [
 ObjTp=Bw
@@ -2006,7 +2007,7 @@ O7=30
 O8=31
 O9=32
 O10=33
-O11=34
+O11=14
 O12=35
 O13=36
 O14=37
@@ -2091,7 +2092,7 @@ Nm=S-1_discreteinput[10]
 [
 ObjTp=Sg
 H=14
-Nm=S-1_analoginput[1]
+Nm=analog1
 SgTp=2
 ]
 [
@@ -2197,12 +2198,6 @@ Nm=S-1_discreteoutput[9]
 ObjTp=Sg
 H=33
 Nm=S-1_discreteoutput[10]
-]
-[
-ObjTp=Sg
-H=34
-Nm=S-1_analogoutput[1]
-SgTp=2
 ]
 [
 ObjTp=Sg

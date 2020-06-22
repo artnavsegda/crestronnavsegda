@@ -164,7 +164,7 @@ String_Function MyStrFunction1()
 
 WebServer myWebServer;
 
-PUSH discreteinput
+CHANGE discreteinput
 {
   integer index;
 	signed_integer iStatus;

@@ -16,7 +16,7 @@
   (Uncomment and declare compiler directives as needed)
 *******************************************************************************************/
 // #ENABLE_DYNAMIC
- #SYMBOL_NAME "HSVtoRGB_Conv"
+ #SYMBOL_NAME "HSVtoRGB_Con"
 // #HINT ""
 // #DEFINE_CONSTANT
 // #CATEGORY "" 

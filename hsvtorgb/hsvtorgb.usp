@@ -43,7 +43,7 @@
   (Uncomment and include additional libraries as needed)
 *******************************************************************************************/
 #INCLUDEPATH "C:\Users\artna\Documents\GitHub\ssharpnavsegda\hsvtorgb\bin\Debug"
-#USER_SIMPLSHARP_LIBRARY "hsvtorgb"
+//#USER_SIMPLSHARP_LIBRARY "hsvtorgb"
 // #CRESTRON_LIBRARY ""
 // #USER_LIBRARY ""
 
@@ -108,7 +108,7 @@ MyStruct1 struct;
   Note:  Be sure to initialize all declared STRING variables as needed
          For example, in Function Main: myString = "";
 *******************************************************************************************/
-ColourSpaceHSV g_ColourToolHSV;
+//ColourSpaceHSV g_ColourToolHSV;
 // INTEGER
 // LONG_INTEGER
 // SIGNED_INTEGER
@@ -122,8 +122,8 @@ ColourSpaceHSV g_ColourToolHSV;
 *******************************************************************************************/
 PUSH Convert
 {
-	g_ColourToolHSV.SetRGB( Red#, Green#, Blue# );
-	Hue# = g_ColourToolHSV.Hue;
-	Saturation# = g_ColourToolHSV.Saturation;
-	Value# = g_ColourToolHSV.Value;
+//	g_ColourToolHSV.SetRGB( Red#, Green#, Blue# );
+//	Hue# = g_ColourToolHSV.Hue;
+//	Saturation# = g_ColourToolHSV.Saturation;
+//	Value# = g_ColourToolHSV.Value;
 }

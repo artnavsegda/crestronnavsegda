@@ -130,14 +130,14 @@ ColourSpaceHSV g_ColourToolHSV;
   Note:  Functions must be physically placed before the location in
          the code that calls them.
 *******************************************************************************************/
-/*
+
 Function MyFunction1()
 {
-    // TODO:  Add local variable declarations here
-
-    // TODO:  Add code here
+	g_ColourToolHSV.SetHSV( Hue#, Saturation#, Value# );
+	Red# = g_ColourToolHSV.Red;
+	Green# = g_ColourToolHSV.Green;
+	Blue# = g_ColourToolHSV.Blue;
 }
-*/
 
 /*
 Integer_Function MyIntFunction1()
@@ -168,10 +168,7 @@ String_Function MyStrFunction1()
 
 PUSH Convert
 {
-	g_ColourToolHSV.SetHSV( Hue#, Saturation#, Value# );
-	Red# = g_ColourToolHSV.Red;
-	Green# = g_ColourToolHSV.Green;
-	Blue# = g_ColourToolHSV.Blue;
+	MyFunction1();
 }
 
 /*
@@ -181,12 +178,10 @@ RELEASE input
 }
 */
 
-/*
-CHANGE input
+CHANGE Hue#,Saturation#,Value#
 {
-    // TODO:  Add code here
+    MyFunction1();
 }
-*/
 
 /*
 EVENT

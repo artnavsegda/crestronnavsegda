@@ -1,15 +1,30 @@
-DIGITAL_INPUT GoToPresetLevel;
+ANALOG_INPUT PresetLevel;
 ANALOG_OUTPUT LightLevel[20];
-PUSH GoToPresetLevel
+INTEGER_PARAMETER DelayTime;
+
+#BEGIN_PARAMETER_PROPERTIES DelayTime
+   propValidUnits = unitDecimal;
+   propDefaultUnit = unitDecimal;
+   propBounds = 0d , 65535d;
+   propDefaultValue = 1000d;
+   propShortDescription= "DelayTime";
+#END_PARAMETER_PROPERTIES
+
+CHANGE PresetLevel
 {
    RAMP_INFO LightInfo;
    SIGNED_INTEGER status;
    
-   // 10% of 65535 is 6553.
-   LightInfo.rampTargetValue=6553;
+   LightInfo.rampTargetValue=PresetLevel;
+   LightInfo.rampBaseValue=LightLevel[1];
 
    // Transition time of 10 seconds (1000 hundredths of a second)
-   LightInfo.rampTransitionTime=1000;
+   LightInfo.rampIsAbsolute = 1;
+   LightInfo.rampLowerBound = 0;
+   LightInfo.rampUpperBound = 10000;
+   
+   LightInfo.rampTransitionTime = ABS(LightInfo.rampTargetValue - LightInfo.rampBaseValue);
+   Print("ramp time is %ld\n", LightInfo.rampTransitionTime);
   
    if (IsSignalDefined(LightLevel[1]))
    {     

@@ -3,6 +3,7 @@
 
 ANALOG_INPUT PresetLevel;
 ANALOG_OUTPUT LightLevel[20];
+DIGITAL_OUTPUT NowRamping;
 INTEGER_PARAMETER DelayTime;
 
 #BEGIN_PARAMETER_PROPERTIES DelayTime
@@ -28,19 +29,18 @@ CHANGE PresetLevel
    LightInfo.rampLowerBound = 0;
    LightInfo.rampUpperBound = 10000;
    
-   LightInfo.rampTransitionTime = myHelperClass.ComputeRamp(LightInfo.rampTargetValue - LightInfo.rampBaseValue, LightInfo.rampUpperBound - LightInfo.rampLowerBound, DelayTime);
+   LightInfo.rampTransitionTime = ABS(myHelperClass.ComputeRamp(LightInfo.rampTargetValue - LightInfo.rampBaseValue, LightInfo.rampUpperBound - LightInfo.rampLowerBound, DelayTime));
 
    //LightInfo.rampTransitionTime = ABS(LightInfo.rampTargetValue - LightInfo.rampBaseValue);
 
    Print("ramp time is %ld\n", LightInfo.rampTransitionTime);
-
-   Print("test value is %ld\n", myHelperClass.ComputeRamp(1000, 10000, 1000));
-  
-   if (IsSignalDefined(LightLevel[1]))
-   {     
-     status = CreateRamp(LightLevel[1], LightInfo);
-     if(status <> 0)
-        GenerateUserWarning("Could not create Ramping Process, status = %d", status);
+   CreateRamp(LightLevel[1], LightInfo);
+   NowRamping = 1;
+   CancelAllWait();
+   Wait(LightInfo.rampTransitionTime, rampWait)
+   {
+       NowRamping = 0;
    }
 }
+
 

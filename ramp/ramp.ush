@@ -23,6 +23,8 @@
   Code=1
   SysRev5=4.000
   SMWRev=2.02.00
+  OutputCue1=NowRamping
+  OutputSigType1=Digital
   InputList2Cue1=PresetLevel
   InputList2SigType1=Analog
   OutputList2Cue1=LightLevel[#]
@@ -34,8 +36,8 @@
   MaxVariableInputs=0
   MinVariableInputsList2=1
   MaxVariableInputsList2=1
-  MinVariableOutputs=0
-  MaxVariableOutputs=0
+  MinVariableOutputs=1
+  MaxVariableOutputs=1
   MinVariableOutputsList2=1
   MaxVariableOutputsList2=20
   MinVariableParams=1

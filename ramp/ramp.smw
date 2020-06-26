@@ -1551,7 +1551,7 @@ Xm=-1
 Ym=-1
 SH=25
 Z=100
-Ht=1
+Ht=4
 Hi=1
 ]
 [
@@ -1956,11 +1956,13 @@ ObjVer=1
 PrH=4
 CF=2
 n2I=1
+n1O=1
 mI=1
 I1=5
-mO=1
-tO=1
-O1=4
+mO=2
+tO=2
+O1=6
+O2=4
 mP=2
 P1=
 P2=1000d
@@ -1976,4 +1978,9 @@ ObjTp=Sg
 H=5
 Nm=S-1_PresetLevel
 SgTp=2
+]
+[
+ObjTp=Sg
+H=6
+Nm=S-1_NowRamping
 ]

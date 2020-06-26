@@ -33,6 +33,8 @@ CHANGE PresetLevel
    //LightInfo.rampTransitionTime = ABS(LightInfo.rampTargetValue - LightInfo.rampBaseValue);
 
    Print("ramp time is %ld\n", LightInfo.rampTransitionTime);
+
+   Print("test value is %ld\n", myHelperClass.ComputeRamp(1000, 10000, 1000));
   
    if (IsSignalDefined(LightLevel[1]))
    {     

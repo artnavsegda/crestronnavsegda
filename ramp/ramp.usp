@@ -3,9 +3,9 @@
 
 ANALOG_INPUT PresetLevel;
 ANALOG_OUTPUT LightLevel[20];
-DIGITAL_OUTPUT _SKIP_, Ramp_up, Ramp_down;
-DIGITAL_INPUT _SKIP_, Toggle_up, Toggle_down, Hold_up, Hold_down;
-INTEGER_PARAMETER DelayTime;
+DIGITAL_OUTPUT _SKIP_, _SKIP_, Ramp_up, Ramp_down;
+DIGITAL_INPUT _SKIP_, _SKIP_, Toggle_up, Toggle_down, Hold_up, Hold_down, Stop, Open_up, Close_down;
+INTEGER_PARAMETER DelayTime, MaxVal;
 
 #BEGIN_PARAMETER_PROPERTIES DelayTime
    propValidUnits = unitDecimal;
@@ -13,6 +13,14 @@ INTEGER_PARAMETER DelayTime;
    propBounds = 0d , 65535d;
    propDefaultValue = 1000d;
    propShortDescription= "DelayTime";
+#END_PARAMETER_PROPERTIES
+                               
+#BEGIN_PARAMETER_PROPERTIES MaxVal
+   propValidUnits = unitDecimal;
+   propDefaultUnit = unitDecimal;
+   propBounds = 0d , 65535d;
+   propDefaultValue = 10000d;
+   propShortDescription= "MaxVal";
 #END_PARAMETER_PROPERTIES
 
 HelperClass myHelperClass;
@@ -22,13 +30,13 @@ Function Ramp(INTEGER rampTo)
    RAMP_INFO LightInfo;
    SIGNED_INTEGER status;
    
-   LightInfo.rampTargetValue=PresetLevel;
+   LightInfo.rampTargetValue=rampTo;
    LightInfo.rampBaseValue=LightLevel[1];
 
    // Transition time of 10 seconds (1000 hundredths of a second)
    LightInfo.rampIsAbsolute = 1;
    LightInfo.rampLowerBound = 0;
-   LightInfo.rampUpperBound = 10000;
+   LightInfo.rampUpperBound = MaxVal;
    
    LightInfo.rampTransitionTime = ABS(myHelperClass.ComputeRamp(LightInfo.rampTargetValue - LightInfo.rampBaseValue, LightInfo.rampUpperBound - LightInfo.rampLowerBound, DelayTime));
 
@@ -55,28 +63,70 @@ Function Ramp(INTEGER rampTo)
    }
 }
 
+Function Stop_func()
+{
+   StopRamp(LightLevel[1]);
+   Ramp_up = 0;
+   Ramp_down = 0;
+}
+
+PUSH Stop
+{
+   Stop_func();
+}
+
 PUSH Toggle_up
 {
+   if(IsRamping(LightLevel[1]) != 1)
+   {
+      Ramp(MaxVal);
+   }
+   else
+   {
+      Stop_func();
+   }
 }
 
 PUSH Toggle_down
 {
+   if(IsRamping(LightLevel[1]) != 1)
+   {
+      Ramp(0);
+   }
+   else
+   {
+      Stop_func();
+   }
 }
 
 PUSH Hold_up
 {
+   Ramp(MaxVal);
 }
 
 RELEASE Hold_up
 {
+   Stop_func();
 }
 
 PUSH Hold_down
 {
+   Ramp(0);
 }
 
 RELEASE Hold_down
 {
+   Stop_func();
+}
+
+PUSH Open_up
+{
+   Ramp(MaxVal);   
+}
+
+PUSH Close_down
+{
+   Ramp(0);
 }
 
 CHANGE PresetLevel

@@ -3,7 +3,8 @@
 
 ANALOG_INPUT PresetLevel;
 ANALOG_OUTPUT LightLevel[20];
-DIGITAL_OUTPUT NowRamping;
+DIGITAL_OUTPUT _SKIP_, Ramp_up, Ramp_down;
+DIGITAL_INPUT _SKIP_, Toggle_up, Toggle_down, Hold_up, Hold_down;
 INTEGER_PARAMETER DelayTime;
 
 #BEGIN_PARAMETER_PROPERTIES DelayTime
@@ -35,11 +36,22 @@ CHANGE PresetLevel
 
    Print("ramp time is %ld\n", LightInfo.rampTransitionTime);
    CreateRamp(LightLevel[1], LightInfo);
-   NowRamping = 1;
+
+   if(LightInfo.rampTargetValue > LightInfo.rampBaseValue)
+   {
+      Ramp_up = 1;
+      Ramp_down = 0;
+   }
+   else
+   {
+      Ramp_up = 0;
+      Ramp_down = 1;
+   }
    CancelAllWait();
    Wait(LightInfo.rampTransitionTime, rampWait)
    {
-       NowRamping = 0;
+      Ramp_up = 0;
+      Ramp_down = 0;
    }
 }
 

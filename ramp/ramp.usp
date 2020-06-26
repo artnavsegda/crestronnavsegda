@@ -17,7 +17,7 @@ INTEGER_PARAMETER DelayTime;
 
 HelperClass myHelperClass;
 
-CHANGE PresetLevel
+Function Ramp(INTEGER rampTo)
 {
    RAMP_INFO LightInfo;
    SIGNED_INTEGER status;
@@ -54,5 +54,36 @@ CHANGE PresetLevel
       Ramp_down = 0;
    }
 }
+
+PUSH Toggle_up
+{
+}
+
+PUSH Toggle_down
+{
+}
+
+PUSH Hold_up
+{
+}
+
+RELEASE Hold_up
+{
+}
+
+PUSH Hold_down
+{
+}
+
+RELEASE Hold_down
+{
+}
+
+CHANGE PresetLevel
+{
+   Ramp(PresetLevel);
+}
+
+
 
 

@@ -4,7 +4,7 @@
 ANALOG_INPUT PresetLevel;
 ANALOG_OUTPUT LightLevel[20];
 DIGITAL_OUTPUT _SKIP_, _SKIP_, Ramp_up, Ramp_down;
-DIGITAL_INPUT _SKIP_, _SKIP_, Toggle_up, Toggle_down, Hold_up, Hold_down, Stop, Open_up, Close_down;
+DIGITAL_INPUT _SKIP_, _SKIP_, Toggle_open, Toggle_close, Hold_open, Hold_close, Stop, Open_up, Close_down;
 INTEGER_PARAMETER DelayTime, MaxVal;
 
 #BEGIN_PARAMETER_PROPERTIES DelayTime
@@ -75,19 +75,7 @@ PUSH Stop
    Stop_func();
 }
 
-PUSH Toggle_up
-{
-   if(IsRamping(LightLevel[1]) != 1)
-   {
-      Ramp(MaxVal);
-   }
-   else
-   {
-      Stop_func();
-   }
-}
-
-PUSH Toggle_down
+PUSH Toggle_open
 {
    if(IsRamping(LightLevel[1]) != 1)
    {
@@ -99,34 +87,46 @@ PUSH Toggle_down
    }
 }
 
-PUSH Hold_up
+PUSH Toggle_close
 {
-   Ramp(MaxVal);
+   if(IsRamping(LightLevel[1]) != 1)
+   {
+      Ramp(MaxVal);
+   }
+   else
+   {
+      Stop_func();
+   }
 }
 
-RELEASE Hold_up
-{
-   Stop_func();
-}
-
-PUSH Hold_down
+PUSH Hold_open
 {
    Ramp(0);
 }
 
-RELEASE Hold_down
+RELEASE Hold_open
+{
+   Stop_func();
+}
+
+PUSH Hold_close
+{
+   Ramp(MaxVal);
+}
+
+RELEASE Hold_close
 {
    Stop_func();
 }
 
 PUSH Open_up
 {
-   Ramp(MaxVal);   
+   Ramp(0);   
 }
 
 PUSH Close_down
 {
-   Ramp(0);
+   Ramp(MaxVal);
 }
 
 CHANGE PresetLevel

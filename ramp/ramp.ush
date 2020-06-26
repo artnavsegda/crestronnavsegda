@@ -11,6 +11,7 @@
 [END]
 [BEGIN]
   ObjTp=Hd
+  IncludePath1=C:\Users\artna\Documents\GitHub\ssharpnavsegda\Helper\bin\Debug
 [END]
 [BEGIN]
   ObjTp=Symbol
@@ -65,6 +66,7 @@
   SymJam=NonExclusive
   FileName=ramp.ush
   SIMPLPlusModuleEncoding=0
+  clz1=Helper
 [END]
 [BEGIN]
   ObjTp=Dp

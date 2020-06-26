@@ -1,3 +1,6 @@
+#INCLUDEPATH "C:\Users\artna\Documents\GitHub\ssharpnavsegda\Helper\bin\Debug"
+#USER_SIMPLSHARP_LIBRARY "Helper"
+
 ANALOG_INPUT PresetLevel;
 ANALOG_OUTPUT LightLevel[20];
 INTEGER_PARAMETER DelayTime;
@@ -9,6 +12,8 @@ INTEGER_PARAMETER DelayTime;
    propDefaultValue = 1000d;
    propShortDescription= "DelayTime";
 #END_PARAMETER_PROPERTIES
+
+HelperClass myHelperClass;
 
 CHANGE PresetLevel
 {
@@ -23,7 +28,10 @@ CHANGE PresetLevel
    LightInfo.rampLowerBound = 0;
    LightInfo.rampUpperBound = 10000;
    
-   LightInfo.rampTransitionTime = ABS(LightInfo.rampTargetValue - LightInfo.rampBaseValue);
+   LightInfo.rampTransitionTime = myHelperClass.ComputeRamp(LightInfo.rampTargetValue - LightInfo.rampBaseValue, LightInfo.rampUpperBound - LightInfo.rampLowerBound, DelayTime);
+
+   //LightInfo.rampTransitionTime = ABS(LightInfo.rampTargetValue - LightInfo.rampBaseValue);
+
    Print("ramp time is %ld\n", LightInfo.rampTransitionTime);
   
    if (IsSignalDefined(LightLevel[1]))

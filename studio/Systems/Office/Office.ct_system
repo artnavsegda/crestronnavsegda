@@ -1,0 +1,54 @@
+{
+  "_serializationVersion": 1,
+  "_serializedObject": "{
+  \"$id\": \"1\",
+  \"_name\": \"Office\",
+  \"_id\": \"238FA7B4A962911D\",
+  \"_metadata\": {
+    \"$id\": \"2\",
+    \"_systemMetadataVersion\": 2,
+    \"_systemMetadataCompatibleVersion\": 2,
+    \"_customer\": {
+      \"$id\": \"3\",
+      \"_country\": \"United States\"
+    },
+    \"_geographicLocation\": {
+      \"$id\": \"4\",
+      \"_countryOrRegion\": \"United States\",
+      \"_stateOrProvince\": \"New Jersey\",
+      \"_city\": \"Rockleigh\",
+      \"_useCustomLocation\": false,
+      \"_latitudeDegrees\": 41,
+      \"_latitudeMinutes\": 0,
+      \"_latitudeDirection\": 1,
+      \"_longitudeDegrees\": 73,
+      \"_longitudeMinutes\": 56,
+      \"_longitudeDirection\": 0,
+      \"_gmtMinutesOffset\": -300,
+      \"_adjustForDST\": true
+    },
+    \"_internalImages\": [],
+    \"_metadataVersion\": 2,
+    \"_metadataCompatibleVersion\": 2,
+    \"_category\": \"\",
+    \"_creationDateTime\": \"2020-06-26T04:53:49.6516579+03:00\",
+    \"_lastOpenedDateTime\": \"2020-06-26T04:53:49.6516579+03:00\",
+    \"_lastSavedDateTime\": \"2020-06-26T05:14:13.8140146+03:00\",
+    \"_createdByApp\": \"Crestron Studio\",
+    \"_createdByAppVersion\": \"1.77.82.0\",
+    \"_lastSavedByApp\": \"Crestron Studio\",
+    \"_lastSavedByAppVersion\": \"1.77.82.0\",
+    \"_wasClosedCleanly\": true,
+    \"_lastKnownState\": 0,
+    \"_inUseByProcessId\": 0,
+    \"_sharedFolderPathKey\": \"\",
+    \"_contentsSummary\": \"MC3 (Crestron MC3)\\r\\nDIN-1DIMU4 (Crestron DIN-1DIMU4)\\r\\nDIN-8SW8-I (Crestron DIN-8SW8-I)\\r\\nDIN-AO8 (Crestron DIN-AO8)\\r\\nDIN-IO8 (Crestron DIN-IO8)\\r\\nPanel at the meeting room (Crestron C2NI-CB)\\r\\nPanel at the entrance (Crestron C2N-CBD-P)\\r\\nPanel under the shield (Crestron C2N-CBD-P)\\r\\nYamaha RX-A1080 (Yamaha RX-A1080)\\r\\nSamsung UN55ES8000FXZA (Samsung UN55ES8000FXZA)\\r\\nXPanel 2.0 (Crestron XPanel 2.0 Smart Graphics)\\r\\nLCD at the meeting room (Crestron C2N-LCDB3)\\r\\n\"
+  },
+  \"_projectHandleVersion\": 0,
+  \"_projectHandleCompatibleVersion\": 0
+}",
+  "_options": {
+    "_isStringFormatted": true,
+    "_flags": 0
+  }
+}

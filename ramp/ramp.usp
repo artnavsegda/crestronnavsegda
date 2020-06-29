@@ -2,7 +2,7 @@
 #USER_SIMPLSHARP_LIBRARY "Helper"
 
 ANALOG_INPUT PresetLevel;
-ANALOG_OUTPUT LightLevel[20];
+ANALOG_OUTPUT LightLevel;
 DIGITAL_OUTPUT _SKIP_, _SKIP_, Ramp_up, Ramp_down;
 DIGITAL_INPUT _SKIP_, _SKIP_, Toggle_open, Toggle_close, Hold_open, Hold_close, Stop, Open_up, Close_down;
 INTEGER_PARAMETER DelayTime, MaxVal;
@@ -31,7 +31,7 @@ Function Ramp(INTEGER rampTo)
    SIGNED_INTEGER status;
    
    LightInfo.rampTargetValue=rampTo;
-   LightInfo.rampBaseValue=LightLevel[1];
+   LightInfo.rampBaseValue=LightLevel;
 
    // Transition time of 10 seconds (1000 hundredths of a second)
    LightInfo.rampIsAbsolute = 1;
@@ -41,31 +41,34 @@ Function Ramp(INTEGER rampTo)
    LightInfo.rampTransitionTime = ABS(myHelperClass.ComputeRamp(LightInfo.rampTargetValue - LightInfo.rampBaseValue, LightInfo.rampUpperBound - LightInfo.rampLowerBound, DelayTime));
 
    //LightInfo.rampTransitionTime = ABS(LightInfo.rampTargetValue - LightInfo.rampBaseValue);
-
-   Print("ramp time is %ld\n", LightInfo.rampTransitionTime);
-   CreateRamp(LightLevel[1], LightInfo);
-
-   if(LightInfo.rampTargetValue > LightInfo.rampBaseValue)
+   
+   if (LightInfo.rampTargetValue <> LightInfo.rampBaseValue)
    {
-      Ramp_up = 1;
-      Ramp_down = 0;
-   }
-   else
-   {
-      Ramp_up = 0;
-      Ramp_down = 1;
-   }
-   CancelAllWait();
-   Wait(LightInfo.rampTransitionTime, rampWait)
-   {
-      Ramp_up = 0;
-      Ramp_down = 0;
+	   Print("ramp time is %ld\n", LightInfo.rampTransitionTime);
+	   CreateRamp(LightLevel, LightInfo);
+	
+	   if(LightInfo.rampTargetValue > LightInfo.rampBaseValue)
+	   {
+	      Ramp_up = 1;
+	      Ramp_down = 0;
+	   }
+	   else
+	   {
+	      Ramp_up = 0;
+	      Ramp_down = 1;
+	   }
+	   CancelAllWait();
+	   Wait(LightInfo.rampTransitionTime, rampWait)
+	   {
+	      Ramp_up = 0;
+	      Ramp_down = 0;
+	   }
    }
 }
 
 Function Stop_func()
 {
-   StopRamp(LightLevel[1]);
+   StopRamp(LightLevel);
    Ramp_up = 0;
    Ramp_down = 0;
 }
@@ -77,9 +80,10 @@ PUSH Stop
 
 PUSH Toggle_open
 {
-   if(IsRamping(LightLevel[1]) != 1)
+   if(IsRamping(LightLevel) != 1)
    {
-      Ramp(0);
+      if (LightLevel <> 0)
+         Ramp(0);
    }
    else
    {
@@ -89,9 +93,10 @@ PUSH Toggle_open
 
 PUSH Toggle_close
 {
-   if(IsRamping(LightLevel[1]) != 1)
+   if(IsRamping(LightLevel) != 1)
    {
-      Ramp(MaxVal);
+      if (LightLevel <> MaxVal)
+         Ramp(MaxVal);
    }
    else
    {

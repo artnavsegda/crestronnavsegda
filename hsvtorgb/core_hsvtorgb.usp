@@ -51,14 +51,14 @@ Comments:
   DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
   (Uncomment and declare inputs and outputs as needed)
 *******************************************************************************************/
-DIGITAL_INPUT	Convert,_SKIP_; 
-ANALOG_INPUT	Hue#,Saturation#,Value#;
+DIGITAL_INPUT	Convert, RConvert, _SKIP_; 
+ANALOG_INPUT	Hue#,Saturation#,Value#,RRed#,RGreen#,RBlue#;
 // STRING_INPUT 
 // BUFFER_INPUT 
 
 // DIGITAL_OUTPUT 
 ANALOG_OUTPUT	_SKIP_,_SKIP_;
-ANALOG_OUTPUT	Red#,Green#,Blue#;
+ANALOG_OUTPUT	Red#,Green#,Blue#, RHue#,RSaturation#,RValue#;
 // STRING_OUTPUT 
 
 /*******************************************************************************************
@@ -172,6 +172,14 @@ PUSH Convert
 	Red# = g_ColourToolHSV.Red;
 	Green# = g_ColourToolHSV.Green;
 	Blue# = g_ColourToolHSV.Blue;
+}
+
+PUSH RConvert
+{
+	g_ColourToolHSV.SetRGB( RRed#, RGreen#, RBlue# );
+	RHue# = g_ColourToolHSV.Hue;
+	RSaturation# = g_ColourToolHSV.Saturation;
+	RValue# = g_ColourToolHSV.Value;
 }
 
 /*

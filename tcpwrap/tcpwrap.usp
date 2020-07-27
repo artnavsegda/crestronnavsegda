@@ -43,6 +43,7 @@ Comments:
 *******************************************************************************************/
 // #CRESTRON_LIBRARY ""
 // #USER_LIBRARY ""
+#INCLUDEPATH "C:\Users\artna\Documents\GitHub\ssharpnavsegda\tcpserver\tcpserver\bin\Debug"
 #USER_SIMPLSHARP_LIBRARY "tcpserver"
 
 /*******************************************************************************************

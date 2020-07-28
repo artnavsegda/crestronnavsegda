@@ -1,0 +1,235 @@
+/*******************************************************************************************
+  SIMPL+ Module Information
+  (Fill in comments below)
+*******************************************************************************************/
+/*
+Dealer Name: Control Concepts, Inc.
+System Name:
+System Number:
+Programmer: JJM
+Comments:
+*/
+
+/*******************************************************************************************
+  Compiler Directives
+  (Uncomment and declare compiler directives as needed)
+*******************************************************************************************/
+#DEFINE_CONSTANT MAX_DIGITAL_SIGS 500
+#DEFINE_CONSTANT MAX_ANALOG_SIGS 100
+#DEFINE_CONSTANT MAX_STRING_SIGS 100
+// #ENABLE_DYNAMIC
+// #SYMBOL_NAME ""
+// #HINT ""
+// #DEFINE_CONSTANT
+// #CATEGORY "" 
+// #PRINT_TO_TRACE
+// #DIGITAL_EXPAND 
+// #ANALOG_SERIAL_EXPAND 
+// #OUTPUT_SHIFT 
+// #HELP_PDF_FILE ""
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+// #ENCODING_ASCII
+// #ENCODING_UTF16
+// #ENCODING_INHERIT_FROM_PARENT
+// #ENCODING_INHERIT_FROM_PROGRAM
+#HELP_BEGIN
+To be used with "CCI Websocket Server v1.0.umc" module only.
+Not to be used as a stand-alone module.
+#HELP_END
+/*******************************************************************************************
+  Include Libraries
+  (Uncomment and include additional libraries as needed)
+*******************************************************************************************/
+// #CRESTRON_LIBRARY ""
+// #USER_LIBRARY ""
+#USER_SIMPLSHARP_LIBRARY "WebsocketServer"
+
+/*******************************************************************************************
+  DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
+  (Uncomment and declare inputs and outputs as needed)
+*******************************************************************************************/
+DIGITAL_INPUT _SKIP_, StartServer, StopServer;
+
+DIGITAL_INPUT _SKIP_, dig_inputs[MAX_DIGITAL_SIGS];
+ANALOG_INPUT _SKIP_, ana_inputs[MAX_ANALOG_SIGS];
+STRING_INPUT _SKIP_, str_inputs[MAX_STRING_SIGS][256];
+
+DIGITAL_OUTPUT _SKIP_, is_running, is_connected;
+DIGITAL_OUTPUT _SKIP_, dig_outputs[MAX_DIGITAL_SIGS];
+ANALOG_OUTPUT _SKIP_, ana_outputs[MAX_ANALOG_SIGS];
+STRING_OUTPUT _SKIP_, str_outputs[MAX_STRING_SIGS];
+
+/*******************************************************************************************
+  SOCKETS
+  (Uncomment and define socket definitions as needed)
+*******************************************************************************************/
+
+/*******************************************************************************************
+  Parameters
+  (Uncomment and declare parameters as needed)
+*******************************************************************************************/
+INTEGER_PARAMETER IPPort;
+// SIGNED_INTEGER_PARAMETER
+// LONG_INTEGER_PARAMETER
+// SIGNED_LONG_INTEGER_PARAMETER
+// STRING_PARAMETER
+
+/*******************************************************************************************
+  Parameter Properties
+  (Uncomment and declare parameter properties as needed)
+*******************************************************************************************/
+
+#BEGIN_PARAMETER_PROPERTIES IPPort
+   propValidUnits = unitDecimal;
+   propDefaultUnit = unitDecimal;
+   propBounds = 1d , 65535d;
+   propDefaultValue = 8080d;
+#END_PARAMETER_PROPERTIES
+
+
+/*******************************************************************************************
+  Structure Definitions
+  (Uncomment and define structure definitions as needed)
+  Note:  Be sure to initialize all declared STRING variables as needed
+         For example, in Function Main: struct.myString = "";
+*******************************************************************************************/
+
+/*******************************************************************************************
+  Global Variables
+  (Uncomment and declare global variables as needed)
+  Note:  Be sure to initialize all declared STRING variables as needed
+         For example, in Function Main: myString = "";
+*******************************************************************************************/
+WebsocketSrvr server;
+
+/*******************************************************************************************
+  Functions
+  (Add any additional functions here)
+  Note:  Functions must be physically placed before the location in
+         the code that calls them.
+*******************************************************************************************/
+callback function TraceMsg(String msg)
+{
+	trace("%s", msg); 
+}
+
+callback function OnDigitalSignalChange(integer signal, integer state)
+{
+	if (isSignalDefined(dig_outputs[signal]))
+		dig_outputs[signal] = state;
+}
+
+callback function OnAnalogSignalChange(integer signal, integer value)
+{
+	if (isSignalDefined(ana_outputs[signal]))
+		ana_outputs[signal] = value;
+}
+
+callback function OnStringSignalChange(integer signal, string value)
+{
+	if (isSignalDefined(str_outputs[signal]))
+		str_outputs[signal] = value;
+}
+
+callback function OnServerRunningChange(integer state)
+{
+	is_running = state;
+}
+
+callback function OnClientConnectedChange(integer state)
+{
+	integer index;
+
+	is_connected = state;
+                              
+	If (state = 0)
+	{
+		for (index = 1 to MAX_DIGITAL_SIGS)
+			if (isSignalDefined(dig_outputs[index]))
+				dig_outputs[index] = 0;
+	}
+    ELSE
+	{
+		for (index = 1 to MAX_DIGITAL_SIGS)
+			if (isSignalDefined(dig_inputs[index]))
+				server.SetDigitalSignal(index, dig_inputs[index]);
+	
+		for (index = 1 to MAX_ANALOG_SIGS)
+			if (isSignalDefined(ana_inputs[index]))
+				server.SetAnalogSignal(index, ana_inputs[index]);
+	
+		for (index = 1 to MAX_STRING_SIGS)
+			if (isSignalDefined(str_inputs[index]))
+				server.SetIndirectTextSignal(index, str_inputs[index]);
+	}
+}
+
+/*******************************************************************************************
+  Event Handlers
+  (Uncomment and declare additional event handlers as needed)
+*******************************************************************************************/
+PUSH StartServer
+{
+	server.StartServer();
+}
+
+PUSH StopServer
+{
+	server.StopServer();
+}
+                                                
+PUSH dig_inputs
+{
+	integer index;
+
+	index = GetLastModifiedArrayIndex();
+
+	server.SetDigitalSignal(index, 1);
+}
+RELEASE dig_inputs
+{
+	integer index;
+
+	index = GetLastModifiedArrayIndex();
+
+	server.SetDigitalSignal(index, 0);
+}
+
+CHANGE ana_inputs
+{
+	integer index;
+
+	index = GetLastModifiedArrayIndex();
+
+	server.SetAnalogSignal(index, ana_inputs[index]);
+}
+
+CHANGE str_inputs
+{
+	integer index;
+
+	index = GetLastModifiedArrayIndex();
+
+	server.SetIndirectTextSignal(index, str_inputs[index]);
+}
+/*******************************************************************************************
+  Main()
+  Uncomment and place one-time startup code here
+  (This code will get called when the system starts up)
+*******************************************************************************************/
+Function Main()
+{
+    WaitForInitializationComplete();
+                                    
+	server.Initialize(IPPort);
+
+	RegisterDelegate (server, SendTrace, TraceMsg);
+	RegisterDelegate (server, OnDigitalSignalChange, OnDigitalSignalChange);
+	RegisterDelegate (server, OnAnalogSignalChange, OnAnalogSignalChange);
+	RegisterDelegate (server, OnStringSignalChange, OnStringSignalChange);
+	RegisterDelegate (server, OnServerRunningChange, OnServerRunningChange);
+	RegisterDelegate (server, OnClientConnectedChange, OnClientConnectedChange);
+}
+

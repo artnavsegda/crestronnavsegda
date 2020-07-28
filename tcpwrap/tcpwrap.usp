@@ -120,6 +120,9 @@ MyStruct1 struct;
 // SIGNED_LONG_INTEGER
 // STRING
 
+Server tcpsrvinst;
+
+
 /*******************************************************************************************
   Functions
   (Add any additional functions here)
@@ -130,10 +133,17 @@ MyStruct1 struct;
 Function MyFunction1()
 {
     // TODO:  Add local variable declarations here
-	Server tcpsrvinst;
 
     // TODO:  Add code here
 	tcpsrvinst.Init(9999,100);
+}
+
+Function MyFunction2()
+{
+    // TODO:  Add local variable declarations here
+
+    // TODO:  Add code here
+	tcpsrvinst.ServerSendDataToEveryone("hello");
 }
 
 
@@ -173,7 +183,7 @@ PUSH init
 PUSH sample
 {
     // TODO:  Add code here
-	//ServerMyTCPServer.MyFunction("hello");
+	MyFunction2();
 }
 
 

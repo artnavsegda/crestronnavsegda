@@ -219,6 +219,11 @@ SOCKETSTATUS
 }
 */
 
+callback recvWebsocket(String message)
+{
+   Print("websocket message %s\n", message);
+}
+
 /*******************************************************************************************
   Main()
   Uncomment and place one-time startup code here
@@ -236,6 +241,7 @@ Function Main()
     //   them afterwards.  Input/Output variables will not have
     //   their correct values set until after the logic processor
     //   runs and propagates the values to them.
+    RegisterDelegate(myWebsocketSrvr, RecieveMessage, recvWebsocket);
     myWebsocketSrvr.StartServer();
 }
 

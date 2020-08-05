@@ -11,6 +11,7 @@
 [END]
 [BEGIN]
   ObjTp=Hd
+  IncludePath1=C:\Users\artna\Documents\GitHub\ssharpnavsegda\WebSocketServer\bin
 [END]
 [BEGIN]
   ObjTp=Symbol
@@ -20,11 +21,13 @@
   Name=wstest2
   SmplCName=wstest2.usp
   Code=1
-  SysRev5=3.083
+  SysRev5=4.000
   SMWRev=2.02.05
+  InputCue1=hello
+  InputSigType1=Digital
   ParamCue1=[Reference Name]
-  MinVariableInputs=0
-  MaxVariableInputs=0
+  MinVariableInputs=1
+  MaxVariableInputs=1
   MinVariableInputsList2=0
   MaxVariableInputsList2=0
   MinVariableOutputs=0
@@ -58,6 +61,7 @@
   SymJam=NonExclusive
   FileName=wstest2.ush
   SIMPLPlusModuleEncoding=0
+  clz1=WebSocketServer
 [END]
 [BEGIN]
   ObjTp=Dp

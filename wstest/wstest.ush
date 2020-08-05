@@ -69,7 +69,3 @@
   Tp=1
   NoS=False
 [END]
-[BEGIN]
-ObjTp=Status
-HeaderCompatible=False
-[END]

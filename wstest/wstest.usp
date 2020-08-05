@@ -219,7 +219,7 @@ SOCKETSTATUS
 }
 */
 
-callback recvWebsocket(String message)
+callback function recvWebsocket(String message)
 {
    Print("websocket message %s\n", message);
 }

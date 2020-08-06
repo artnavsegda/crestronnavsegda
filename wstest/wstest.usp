@@ -219,10 +219,10 @@ SOCKETSTATUS
 }
 */
 
-callback function recvWebsocket(String message)
-{
-   Print("websocket message %s\n", message);
-}
+//callback function recvWebsocket(String message)
+//{
+//   Print("websocket message %s\n", message);
+//}
 
 /*******************************************************************************************
   Main()
@@ -241,8 +241,8 @@ Function Main()
     //   them afterwards.  Input/Output variables will not have
     //   their correct values set until after the logic processor
     //   runs and propagates the values to them.
-    RegisterDelegate(myWebsocketSrvr, RecieveMessage, recvWebsocket);
-    myWebsocketSrvr.StartServer();
+    //RegisterDelegate(myWebsocketSrvr, RecieveMessage, recvWebsocket);
+    myWebsocketSrvr.Initialize(8080);
 }
 
 

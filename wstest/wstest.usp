@@ -163,12 +163,12 @@ String_Function MyStrFunction1()
   Event Handlers
   (Uncomment and declare additional event handlers as needed)
 *******************************************************************************************/
-/*
-PUSH input
+ 
+PUSH hello
 {
-    // TODO:  Add code here
+    myWebsocketSrvr.ServerSendDataToEveryone("ohayo");
 }
-*/
+ 
 
 /*
 RELEASE input

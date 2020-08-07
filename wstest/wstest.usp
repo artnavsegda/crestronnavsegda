@@ -50,8 +50,8 @@ Comments:
   DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
   (Uncomment and declare inputs and outputs as needed)
 *******************************************************************************************/
-DIGITAL_INPUT hello;
-// ANALOG_INPUT 
+DIGITAL_INPUT discreteinput[100];
+ANALOG_INPUT analoginput[100];
 // STRING_INPUT 
 // BUFFER_INPUT 
 
@@ -163,12 +163,12 @@ String_Function MyStrFunction1()
   Event Handlers
   (Uncomment and declare additional event handlers as needed)
 *******************************************************************************************/
- 
+/*
 PUSH hello
 {
     myWebsocketSrvr.ServerSendDataToEveryone("ohayo");
 }
- 
+*/
 
 /*
 RELEASE input
@@ -177,12 +177,29 @@ RELEASE input
 }
 */
 
-/*
-CHANGE input
+
+CHANGE discreteinput
 {
-    // TODO:  Add code here
+   integer index;
+	signed_integer iStatus;
+	string response[100];
+	index = GetLastModifiedArrayIndex();
+	makestring(response, "D%04uV%05uX", index, discreteinput[index]);
+   myWebsocketSrvr.ServerSendDataToEveryone(response);
 }
-*/
+
+
+
+CHANGE analoginput
+{
+	integer index;
+	signed_integer iStatus;
+	string response[100];
+	index = GetLastModifiedArrayIndex();
+	makestring(response, "A%04uV%05uX", index, analoginput[index]);
+   myWebsocketSrvr.ServerSendDataToEveryone(response);
+}
+ 
 
 /*
 EVENT

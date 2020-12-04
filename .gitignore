@@ -8,4 +8,7 @@
 *.sm2
 *.ASV
 *.um2
-
+*.sgd_
+*.sgd2
+*.hash
+*.vtz

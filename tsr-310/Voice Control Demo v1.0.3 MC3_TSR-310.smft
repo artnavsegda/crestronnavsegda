@@ -1,0 +1,22 @@
+<Device Model="MC3" Name="MC3.">
+   <Network Type="Cresnet" Id="01">
+      <Device Model="DIN-1DIMU4" DeviceId="0A"/>
+      <Device Model="DIN-AO8" DeviceId="88"/>
+      <Device Model="DIN-8SW8-I" DeviceId="92"/>
+      <Device Model="DIN-IO8" DeviceId="A0"/>
+   </Network>
+   <Network Type="Ethernet" Id="02">
+      <Device Model="Core3 UI XPanel" DeviceId="03" Name="XPanel 2.0 Smart Graphics"/>
+      <Device Model="TSR-310" DeviceId="04"/>
+   </Network>
+   <Network Type="RF" Id="03">
+      <Device Model="CLW-DIMEX-P" DeviceId="11" Name="Light 1 - Living Room Light"/>
+      <Device Model="CLW-DIMEX-P" DeviceId="12" Name="Light 2 - Living Room Accent Light"/>
+      <Device Model="CLW-DIMEX-P" DeviceId="13" Name="Light 3 - Bedroom Light"/>
+      <Device Model="CLW-DIMEX-P" DeviceId="14" Name="Light 4 - Bedroom Nightstand Light"/>
+      <Device Model="CHV-TSTATEX" DeviceId="1A" Name="Thermostat 1 - Living Room Thermostat"/>
+      <Device Model="CHV-TSTATEX" DeviceId="1C" Name="Thermostat 2 - Bedroom Thermostat"/>
+      <Device Model="CSM-QMTDC-163-1-EX,CSM-QMTDC-256-2-EX,CSM-QMTDC-250-4-EX,CSM-QMTDC-250-2-EX,CSM-QMTDC-275-4-EX,CSMI-QMTDC-163-1-EX,CSMI-QMTDC-250-2-EX,CSMI-QMTDC-250-4-EX" DeviceId="1D" Name="Shade 1 - Living Room Shade"/>
+      <Device Model="CSM-QMTDC-163-1-EX,CSM-QMTDC-256-2-EX,CSM-QMTDC-250-4-EX,CSM-QMTDC-250-2-EX,CSM-QMTDC-275-4-EX,CSMI-QMTDC-163-1-EX,CSMI-QMTDC-250-2-EX,CSMI-QMTDC-250-4-EX" DeviceId="1E" Name="Shade 2 - Bedroom Shade"/>
+   </Network>
+</Device>

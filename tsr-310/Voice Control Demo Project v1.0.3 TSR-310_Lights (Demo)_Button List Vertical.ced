@@ -4,7 +4,7 @@ Sgntr=FlashComposite
 ;Increment this version when CED file format changes
 RelVrs=3
 IntStrVrs=1
-VTProeVer=6.2.00
+VTProeVer=6.2.01
 ]
 [
 ObjTp=Symbol

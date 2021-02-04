@@ -1,0 +1,239 @@
+/*******************************************************************************************
+  SIMPL+ Module Information
+  (Fill in comments below)
+*******************************************************************************************/
+/*
+Dealer Name: Crestron Germany
+System Name:
+System Number:
+Programmer: MH
+Comments:
+*/
+
+/*******************************************************************************************
+  Compiler Directives
+  (Uncomment and declare compiler directives as needed)
+*******************************************************************************************/
+// #ENABLE_DYNAMIC
+#SYMBOL_NAME "Modbus-TCP Processor v1.3"
+// #HINT ""
+// #DEFINE_CONSTANT
+// #CATEGORY "" 
+// #PRINT_TO_TRACE
+// #DIGITAL_EXPAND 
+// #ANALOG_SERIAL_EXPAND 
+// #OUTPUT_SHIFT 
+#HELP_PDF_FILE "Modbus-TCP Processor v1.3 Helpfile.pdf"
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+// #ENCODING_ASCII
+// #ENCODING_UTF16
+// #ENCODING_INHERIT_FROM_PARENT
+// #ENCODING_INHERIT_FROM_PROGRAM
+/*
+#HELP_BEGIN
+   (add additional lines of help lines)
+#HELP_END
+*/
+
+/*******************************************************************************************
+  Include Libraries
+  (Uncomment and include additional libraries as needed)
+*******************************************************************************************/
+// #CRESTRON_LIBRARY ""
+// #USER_LIBRARY ""
+
+/*******************************************************************************************
+  DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
+  (Uncomment and declare inputs and outputs as needed)
+*******************************************************************************************/
+// DIGITAL_INPUT 
+// ANALOG_INPUT
+BUFFER_INPUT	Rx[265]; 
+BUFFER_INPUT	_SKIP_, To_Processor[14000];
+// BUFFER_INPUT 
+
+// DIGITAL_OUTPUT 
+// ANALOG_OUTPUT 
+STRING_OUTPUT	Tx, _SKIP_, From_Processor[100];
+
+/*******************************************************************************************
+  SOCKETS
+  (Uncomment and define socket definitions as needed)
+*******************************************************************************************/
+// TCP_CLIENT
+// TCP_SERVER
+// UDP_SOCKET
+
+/*******************************************************************************************
+  Parameters
+  (Uncomment and declare parameters as needed)
+*******************************************************************************************/
+// INTEGER_PARAMETER
+// SIGNED_INTEGER_PARAMETER
+// LONG_INTEGER_PARAMETER
+// SIGNED_LONG_INTEGER_PARAMETER
+// STRING_PARAMETER
+
+/*******************************************************************************************
+  Parameter Properties
+  (Uncomment and declare parameter properties as needed)
+*******************************************************************************************/
+/*
+#BEGIN_PARAMETER_PROPERTIES parameter_variable, parameter_variable, ...
+   // propValidUnits = // unitString or unitDecimal|unitHex|unitPercent|unitCharacter|unitTime|unitTicks;
+   // propDefaultUnit = // unitString, unitDecimal, unitHex, unitPercent, unitCharacter, unitTime or unitTicks;
+   // propBounds = lower_bound , upper_bound;
+   // propDefaultValue = ;  // or, propDefaultValue = "";
+   // propList = // { "value" , "label" } , { "value" , "label" } , ... ;
+   // propShortDescription = "status_bar_hint_text";
+   // #BEGIN_PROP_FULL_DESCRIPTION  line_1...  line_2...  line_n  #END_PROP_FULL_DESCRIPTION
+   // #BEGIN_PROP_NOTES line_1...  line_2...  line_n  #END_PROP_NOTES
+#END_PARAMETER_PROPERTIES
+*/
+
+/*******************************************************************************************
+  Structure Definitions
+  (Uncomment and define structure definitions as needed)
+  Note:  Be sure to initialize all declared STRING variables as needed
+         For example, in Function Main: struct.myString = "";
+*******************************************************************************************/
+/*
+STRUCTURE MyStruct1
+{
+};
+
+MyStruct1 struct;
+*/
+
+/*******************************************************************************************
+  Global Variables
+  (Uncomment and declare global variables as needed)
+  Note:  Be sure to initialize all declared STRING variables as needed
+         For example, in Function Main: myString = "";
+*******************************************************************************************/
+
+INTEGER	array_index, is_sending, RxOk;
+// LONG_INTEGER
+// SIGNED_INTEGER
+// SIGNED_LONG_INTEGER
+STRING	start_com[5], end_com[5];
+
+/*******************************************************************************************
+  Functions
+  (Add any additional functions here)
+  Note:  Functions must be physically placed before the location in
+         the code that calls them.
+*******************************************************************************************/
+
+Function send_Command()
+{
+    Integer start_marker, end_marker;
+	String temp[300];
+
+	temp = "";
+	start_marker = 0;
+	end_marker = 0;
+
+	is_sending = 1;
+
+	start_marker = Find(start_com, To_Processor);
+
+	if(start_marker=1&&Len(To_Processor)>10)
+	{
+		temp = RemovebyLength(start_marker+3, To_Processor);
+		array_index = GetC(To_Processor);
+		end_marker = Byte(To_Processor, 6) + 6;        
+
+		if(Mid(To_Processor, end_marker+1, 4) = end_com)
+		{ 
+			Tx = RemovebyLength(end_marker, To_Processor);
+			temp = RemovebyLength(4, To_Processor);
+			
+			Wait(500, WaitforResponse)
+			{
+		    	Trace("IO Timeout %d", array_index);
+				ClearBuffer(To_Processor);
+				ClearBuffer(Rx);
+				is_sending = 0;
+			}           
+         }
+		else
+		{
+			Trace("Error in End Sign");
+            array_index = 0;
+			is_sending = 0;
+			ClearBuffer(To_Processor);
+			ClearBuffer(Rx);
+		}
+	}
+	else
+	{
+		Trace("Error in Start Sign");
+		array_index = 0;
+		is_sending = 0;
+		ClearBuffer(To_Processor);
+		ClearBuffer(Rx);
+	}
+}
+
+/*******************************************************************************************
+  Event Handlers
+  (Uncomment and declare additional event handlers as needed)
+*******************************************************************************************/
+
+CHANGE To_Processor
+{
+	if(is_sending = 0) send_Command();
+}
+
+CHANGE Rx
+{
+	String header[6];
+    if(array_index>0&&Len(Rx)>=6)
+	{
+		header = Mid(Rx, 1, 5);
+		if(header="\x00\x00\x00\x00\x00")
+		{
+			if((len(Rx)-6)=Byte(Rx, 6))
+			{
+				MakeString(From_Processor[array_index],"%s%s%s" , start_com, Rx, end_com);
+				CancelWait(WaitforResponse);
+				array_index = 0;
+				ClearBuffer(Rx);
+				is_sending = 0;
+				if(To_Processor!="") send_Command();
+			}
+		}
+		else
+		{
+			ClearBuffer(Rx);
+		}
+	}
+}
+
+/*******************************************************************************************
+  Main()
+  Uncomment and place one-time startup code here
+  (This code will get called when the system starts up)
+*******************************************************************************************/
+
+Function Main()
+{
+	Integer d;
+	WaitForInitializationComplete();
+	RxOk = 1;
+	
+	FOR(d = 1 to 100 Step 1)
+    {
+		IF(IsSignalDefined(From_Processor[d])=0) Break;
+		ELSE From_Processor[d] = "array_index=" + chr(d);		
+	}
+
+	start_com = "\x00\xFF\x00\xFF";
+	end_com = "\x00\xFE\x00\xFE";
+	array_index = 0;
+	is_sending = 0;
+}
+

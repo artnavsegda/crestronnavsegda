@@ -1,0 +1,370 @@
+/*******************************************************************************************
+  SIMPL+ Module Information
+  (Fill in comments below)
+*******************************************************************************************/
+/*
+Dealer Name: Crestron Germany
+System Name:
+System Number:
+Programmer: MH
+Comments:
+*/
+
+/*******************************************************************************************
+  Compiler Directives
+  (Uncomment and declare compiler directives as needed)
+*******************************************************************************************/
+// #ENABLE_DYNAMIC
+#SYMBOL_NAME "MODBUS-TCP Read and Write Coils v1.3"
+// #HINT ""
+// #DEFINE_CONSTANT
+#CATEGORY "0" 
+// #PRINT_TO_TRACE
+// #DIGITAL_EXPAND 
+// #ANALOG_SERIAL_EXPAND 
+// #OUTPUT_SHIFT 
+// #HELP_PDF_FILE "Modbus-TCP Read and Write Coils v1.0 Helpfile.pdf"
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+// #ENCODING_ASCII
+// #ENCODING_UTF16
+// #ENCODING_INHERIT_FROM_PARENT
+// #ENCODING_INHERIT_FROM_PROGRAM
+/*
+#HELP_BEGIN
+   (add additional lines of help lines)
+#HELP_END
+*/
+
+/*******************************************************************************************
+  Include Libraries
+  (Uncomment and include additional libraries as needed)
+*******************************************************************************************/
+// #CRESTRON_LIBRARY ""
+// #USER_LIBRARY ""
+
+/*******************************************************************************************
+  DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
+  (Uncomment and declare inputs and outputs as needed)
+*******************************************************************************************/
+ 
+DIGITAL_INPUT	_skip_, _skip_, _skip_, _skip_, Poll_all, Send_all, _skip_, On_[100], Off_[100]; 
+BUFFER_INPUT	From_Processor[1200];
+
+DIGITAL_OUTPUT	_skip_, _skip_, _skip_, _skip_, _skip_, _skip_, _skip_, On_fb[100], Off_fb[100];
+// ANALOG_OUTPUT 
+STRING_OUTPUT 	To_Processor;
+
+/*******************************************************************************************
+  SOCKETS
+  (Uncomment and define socket definitions as needed)
+*******************************************************************************************/
+// TCP_CLIENT
+// TCP_SERVER
+// UDP_SOCKET
+
+/*******************************************************************************************
+  Parameters
+  (Uncomment and declare parameters as needed)
+*******************************************************************************************/
+INTEGER_PARAMETER	unit_id, start_address, count_coil, send_reaction;
+// SIGNED_INTEGER_PARAMETER
+// LONG_INTEGER_PARAMETER
+// SIGNED_LONG_INTEGER_PARAMETER
+// STRING_PARAMETER
+
+/*******************************************************************************************
+  Parameter Properties
+  (Uncomment and declare parameter properties as needed)
+*******************************************************************************************/
+
+/*******************************************************************************************
+  Structure Definitions
+  (Uncomment and define structure definitions as needed)
+  Note:  Be sure to initialize all declared STRING variables as needed
+         For example, in Function Main: struct.myString = "";
+*******************************************************************************************/
+/*
+STRUCTURE MyStruct1
+{
+};
+
+MyStruct1 struct;
+*/
+
+/*******************************************************************************************
+  Global Variables
+  (Uncomment and declare global variables as needed)
+  Note:  Be sure to initialize all declared STRING variables as needed
+         For example, in Function Main: myString = "";
+*******************************************************************************************/
+
+STRING	start_com[5], end_com[5], temp[5], tempString[300];
+INTEGER	RxOk, array_index, coil_array[100], start_marker, end_marker;
+// LONG_INTEGER
+// SIGNED_INTEGER
+// SIGNED_LONG_INTEGER
+
+/*******************************************************************************************
+  Functions
+  (Add any additional functions here)
+  Note:  Functions must be physically placed before the location in
+         the code that calls them.
+*******************************************************************************************/
+
+Function ProcessString()
+{
+	Integer i, high_b, low_b, temp, s, w, index, b_length;
+	Integer final_value;
+
+	b_length = (count_coil/8);
+	if((count_coil mod 8) != 0) b_length = b_length + 1;
+	if(Byte(tempString, 8)=1)
+	{
+		s=10;
+
+		high_b = Byte(tempString, s);
+		if(count_coil=1) low_b = 0;
+	    else low_b = Byte(tempString, (s+1));
+  
+		temp = (low_b&0xFF)<<8;
+		final_value = (temp|high_b);
+		w=1;
+
+		for(i=1 TO count_coil STEP 1)
+		{
+			if((final_value&w)=0)
+			{
+				On_fb[i]=0;
+				Off_fb[i]=1;
+			}
+			else
+			{
+				On_fb[i]=1;
+				Off_fb[i]=0;
+			}
+	
+			if((i mod 16)=0&&i!=count_coil)
+			{
+				s=s+2;
+				w=1;
+
+				high_b = Byte(tempString, s);
+				if(i=((count_coil/16)*16)&&(b_length mod 2)=1)
+				{
+					low_b = 0;
+				}
+				else low_b = Byte(tempString, s+1);
+	        
+				temp = (low_b&0xFF)<<8;
+				final_value = (temp|high_b);
+			}
+			else
+			{
+                w = w<<1;
+			}
+		}
+	}
+	else if(Byte(tempString, 8)=15)
+	{
+		for(i=1 TO count_coil STEP 1)
+		{
+           	On_fb[i] = coil_array[i];
+			Off_fb[i] = not(coil_array[i]);
+		}
+	}
+	else if(Byte(tempString, 8)=5)
+	{
+       	high_b = Byte(tempString, 9);
+		low_b = Byte(tempString, 10);
+	       
+		temp = (high_b&0xFF)<<8;
+		index = (temp|low_b);
+		if(index>=start_address&&index<=start_address+100)
+		{
+			index = index-start_address+1;
+			if(Byte(tempString, 11)=0)
+			{
+            	On_fb[index] = 0;
+				Off_fb[index] = 1;
+			}
+			else
+			{
+                On_fb[index] = 1;
+				Off_fb[index] = 0;
+			}
+		}
+	}
+	else if(Byte(tempString, 8)=129||Byte(tempString, 8)=133||Byte(tempString, 8)=143)
+	{
+       	Trace("Exception in module %d: invalid start address or number of addresses", array_index);
+	}
+}
+
+/*******************************************************************************************
+  Event Handlers
+  (Uncomment and declare additional event handlers as needed)
+*******************************************************************************************/
+
+PUSH Poll_all
+{
+	Integer h_start, l_start, h_count, l_count;     
+
+	l_start = (start_address&0x00FF);
+	h_start = (start_address&0xFF00)>>8;
+
+	l_count = (count_coil&0x00FF);
+	h_count = (count_coil&0xFF00)>>8;
+                                    
+    To_Processor = start_com + chr(array_index) + "\x00\x00\x00\x00\x00\x06" + chr(unit_id) + "\x01" + chr(h_start) + chr(l_start) + chr(h_count) + chr(l_count) + end_com;
+
+}
+
+PUSH Send_all
+{
+	Integer h_start, l_start, h_count, l_count, w, h_value, l_value, i, write_byte, temp1;
+	String command_String[300];
+
+	write_byte = 0;
+
+	l_start = (start_address&0x00FF);
+	h_start = (start_address&0xFF00)>>8;
+ 
+    l_count = (count_coil&0x00FF);
+	h_count = (count_coil&0xFF00)>>8;
+    
+	command_String = "\x00\x00\x00\x00\x00" + chr((count_coil/8)+8) + chr(unit_id) + "\x0F" + chr(h_start) + chr(l_start) + chr(h_count) + chr(l_count) + chr((count_coil/8)+1);
+
+	for(i=1 TO count_coil STEP 1)
+	{
+		if(On_[i]=1)
+		{
+			coil_array[i] = 1;
+			temp1 = On_[i]<<((i mod 8)-1);
+			if(i mod 8 = 0) temp1 = On_[i]<<7; 
+			write_byte = temp1|write_byte;
+		}
+
+		if(i mod 8=0||i=count_coil)
+		{
+			write_byte = write_byte&0xFF;
+			command_String = command_String + chr(write_byte);
+			write_byte = 0;
+		} 
+	}
+
+	To_Processor = start_com + chr(array_index) + command_String + end_com;
+}
+
+PUSH On_
+{
+	Integer h_start1, l_start1;
+	String command_String1[300];
+
+	if(send_reaction=0)
+	{
+		l_start1 = ((start_address+GetLastModifiedArrayIndex()-1)&0x00FF);
+		h_start1 = ((start_address+GetLastModifiedArrayIndex()-1)&0xFF00)>>8;
+	
+		command_String1 = "\x00\x00\x00\x00\x00\x06" + chr(unit_id) + "\x05" + chr(h_start1) + chr(l_start1) + "\xFF\x00";
+
+		To_Processor = start_com + chr(array_index) + command_String1 + end_com;
+	}
+}
+
+PUSH Off_
+{
+	Integer h_start1, l_start1;
+	String command_String1[300];
+
+	if(send_reaction=0)
+	{
+		l_start1 = ((start_address+GetLastModifiedArrayIndex()-1)&0x00FF);
+		h_start1 = ((start_address+GetLastModifiedArrayIndex()-1)&0xFF00)>>8;
+	
+		command_String1 = "\x00\x00\x00\x00\x00\x06" + chr(unit_id) + "\x05" + chr(h_start1) + chr(l_start1) + "\x00\x00";
+
+		To_Processor = start_com + chr(array_index) + command_String1 + end_com;
+	}
+}
+
+#if_series3
+THREADSAFE CHANGE From_Processor
+{
+	while(Len(From_Processor)>0)
+	{
+		start_marker = Find(start_com, From_Processor);
+
+		if(start_marker=1)
+		{
+			temp = RemovebyLength(start_marker+3, From_Processor);
+			end_marker = Byte(From_Processor, 6) + 6;        
+		
+			if(Mid(From_Processor, end_marker+1, 4) = end_com)
+			{ 
+				tempString = RemovebyLength(end_marker, From_Processor);
+				temp = RemovebyLength(4, From_Processor);
+				ProcessString();
+			}
+			else ClearBuffer(From_Processor);
+		}
+		else if(Find("array_index=", From_Processor))
+		{
+	   		array_index = Byte(From_Processor, Find("array_index=", From_Processor)+12);
+			ClearBuffer(From_Processor);
+		}
+		else ClearBuffer(From_Processor);
+	}
+}
+#else
+CHANGE From_Processor
+{
+	if(RxOk = 1)
+	{
+		RxOk = 0;
+       
+		while(Len(From_Processor)>0)
+		{
+			start_marker = Find(start_com, From_Processor);
+	
+			if(start_marker=1)
+			{
+				temp = RemovebyLength(start_marker+3, From_Processor);
+				end_marker = Byte(From_Processor, 6) + 6;        
+		
+				if(Mid(From_Processor, end_marker+1, 4) = end_com)
+				{ 
+					tempString = RemovebyLength(end_marker, From_Processor);
+					temp = RemovebyLength(4, From_Processor);
+					ProcessString();
+				}
+				else ClearBuffer(From_Processor);
+			}
+			else if(Find("array_index=", From_Processor))
+			{
+	    		array_index = Byte(From_Processor, Find("array_index=", From_Processor)+12);
+				ClearBuffer(From_Processor);
+			}
+			else ClearBuffer(From_Processor);
+		}
+		RxOk = 1;
+	}
+}
+#endif
+
+
+/*******************************************************************************************
+  Main()
+  Uncomment and place one-time startup code here
+  (This code will get called when the system starts up)
+*******************************************************************************************/
+
+Function Main()
+{
+	RxOk = 1;
+	start_com = "\x00\xFF\x00\xFF";
+	end_com = "\x00\xFE\x00\xFE";
+	setArray(coil_array, 0);
+}
+
